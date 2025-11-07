@@ -1,0 +1,14 @@
+<!-- File: res/values/themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Calculator" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Для обратной совместимости (оставляем ваш вариант) -->
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+
+        <!-- Делаем иконки на строке состояния СВЕТЛЫМИ (белыми) -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+    </style>
+
+    <style name="Theme.Calculator" parent="Base.Theme.Calculator" />
+</resources>

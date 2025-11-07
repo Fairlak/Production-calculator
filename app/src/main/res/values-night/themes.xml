@@ -1,0 +1,10 @@
+<!-- File: res/values-night/themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.Calculator" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Здесь можно оставить все как есть или задать другие цвета для ночи -->
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    </style>
+
+</resources>
