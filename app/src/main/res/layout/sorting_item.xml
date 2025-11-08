@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="16dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/item_sort_bg">
+
+
+    <TextView
+        android:id="@+id/sorting_tipe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="По дате"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/sorting_up_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="↑"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+</LinearLayout>

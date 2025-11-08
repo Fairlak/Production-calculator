@@ -31,7 +31,7 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/show_company_button"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="188dp"
@@ -69,10 +69,10 @@
             android:elevation="8dp"
 
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="@+id/show_company_button"
 
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toBottomOf="@+id/button"
+            app:layout_constraintStart_toStartOf="@+id/show_company_button"
+            app:layout_constraintTop_toBottomOf="@+id/show_company_button"
             tools:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView

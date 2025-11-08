@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.activity.HistoryCalculations
 import com.example.calculator.R
 import com.example.calculator.adapters.AdapterScroll
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 
 class MainMenu : AppCompatActivity(), OnParamClickListener {
 
@@ -37,7 +39,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
 
         drawerLayout = findViewById(R.id.drawer_layout)
         val mainLayout: ConstraintLayout = findViewById(R.id.main_layout)
-        val showListButton: Button = findViewById(R.id.button)
+        val showListButton: Button = findViewById(R.id.show_company_button)
         val decideButton: Button = findViewById(R.id.decide)
         val paramsButton: ImageButton = findViewById(R.id.paramsButton)
         val manufacturerTable: TextView = findViewById(R.id.manufacturer_table)
@@ -89,11 +91,11 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
         recyclerView.adapter = adapter
 
         showListButton.setOnClickListener {
-            scrollView.visibility = if (scrollView.visibility == View.GONE) View.VISIBLE else View.GONE
+            scrollView.visibility = if (scrollView.isGone) View.VISIBLE else View.GONE
         }
 
         mainLayout.setOnClickListener {
-            if (scrollView.visibility == View.VISIBLE) {
+            if (scrollView.isVisible) {
                 scrollView.visibility = View.GONE
             }
         }

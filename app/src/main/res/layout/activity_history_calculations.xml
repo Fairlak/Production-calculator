@@ -8,11 +8,23 @@
     android:background="@android:color/white"
     tools:context=".activity.HistoryCalculations">
 
+    <Button
+        android:id="@+id/button_sort"
+        android:layout_width="215dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="104dp"
+        android:backgroundTint="#A51717"
+        android:text="Сортировать"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/history_recycler_view"
         android:layout_width="390dp"
         android:layout_height="906dp"
-        android:paddingTop="40dp"
+        android:paddingTop="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
@@ -20,4 +32,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/history_item" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sorting"
+        android:layout_width="0dp"
+        android:layout_height="280dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/button_sort"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button_sort"
+        app:layout_constraintTop_toBottomOf="@+id/button_sort"
+        tools:listitem="@layout/sorting_item"
+        tools:visibility="invisible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

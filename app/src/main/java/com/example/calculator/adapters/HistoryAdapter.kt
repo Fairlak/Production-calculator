@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.storage.DecisionResult
 import java.util.ArrayList
 
-class HistoryAdapter(private val historyList: ArrayList<DecisionResult>) :
+class HistoryAdapter(private val historyList: ArrayList<DecisionResult>, private val onItemClicked: (DecisionResult) -> Unit) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,5 +34,9 @@ class HistoryAdapter(private val historyList: ArrayList<DecisionResult>) :
         holder.companyTextView.text = entry.company
 
         holder.dateTextView.text = entry.timeStamp
+
+        holder.itemView.setOnClickListener {
+            onItemClicked(entry)
+        }
     }
 }
