@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:padding="16dp"
+        android:text="История"
         android:background="#615F5F"
         android:textColor="@android:color/white"
         android:textSize="18sp" />

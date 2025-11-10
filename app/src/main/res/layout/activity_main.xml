@@ -1,233 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
+    android:id="@+id/root_layout"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    android:background="#FFFFFF"
     tools:context=".activity.MainActivity">
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/temp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="370dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Температура (°C)"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:cursorColor="#000000"
-        app:hintTextColor="#000000">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:inputType="numberSigned|numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/wet"
-        android:layout_width="370dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Отн.влажность (%)"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:hintTextColor="#070505"
-        app:cursorColor="#000000"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/atm_pressure"
-        android:layout_width="370dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Атм. давление (гПа)"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:hintTextColor="#000000"
-        app:cursorColor="#000000"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/stat_pressure"
-        android:layout_width="370dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Статическое давление (-Па)"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:hintTextColor="#000000"
-        app:cursorColor="#000000"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/calibration_factor"
-        android:layout_width="370dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Калибровочный фактор К10"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:hintTextColor="#000000"
-        app:cursorColor="#000000"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pressure_drop"
-        android:layout_width="370dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="Перепад давления (ПА)"
-        android:textColorHint="#000000"
-        app:boxStrokeColor="#DB0515"
-        app:hintTextColor="#000000"
-        app:cursorColor="#000000"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:textColor="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#A51717"
-        android:textColor="#FFFFFF"
-        android:text="Расчитать" />
-
-    <TextView
-        android:id="@+id/itog"
-        android:layout_width="265dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:textColor="#000000"
-        android:background="#B7A9A9"
-        android:text="Плотность: \n\nРасход:"
-        android:textSize="18dp" />
-
-
-    <TableLayout
-        android:id="@+id/copied_data_table"
-        android:layout_width="372dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="#756E6E"
-        android:padding="4dp"
-        android:stretchColumns="0,1"
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="#DF1818"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/temp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
-            android:background="#C92828">
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Температура (°C)"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:cursorColor="#000000"
+            app:hintTextColor="#000000">
 
-            <TextView
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:padding="8dp"
-                android:text="Производитель"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:textColor="#000000"
+                android:inputType="numberSigned|numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:padding="8dp"
-                android:text="Формула"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-        </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/wet"
+            android:layout_width="370dp"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:background="#7A0B0B">
-
-            <!-- Эти TextView мы будем заполнять программно -->
-            <TextView
-                android:id="@+id/copied_manufacturer"
-                android:layout_width="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Отн.влажность (%)"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:hintTextColor="#070505"
+            app:cursorColor="#000000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                tools:text="Производитель" />
+                android:textColor="#000000"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/copied_formula"
-                android:layout_width="0dp"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/atm_pressure"
+            android:layout_width="370dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Атм. давление (гПа)"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:hintTextColor="#000000"
+            app:cursorColor="#000000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="#000000"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:padding="8dp"
-                android:textColor="@android:color/white"
-                tools:text="Формула" />
-        </TableRow>
-    </TableLayout>
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-</LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/stat_pressure"
+            android:layout_width="370dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Статическое давление (-Па)"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:hintTextColor="#000000"
+            app:cursorColor="#000000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/calibration_factor"
+            android:layout_width="370dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Калибровочный фактор К10"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:hintTextColor="#000000"
+            app:cursorColor="#000000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pressure_drop"
+            android:layout_width="370dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Перепад давления (ПА)"
+            android:textColorHint="#000000"
+            app:boxStrokeColor="#DB0515"
+            app:hintTextColor="#000000"
+            app:cursorColor="#000000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:backgroundTint="#A51717"
+            android:textColor="#FFFFFF"
+            android:text="Расчитать" />
+
+        <TextView
+            android:id="@+id/itog"
+            android:layout_width="265dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:textColor="#000000"
+            android:background="#B7A9A9"
+            android:text="Плотность: \n\nРасход:"
+            android:textSize="18dp" />
+
+
+        <TableLayout
+            android:id="@+id/copied_data_table"
+            android:layout_width="372dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="#756E6E"
+            android:padding="4dp"
+            android:stretchColumns="0,1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#C92828">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Производитель"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Формула"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#7A0B0B">
+
+                <!-- Эти TextView мы будем заполнять программно -->
+                <TextView
+                    android:id="@+id/copied_manufacturer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:textColor="@android:color/white"
+                    tools:text="Производитель" />
+
+                <TextView
+                    android:id="@+id/copied_formula"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:textColor="@android:color/white"
+                    tools:text="Формула" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

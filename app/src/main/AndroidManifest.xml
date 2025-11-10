@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>

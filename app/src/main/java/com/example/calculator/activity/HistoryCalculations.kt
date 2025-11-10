@@ -2,6 +2,7 @@ package com.example.calculator.activity
 
 import SortingAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -15,14 +16,9 @@ import com.example.calculator.R
 import com.example.calculator.storage.SortType
 import com.example.calculator.storage.SortingOption
 import androidx.core.view.isGone
-import com.example.calculator.storage.DecisionResult
 
 
 class HistoryCalculations : AppCompatActivity() {
-
-    private lateinit var historyRecyclerView: RecyclerView
-    private lateinit var historyAdapter: HistoryAdapter
-    private var historyData = ArrayList<DecisionResult>()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +28,13 @@ class HistoryCalculations : AppCompatActivity() {
         val db = DbHelper(this, null)
         val historyData = db.getAllHistory()
         val historyAdapter = HistoryAdapter(historyData){ clickedEntry ->
+            val selectedId = clickedEntry.id
             val toastText = "Вы нажали на запись от: ${clickedEntry.company}"
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent.putExtra("ID", selectedId))
         }
+        historyData.sortByDescending { it.timeStamp }
         historyRecyclerView.adapter = historyAdapter
         historyRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -62,21 +62,28 @@ class HistoryCalculations : AppCompatActivity() {
                 SortType.DATE_ASC -> {
                     sortingRecyclerView.visibility = View.GONE
                     Toast.makeText(this, "Сортировка по дате (возр.)", Toast.LENGTH_SHORT).show()
+                    sortingButton.text = "Сортировка по дате (возр.)"
                     historyData.sortBy { it.timeStamp }
                 }
                 SortType.DATE_DESC -> {
                     sortingRecyclerView.visibility = View.GONE
                     Toast.makeText(this, "Сортировка по дате (убыв.)", Toast.LENGTH_SHORT).show()
+                    sortingButton.text = "Сортировка по дате (убыв.)"
+
                     historyData.sortByDescending { it.timeStamp }
                 }
                 SortType.NAME_ASC -> {
                     sortingRecyclerView.visibility = View.GONE
                     Toast.makeText(this, "Сортировка по имени (возр.)", Toast.LENGTH_SHORT).show()
+                    sortingButton.text = "Сортировка по имени (возр.)"
+
                     historyData.sortBy { it.company.lowercase() }
                 }
                 SortType.NAME_DESC -> {
                     sortingRecyclerView.visibility = View.GONE
                     Toast.makeText(this, "Сортировка по имени (убыв.)", Toast.LENGTH_SHORT).show()
+                    sortingButton.text = "Сортировка по имени (убыв.)"
+
                     historyData.sortByDescending { it.company.lowercase() }
                 }
 
