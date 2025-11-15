@@ -42,6 +42,7 @@ class HistoryCalculations : AppCompatActivity() {
         val sortingButton: Button = findViewById(R.id.button_sort)
         val sortingRecyclerView: RecyclerView = findViewById(R.id.sorting)
 
+
         val options = listOf(
             SortingOption("По дате", "↑", SortType.DATE_ASC),
             SortingOption("По дате", "↓", SortType.DATE_DESC),
@@ -50,11 +51,9 @@ class HistoryCalculations : AppCompatActivity() {
 
         )
 
-
         sortingButton.setOnClickListener {
             sortingRecyclerView.visibility = if (sortingRecyclerView.isGone) View.VISIBLE else View.GONE
         }
-
 
 
         val sortingAdapter = SortingAdapter(options) { sortType ->

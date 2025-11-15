@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Белая обводка толщиной 1dp -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/colorAccent" /> <!-- Используем черный цвет для лучшей видимости -->
+
+    <!-- Скругление углов (необязательно) -->
+    <corners android:radius="10dp" />
+
+    <!-- Цвет заливки внутри (можно сделать прозрачным) -->
+    <solid android:color="#00FFFFFF" />
+
+</shape>

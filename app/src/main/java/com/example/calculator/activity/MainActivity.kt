@@ -104,13 +104,9 @@ class MainActivity : AppCompatActivity() {
                         finalDensityValueDb,
                         finalConsumptionValueDb
                     )
-
-
                 }
             }
         }
-
-
 
         button.setOnClickListener {
             val inputData = createStorageInstance()
