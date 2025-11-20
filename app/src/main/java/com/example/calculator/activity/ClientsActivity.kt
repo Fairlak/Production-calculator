@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
@@ -19,10 +20,12 @@ class ClientsActivity : AppCompatActivity() {
     private lateinit var clientAdapter: ClientsAdapter
     private val db by lazy { DbHelper(this, null) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clients)
 
+        val searchView = findViewById<SearchView>(R.id.searchView)
         val clientsRecyclerView: RecyclerView = findViewById(R.id.clientsRecyclerView)
         val clientsData = db.getClientData()
         clientAdapter = ClientsAdapter(clientsData){ clickedEntry ->
@@ -40,12 +43,44 @@ class ClientsActivity : AppCompatActivity() {
 
         createClientButton.setOnClickListener {
             val client = ClientData()
-            db.addClient(client)
+            val newId = db.addClient(client)
 
-            val updatedClients = db.getClientData()
-            clientAdapter.updateData(updatedClients)
+            if (newId != -1L) {
+
+                val updatedClients = db.getClientData()
+                clientAdapter.updateData(updatedClients)
 
 
+                val intent = Intent(this, ClientDataActivity::class.java)
+                intent.putExtra("ID", newId)
+                startActivity(intent)
+
+            }
         }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                if (query != null) {
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    clientAdapter.filterList(newText)
+                }
+                return true
+            }
+        })
+
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        val clientsData = db.getClientData()
+        clientAdapter.updateData(clientsData)
+    }
+
 }

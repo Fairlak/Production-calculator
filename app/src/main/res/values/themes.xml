@@ -8,7 +8,23 @@
         <!-- Делаем иконки на строке состояния СВЕТЛЫМИ (белыми) -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
+
+
     </style>
+
+
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorHighlight">#80FF0000</item>
+
+        <item name="colorControlActivated">#FF0000</item>
+
+        <!-- Цвет самого текста -->
+        <item name="android:textColor">@color/black</item>
+
+        <!-- Цвет подсказки (hint) -->
+        <item name="android:textColorHint">#878787</item>
+    </style>
+
 
     <style name="Theme.Calculator" parent="Base.Theme.Calculator" />
 </resources>

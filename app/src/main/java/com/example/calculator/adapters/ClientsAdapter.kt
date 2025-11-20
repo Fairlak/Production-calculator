@@ -1,5 +1,6 @@
 package com.example.calculator.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,9 @@ import com.example.calculator.storage.ClientData
 import java.util.ArrayList
 
 
-class ClientsAdapter(private val clientList: ArrayList<ClientData>, private val onItemClicked: (ClientData) -> Unit) :
+class ClientsAdapter(private var clientList: ArrayList<ClientData>, private val onItemClicked: (ClientData) -> Unit) :
     RecyclerView.Adapter<ClientsAdapter.ClientViewHolder>() {
-
+    private var fullClientList = ArrayList(clientList)
 
     class ClientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val clientNameTextView: TextView = itemView.findViewById(R.id.client_name)
@@ -40,9 +41,28 @@ class ClientsAdapter(private val clientList: ArrayList<ClientData>, private val 
     override fun getItemCount(): Int = clientList.size
 
 
+
     fun updateData(newClientList: ArrayList<ClientData>) {
         clientList.clear()
         clientList.addAll(newClientList)
+        fullClientList = newClientList
+        notifyDataSetChanged()
+    }
+
+    fun filterList(query: String) {
+        val filteredList = ArrayList<ClientData>()
+
+        if (query.isEmpty()) {
+            filteredList.addAll(fullClientList)
+        } else {
+            val filterPattern = query.lowercase().trim()
+            for (item in fullClientList) {
+                if (item.name.lowercase().contains(filterPattern)) {
+                    filteredList.add(item)
+                }
+            }
+        }
+        clientList = filteredList
         notifyDataSetChanged()
     }
 

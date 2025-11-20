@@ -29,6 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
+        android:id="@+id/clients_title"
         android:layout_width="95dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -41,42 +42,44 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="1.0" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:background="#E2E2E2"
-        android:contentDescription="@string/search_button_description"
-        android:layout_width="63dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="16dp"
-        android:src="@android:drawable/ic_menu_search"
-        app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintEnd_toEndOf="@+id/view1"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_client_button"
         android:layout_width="296dp"
         android:layout_height="52dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="124dp"
-        android:textColor="@color/white"
+        android:layout_marginBottom="70dp"
         android:backgroundTint="#C92828"
         android:gravity="center"
         android:text="Добавить клиента"
+        android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/clientsRecyclerView"
-        android:layout_width="366dp"
-        android:layout_height="607dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="337dp"
+        android:layout_height="660dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view1"
-
         tools:listitem="@layout/clients_item" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="302dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="40dp"
+        android:layoutDirection="rtl"
+        android:queryHint="Поиск клиента..."
+        app:theme="@style/CustomSearchViewStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,68 +1,138 @@
 package com.example.calculator.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
+import com.example.calculator.adapters.ClientsAdapter
+import com.example.calculator.adapters.MeasurementsAdapter
+import com.example.calculator.storage.ClientData
+import com.example.calculator.storage.MeasurementData
 import com.google.android.material.textfield.TextInputLayout
 
 class ClientDataActivity : AppCompatActivity() {
+    private var idDb: Long = -1L
+    private val dbHelper by lazy { DbHelper(this, null) }
+
+
+    private lateinit var measurementsAdapter: MeasurementsAdapter
+
+
+    private lateinit var clientName: TextInputLayout
+    private lateinit var clientStreet: TextInputLayout
+    private lateinit var clientCity: TextInputLayout
+    private lateinit var clientCountry: TextInputLayout
+    private lateinit var clientPhone: TextInputLayout
+    private lateinit var clientEmail: TextInputLayout
+    private lateinit var clientContact: TextInputLayout
+    private lateinit var clientData: TextInputLayout
+    private lateinit var clientNameStatic: TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContentView(R.layout.activity_client_data)
 
-        val idDb = intent.getLongExtra("ID", -1L)
+        val measurementsRecyclerView: RecyclerView = findViewById(R.id.measuring_points_RecyclerView)
 
 
-        val clientName: TextInputLayout = findViewById(R.id.client_name)
-        val clientStreet: TextInputLayout = findViewById(R.id.client_street)
-        val clientCity: TextInputLayout = findViewById(R.id.client_city)
-        val clientCountry: TextInputLayout = findViewById(R.id.client_country)
-        val clientPhone: TextInputLayout = findViewById(R.id.client_phone)
-        val clientEmail: TextInputLayout = findViewById(R.id.client_email)
-        val clientContact: TextInputLayout = findViewById(R.id.client_contact)
-        val clientData: TextInputLayout = findViewById(R.id.client_data)
+        val comeBack: ImageButton = findViewById(R.id.back_to_clients_button)
+        val deleteButton: ImageButton = findViewById(R.id.delete_button)
+        val addPointsButton: Button = findViewById(R.id.add_measuring_points_button)
+        val measuringPoints: TextView = findViewById(R.id.measuring_points)
+        val contact: TextView = findViewById(R.id.contact)
+        val clientLiner: LinearLayout = findViewById(R.id.client_liner)
 
 
+
+
+        idDb = intent.getLongExtra("ID", -1L)
+
+        clientNameStatic = findViewById(R.id.client_name_static)
+
+        clientName = findViewById(R.id.client_name)
+        clientStreet = findViewById(R.id.client_street)
+        clientCity = findViewById(R.id.client_city)
+        clientCountry = findViewById(R.id.client_country)
+        clientPhone = findViewById(R.id.client_phone)
+        clientEmail = findViewById(R.id.client_email)
+        clientContact = findViewById(R.id.client_contact)
+        clientData = findViewById(R.id.client_data)
+
+        comeBack.setOnClickListener {
+            saveAllFields()
+            finish()
+        }
+
+        deleteButton.setOnClickListener {
+            if (idDb != -1L) {
+                dbHelper.deleteClient(idDb)
+            }
+            finish()
+        }
+
+        measuringPoints.setOnClickListener {
+            addPointsButton.visibility = View.VISIBLE
+            clientLiner.visibility = View.GONE
+            measurementsRecyclerView.visibility = View.VISIBLE
+        }
+        contact.setOnClickListener {
+            addPointsButton.visibility = View.GONE
+            clientLiner.visibility = View.VISIBLE
+            measurementsRecyclerView.visibility = View.GONE
+
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                saveAllFields()
+                finish()
+            }
+        })
 
         if (idDb != -1L) {
             val dbHelper = DbHelper(this, null)
             dbHelper.getClientDataEntryById(idDb).use { cursor ->
                 if (cursor.moveToFirst()) {
-
                     val nameDb = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-                    clientName.editText?.setText(nameDb.toString())
+                    clientName.editText?.setText(nameDb)
+                    clientNameStatic.text = if (nameDb == "") "Имя клиента" else nameDb
 
                     val streetDb = cursor.getString(cursor.getColumnIndexOrThrow("street"))
-                    clientStreet.editText?.setText(streetDb.toString())
+                    clientStreet.editText?.setText(streetDb)
 
                     val cityDb = cursor.getString(cursor.getColumnIndexOrThrow("city"))
-                    clientCity.editText?.setText(cityDb.toString())
+                    clientCity.editText?.setText(cityDb)
 
                     val countryDb = cursor.getString(cursor.getColumnIndexOrThrow("country"))
-                    clientCountry.editText?.setText(countryDb.toString())
+                    clientCountry.editText?.setText(countryDb)
 
                     val phoneDb = cursor.getString(cursor.getColumnIndexOrThrow("phoneNumber"))
-                    clientPhone.editText?.setText(phoneDb.toString())
+                    clientPhone.editText?.setText(phoneDb)
 
                     val emailDb = cursor.getString(cursor.getColumnIndexOrThrow("eMail"))
-                    clientEmail.editText?.setText(emailDb.toString())
+                    clientEmail.editText?.setText(emailDb)
 
                     val contactDb = cursor.getString(cursor.getColumnIndexOrThrow("contactPersons"))
-                    clientContact.editText?.setText(contactDb.toString())
+                    clientContact.editText?.setText(contactDb)
 
                     val clientDb = cursor.getString(cursor.getColumnIndexOrThrow("customerData"))
-                    clientData.editText?.setText(clientDb.toString())
+                    clientData.editText?.setText(clientDb)
                 }
             }
         }
-
 
 
         val focusListener = View.OnFocusChangeListener { view, hasFocus ->
@@ -85,11 +155,13 @@ class ClientDataActivity : AppCompatActivity() {
                 if (nameField != null) {
                     val dbHelper = DbHelper(this, null)
                     dbHelper.updateClientData(idDb, nameField, inputText)
-
                 }
+                if (nameField == "name"){
+                    clientNameStatic.text = inputText
+                }
+
             }
         }
-
 
         clientName.editText?.onFocusChangeListener = focusListener
         clientStreet.editText?.onFocusChangeListener = focusListener
@@ -100,5 +172,61 @@ class ClientDataActivity : AppCompatActivity() {
         clientContact.editText?.onFocusChangeListener = focusListener
         clientData.editText?.onFocusChangeListener = focusListener
 
+
+
+
+        val measurementsData = if (idDb != -1L){
+            dbHelper.getMeasurementData(idDb)
+        } else {
+            arrayListOf()
+        }
+        measurementsAdapter = MeasurementsAdapter(measurementsData){ clickedEntry ->
+            val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
+            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+        }
+
+        measurementsRecyclerView.adapter = measurementsAdapter
+        measurementsRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        addPointsButton.setOnClickListener {
+            val measurement = MeasurementData()
+            val newId = dbHelper.addMeasurement(measurement, idDb)
+
+            if (newId != -1L) {
+                val updatedMeasurements = dbHelper.getMeasurementData(idDb)
+                measurementsAdapter.updateData(updatedMeasurements)
+
+            }
+        }
+    }
+
+    fun saveAllFields() {
+        if (idDb == -1L) {
+            return
+        }
+
+        val name = clientName.editText?.text.toString()
+        val street = clientStreet.editText?.text.toString()
+        val city = clientCity.editText?.text.toString()
+        val country = clientCountry.editText?.text.toString()
+        val phone = clientPhone.editText?.text.toString()
+        val email = clientEmail.editText?.text.toString()
+        val contact = clientContact.editText?.text.toString()
+        val data = clientData.editText?.text.toString()
+
+        val clientUpdates = mapOf(
+            "name" to name,
+            "street" to street,
+            "city" to city,
+            "country" to country,
+            "phoneNumber" to phone,
+            "eMail" to email,
+            "contactPersons" to contact,
+            "customerData" to data
+        )
+
+        clientUpdates.forEach { (fieldName, value) ->
+            dbHelper.updateClientData(idDb, fieldName, value)
+        }
     }
 }
