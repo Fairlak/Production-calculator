@@ -49,7 +49,7 @@ class ClientDataActivity : AppCompatActivity() {
 
 
         val comeBack: ImageButton = findViewById(R.id.back_to_clients_button)
-        val deleteButton: ImageButton = findViewById(R.id.delete_button)
+        val deleteButton: ImageButton = findViewById(R.id.delete_client_button)
         val addPointsButton: Button = findViewById(R.id.add_measuring_points_button)
         val measuringPoints: TextView = findViewById(R.id.measuring_points)
         val contact: TextView = findViewById(R.id.contact)
@@ -57,6 +57,8 @@ class ClientDataActivity : AppCompatActivity() {
 
 
 
+        contact.alpha = 1.0f
+        measuringPoints.alpha = 0.5f
 
         idDb = intent.getLongExtra("ID", -1L)
 
@@ -84,11 +86,17 @@ class ClientDataActivity : AppCompatActivity() {
         }
 
         measuringPoints.setOnClickListener {
+            contact.alpha = 0.5f
+            measuringPoints.alpha = 1.0f
+
             addPointsButton.visibility = View.VISIBLE
             clientLiner.visibility = View.GONE
             measurementsRecyclerView.visibility = View.VISIBLE
         }
         contact.setOnClickListener {
+            contact.alpha = 1.0f
+            measuringPoints.alpha = 0.5f
+
             addPointsButton.visibility = View.GONE
             clientLiner.visibility = View.VISIBLE
             measurementsRecyclerView.visibility = View.GONE
@@ -181,8 +189,12 @@ class ClientDataActivity : AppCompatActivity() {
             arrayListOf()
         }
         measurementsAdapter = MeasurementsAdapter(measurementsData){ clickedEntry ->
+            val selectedId = clickedEntry.id
+
             val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MeasurementsDataActivity::class.java)
+            startActivity(intent.putExtra("ID", selectedId))
         }
 
         measurementsRecyclerView.adapter = measurementsAdapter
@@ -228,5 +240,11 @@ class ClientDataActivity : AppCompatActivity() {
         clientUpdates.forEach { (fieldName, value) ->
             dbHelper.updateClientData(idDb, fieldName, value)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val measurementsData = dbHelper.getMeasurementData(idDb)
+        measurementsAdapter.updateData(measurementsData)
     }
 }

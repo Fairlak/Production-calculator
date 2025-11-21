@@ -115,7 +115,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
         paramsRecyclerView = findViewById(R.id.params_recyclerview)
         paramsRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val data = listOf("Выбор компании", "Клиент", "История", "Настройки")
+        val data = listOf("Создание отчёта", "Клиент", "История", "Настройки")
         val adapter = ParamsAdapter(data, this)
         paramsRecyclerView.adapter = adapter
     }
