@@ -3,18 +3,24 @@ package com.example.calculator.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.R
 import com.example.calculator.storage.MeasurementData
 import java.util.ArrayList
 
-class MeasurementsAdapter(private var measurementsList: ArrayList<MeasurementData>, private val onItemClicked: (MeasurementData) -> Unit) :
-    RecyclerView.Adapter<MeasurementsAdapter.MeasurementViewHolder>() {
+class MeasurementsAdapter(
+    private var measurementsList: ArrayList<MeasurementData>,
+    private val onItemClicked: (MeasurementData) -> Unit,
+    private val onImageButtonClicked: (MeasurementData, Int) -> Unit
+) : RecyclerView.Adapter<MeasurementsAdapter.MeasurementViewHolder>() {
     private var fullMeasurementsList = ArrayList(measurementsList)
 
     class MeasurementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val meterageTextView: TextView = itemView.findViewById(R.id.meterage_name)
+        val imageButton: ImageButton = itemView.findViewById(R.id.copy_button)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MeasurementViewHolder {
@@ -33,9 +39,14 @@ class MeasurementsAdapter(private var measurementsList: ArrayList<MeasurementDat
             onItemClicked(measurement)
         }
 
+        holder.imageButton.setOnClickListener {
+            onImageButtonClicked(measurement, position)
+        }
+
+
     }
 
-    override fun getItemCount(): Int = measurementsList.size
+    override fun getItemCount(): Int = fullMeasurementsList.size
 
 
     fun updateData(newMeasurementList: ArrayList<MeasurementData>) {

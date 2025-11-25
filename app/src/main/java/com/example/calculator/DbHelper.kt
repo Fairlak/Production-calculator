@@ -9,9 +9,7 @@ import com.example.calculator.storage.ClientData
 import com.example.calculator.storage.DecisionResult
 import com.example.calculator.storage.InputData
 import com.example.calculator.storage.MeasurementData
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
     SQLiteOpenHelper(context, "app", factory, 4) {
@@ -62,6 +60,8 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         db!!.execSQL(historyQuery)
         db.execSQL(clientsQuery)
         db.execSQL(measurementsQuery)
+
+
 
 
 

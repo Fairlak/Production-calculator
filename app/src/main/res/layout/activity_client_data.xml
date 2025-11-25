@@ -263,7 +263,7 @@
         android:layout_height="646dp"
         android:visibility="gone"
 
-        android:layout_marginStart="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view1"
         tools:listitem="@layout/measuring_points_item" />

@@ -25,16 +25,17 @@ class ClientsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_clients)
 
+
         val searchView = findViewById<SearchView>(R.id.searchView)
         val clientsRecyclerView: RecyclerView = findViewById(R.id.clientsRecyclerView)
         val clientsData = db.getClientData()
-        clientAdapter = ClientsAdapter(clientsData){ clickedEntry ->
+        clientAdapter = ClientsAdapter(clientsData, { clickedEntry ->
             val selectedId = clickedEntry.id
             val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ClientDataActivity::class.java)
             startActivity(intent.putExtra("ID", selectedId))
-        }
+        }, this)
 
         clientsRecyclerView.adapter = clientAdapter
         clientsRecyclerView.layoutManager = LinearLayoutManager(this)

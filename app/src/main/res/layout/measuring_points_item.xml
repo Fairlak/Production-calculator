@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/item_clients_background"
     android:layout_gravity="center_horizontal"
     android:layout_marginTop="20dp"
@@ -9,24 +10,30 @@
 
     <TextView
         android:id="@+id/meterage_name"
-        android:layout_width="192dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:gravity="center"
         android:text="Название места измерения"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/objects_meterage"
-        android:layout_width="179dp"
-        android:layout_height="23dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="40dp"
         android:textColor="@color/black"
-        android:text="Расчёты: 0"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.511" />
+
+    <ImageButton
+        android:id="@+id/copy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Копировать"
+        android:background="@null"
+        app:tint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/meterage_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/actionModeCopyDrawable" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

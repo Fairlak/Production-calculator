@@ -112,7 +112,14 @@ class MainActivity : AppCompatActivity() {
             val inputData = createStorageInstance()
             val processor = FormulaCalc(inputData)
             val finalDensityValue = processor.airDensityCalculation()
-            val finalConsumptionValue = processor.consumption(manufacturer)
+            var finalConsumptionValue = processor.consumption(manufacturer)
+            if (finalConsumptionValue.isNaN()) finalConsumptionValue = 0.0
+
+            val toastText = "Расход ${finalConsumptionValue}"
+            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+
+
+
 
             val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
             val currentDate = sdf.format(Date())

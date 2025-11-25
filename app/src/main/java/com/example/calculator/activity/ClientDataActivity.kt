@@ -110,6 +110,7 @@ class ClientDataActivity : AppCompatActivity() {
             }
         })
 
+
         if (idDb != -1L) {
             val dbHelper = DbHelper(this, null)
             dbHelper.getClientDataEntryById(idDb).use { cursor ->
@@ -188,14 +189,32 @@ class ClientDataActivity : AppCompatActivity() {
         } else {
             arrayListOf()
         }
-        measurementsAdapter = MeasurementsAdapter(measurementsData){ clickedEntry ->
-            val selectedId = clickedEntry.id
+        measurementsAdapter = MeasurementsAdapter(
+            measurementsData,
+            onItemClicked = { clickedEntry ->
+                val selectedId = clickedEntry.id
+                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
+                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MeasurementsDataActivity::class.java)
+                startActivity(intent.putExtra("ID", selectedId))
+            },
+            onImageButtonClicked = {clickedEntry, position ->
+                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
+                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
 
-            val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MeasurementsDataActivity::class.java)
-            startActivity(intent.putExtra("ID", selectedId))
-        }
+
+                val newId = dbHelper.addMeasurement(clickedEntry, idDb)
+
+                if (newId != -1L) {
+                    val updatedMeasurements = dbHelper.getMeasurementData(idDb)
+                    measurementsAdapter.updateData(updatedMeasurements)
+
+                }
+
+
+
+            }
+        )
 
         measurementsRecyclerView.adapter = measurementsAdapter
         measurementsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -247,4 +266,5 @@ class ClientDataActivity : AppCompatActivity() {
         val measurementsData = dbHelper.getMeasurementData(idDb)
         measurementsAdapter.updateData(measurementsData)
     }
+
 }
