@@ -4,6 +4,7 @@ package com.example.calculator.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -29,6 +30,8 @@ class ClientsActivity : AppCompatActivity() {
         val searchView = findViewById<SearchView>(R.id.searchView)
         val clientsRecyclerView: RecyclerView = findViewById(R.id.clientsRecyclerView)
         val clientsData = db.getClientData()
+        val backMenuButton: ImageButton = findViewById(R.id.clients_back_to_menu_button)
+
         clientAdapter = ClientsAdapter(clientsData, { clickedEntry ->
             val selectedId = clickedEntry.id
             val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
@@ -51,12 +54,15 @@ class ClientsActivity : AppCompatActivity() {
                 val updatedClients = db.getClientData()
                 clientAdapter.updateData(updatedClients)
 
-
                 val intent = Intent(this, ClientDataActivity::class.java)
                 intent.putExtra("ID", newId)
                 startActivity(intent)
 
             }
+        }
+
+        backMenuButton.setOnClickListener {
+            finish()
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

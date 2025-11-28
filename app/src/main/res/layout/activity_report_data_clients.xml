@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.ClientsActivity">
 
     <View
@@ -33,45 +33,28 @@
         android:id="@+id/clients_title"
         android:layout_width="95dp"
         android:layout_height="0dp"
-
-
         android:gravity="center"
         android:text="Клиент"
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintStart_toEndOf="@+id/clients_back_to_menu_button"
+        app:layout_constraintStart_toEndOf="@+id/back_to_report_button"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_client_button"
-        android:layout_width="296dp"
-        android:layout_height="52dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="70dp"
-        android:backgroundTint="#C92828"
-        android:gravity="center"
-        android:text="Добавить клиента"
-        android:textColor="@color/white"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/clientsRecyclerView"
+        android:id="@+id/report_clientsRecyclerView"
         android:layout_width="337dp"
-        android:layout_height="660dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="650dp"
+        android:layout_marginTop="52dp"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view1"
-        tools:listitem="@layout/clients_item" />
+        tools:listitem="@layout/report_clients_item" />
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
+        android:id="@+id/report_clients_searchView"
         android:layout_width="283dp"
         android:layout_height="58dp"
         android:layout_marginStart="4dp"
@@ -83,14 +66,14 @@
         app:theme="@style/CustomSearchViewStyle" />
 
     <ImageButton
-        android:id="@+id/clients_back_to_menu_button"
+        android:id="@+id/back_to_report_button"
         android:layout_width="38dp"
         android:layout_height="37dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="7dp"
 
         android:background="#E2E2E2"
-        android:contentDescription="back to menu"
+        android:contentDescription="back to report"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +81,61 @@
         app:layout_constraintVertical_bias="0.25"
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Клиенты"
+        android:textColor="@color/black"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/report_clientsRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_report_client_button"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#C92828"
+        android:gravity="center"
+        android:text="Новый"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/report_clientsRecyclerView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/import_client_button"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#C92828"
+        android:gravity="center"
+        android:text="Импорт"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/add_report_client_button"
+        app:layout_constraintStart_toEndOf="@+id/cancel_report_client_button"
+        app:layout_constraintTop_toBottomOf="@+id/report_clientsRecyclerView" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_report_client_button"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#C92828"
+        android:gravity="center"
+        android:text="Отмена"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/report_clientsRecyclerView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

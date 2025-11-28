@@ -125,6 +125,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
         when(param){
             "История" -> startActivity(Intent(this, HistoryCalculations::class.java))
             "Клиент" -> startActivity(Intent(this, ClientsActivity::class.java))
+            "Создание отчёта" -> startActivity(Intent(this, ReportsActivity::class.java))
         }
         Toast.makeText(this, "Выбран параметр: $param", Toast.LENGTH_SHORT).show()
         drawerLayout.closeDrawer(GravityCompat.START)

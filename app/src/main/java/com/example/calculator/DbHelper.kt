@@ -9,6 +9,7 @@ import com.example.calculator.storage.ClientData
 import com.example.calculator.storage.DecisionResult
 import com.example.calculator.storage.InputData
 import com.example.calculator.storage.MeasurementData
+import com.example.calculator.storage.ReportData
 
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
@@ -57,10 +58,20 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 note TEXT          
             )
         """.trimIndent()
+        val reportsQuery = """
+            CREATE TABLE reports (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                historyId INTEGER,
+                clientId INTEGER,
+                reportTime TEXT, 
+                photoPath TEXT,
+                comment TEXT
+            )
+        """.trimIndent()
         db!!.execSQL(historyQuery)
         db.execSQL(clientsQuery)
         db.execSQL(measurementsQuery)
-
+        db.execSQL(reportsQuery)
 
 
 
@@ -95,8 +106,20 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 note TEXT          
             )
         """.trimIndent()
+            val reportsQuery = """
+            CREATE TABLE reports (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                historyId INTEGER,
+                clientId INTEGER,
+                reportTime TEXT, 
+                photoPath TEXT,
+                comment TEXT
+            )
+        """.trimIndent()
             db?.execSQL(clientsQuery)
             db?.execSQL(measurementsQuery)
+            db?.execSQL(reportsQuery)
+
 
             if (oldVersion < 4) {
                 try {
@@ -155,6 +178,20 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         values.put("finalConsumptionValue", decisionResult.finalConsumptionValue)
         values.put("timeStamp", decisionResult.timeStamp)
         this.writableDatabase.insert("history", null, values)
+    }
+
+    fun addReport(reportData: ReportData) : Long{
+        val values = ContentValues().apply {
+            put("historyId", reportData.historyId)
+            put("clientId", reportData.clientId)
+            put("reportTime", reportData.reportTime)
+            put("photoPath", reportData.photoPath)
+            put("comment", reportData.comment)
+        }
+        return this.writableDatabase.use {
+            it.insert("reports", null, values)
+        }
+
     }
 
     fun getAllHistory(): ArrayList<DecisionResult> {
@@ -331,6 +368,74 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
     fun deleteMeasurement(id: Long) {
         val db = this.writableDatabase
         db.delete("measurements", "id = ?", arrayOf(id.toString()))
+        db.close()
+    }
+
+
+
+    fun getReportsData(): ArrayList<ReportData> {
+        val reportList = ArrayList<ReportData>()
+        this.readableDatabase.use { db ->
+            db.rawQuery("SELECT * FROM reports ORDER BY id DESC", null).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        val idIndex = cursor.getColumnIndex("id")
+                        val reportTimeIndex = cursor.getColumnIndex("reportTime")
+                        val clientIdIndex = cursor.getColumnIndex("clientId")
+                        val photoPathIndex = cursor.getColumnIndex("photoPath")
+                        val commentIndex = cursor.getColumnIndex("comment")
+                        val historyIdIndex = cursor.getColumnIndex("historyId")
+
+                        val id = cursor.getLong(idIndex)
+                        val reportTime = cursor.getString(reportTimeIndex)
+                        val clientId = cursor.getLong(clientIdIndex)
+                        val photoPath = cursor.getString(photoPathIndex)
+                        val comment = cursor.getString(commentIndex)
+                        val historyId = cursor.getLong(historyIdIndex)
+
+
+                        val entry = ReportData(
+                            id = id,
+                            reportTime = reportTime,
+                            clientId = clientId,
+                            photoPath = photoPath,
+                            comment = comment,
+                            historyId = historyId
+                        )
+                        reportList.add(entry)
+
+                    } while (cursor.moveToNext())
+                }
+            }
+        }
+        return reportList
+    }
+
+    fun getReportDataEntryById(entryId: Long): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM reports WHERE id = ?", arrayOf(entryId.toString()))
+    }
+
+    fun updateReport(id: Long, nameField: String, recordValue: Any){
+        val values = ContentValues().apply {
+            when (recordValue) {
+                is String -> put(nameField, recordValue)
+                is Int -> put(nameField, recordValue)
+                is Long -> put(nameField, recordValue)
+                is Float -> put(nameField, recordValue)
+                is Double -> put(nameField, recordValue)
+                is Boolean -> put(nameField, recordValue)
+                else -> throw IllegalArgumentException("Unsupported type: ${recordValue::class.java}")
+            }
+        }
+        this.writableDatabase.use { db ->
+            db.update("reports", values, "id = ?",arrayOf(id.toString()))
+        }
+    }
+
+    fun deleteReport(id: Long) {
+        val db = this.writableDatabase
+        db.delete("reports", "id = ?", arrayOf(id.toString()))
         db.close()
     }
 

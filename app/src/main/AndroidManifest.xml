@@ -17,6 +17,18 @@
         android:theme="@style/Theme.Calculator"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ReportDataClientsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReportDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ReportsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MeasurementsDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ClientDataActivity"
             android:exported="false" />
         <activity
