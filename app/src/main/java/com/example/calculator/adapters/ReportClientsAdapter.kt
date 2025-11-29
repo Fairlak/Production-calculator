@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +16,11 @@ import java.util.ArrayList
 class ReportClientsAdapter(
     private var clientList: ArrayList<ClientData>,
     private val onItemClicked: (ClientData) -> Unit,
+    private val onMeasurementsClicked: (ClientData) -> Unit,
     context: Context
 ) : RecyclerView.Adapter<ReportClientsAdapter.ReportClientsViewHolder>() {
 
-
+    private var fullClientList = ArrayList(clientList)
     private val dbHelper: DbHelper = DbHelper(context, null)
     private var selectedPosition = -1
 
@@ -26,6 +28,7 @@ class ReportClientsAdapter(
         val reportClientName: TextView = itemView.findViewById(R.id.report_client_name_inReport)
         val reportClientObjectsMeterage: TextView = itemView.findViewById(R.id.report_objects_meterage)
         val radioButton: RadioButton = itemView.findViewById(R.id.report_client_radioButton)
+        val toSelectMeasurementsButton: ImageButton = itemView.findViewById(R.id.to_select_measurements_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportClientsViewHolder {
@@ -60,6 +63,14 @@ class ReportClientsAdapter(
             }
             onItemClicked(clientList[currentPosition])
         }
+
+        holder.toSelectMeasurementsButton.setOnClickListener {
+            val currentPosition = holder.bindingAdapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                updateSelection(currentPosition)
+            }
+            onMeasurementsClicked(clientList[currentPosition])
+        }
     }
 
     override fun getItemCount(): Int = clientList.size
@@ -80,6 +91,23 @@ class ReportClientsAdapter(
             return clientList[selectedPosition]
         }
         return null
+    }
+
+    fun filterList(query: String) {
+        val filteredList = ArrayList<ClientData>()
+
+        if (query.isEmpty()) {
+            filteredList.addAll(fullClientList)
+        } else {
+            val filterPattern = query.lowercase().trim()
+            for (item in fullClientList) {
+                if (item.name.lowercase().contains(filterPattern)) {
+                    filteredList.add(item)
+                }
+            }
+        }
+        clientList = filteredList
+        notifyDataSetChanged()
     }
 
 

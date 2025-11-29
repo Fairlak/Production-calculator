@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
@@ -30,6 +31,8 @@ class ReportsActivity : AppCompatActivity() {
         val addReportButton: Button = findViewById(R.id.add_report_button)
         val reportsRecyclerView: RecyclerView = findViewById(R.id.reportsRecyclerView)
         val backMenuButton: ImageButton = findViewById(R.id.back_to_menu_button)
+        val searchReport = findViewById<SearchView>(R.id.searchReport)
+
 
 
 
@@ -72,6 +75,23 @@ class ReportsActivity : AppCompatActivity() {
         backMenuButton.setOnClickListener {
             finish()
         }
+
+
+        searchReport.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchReport.clearFocus()
+                if (query != null) {
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    reportAdapter.filterList(newText)
+                }
+                return true
+            }
+        })
 
     }
     override fun onResume() {

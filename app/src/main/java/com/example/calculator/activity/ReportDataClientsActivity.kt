@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
@@ -29,6 +30,7 @@ class ReportDataClientsActivity : AppCompatActivity() {
         val reportClientsRecyclerView: RecyclerView = findViewById(R.id.report_clientsRecyclerView)
         val backReportButton: ImageButton = findViewById(R.id.back_to_report_button)
         val importClientButton: Button = findViewById(R.id.import_client_button)
+        val reportClientsSearchView = findViewById<SearchView>(R.id.report_clients_searchView)
         val clientsData = db.getClientData()
 
 
@@ -36,9 +38,23 @@ class ReportDataClientsActivity : AppCompatActivity() {
 
 
 
-        reportClientsAdapter = ReportClientsAdapter(clientsData, { clickedEntry ->
-            val selectedId = clickedEntry.id
-        }, this)
+
+        reportClientsAdapter = ReportClientsAdapter(
+            clientList = clientsData,
+            context = this,
+
+            onItemClicked = { clientData ->
+                Toast.makeText(this, "Выбран клиент: ${clientData.name}", Toast.LENGTH_SHORT).show()
+            },
+            onMeasurementsClicked = { clientData ->
+                val intent = Intent(this, ReportDataMeasurements::class.java)
+                intent.putExtra("REPORT_ID", idDb)
+                intent.putExtra("CLIENT_ID", clientData.id)
+                startActivity(intent)
+            }
+        )
+
+
 
         reportClientsRecyclerView.adapter = reportClientsAdapter
         reportClientsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -50,10 +66,29 @@ class ReportDataClientsActivity : AppCompatActivity() {
         importClientButton.setOnClickListener {
             if (idDb != -1L){
                 val selectedClient = reportClientsAdapter.getSelectedClient()
-                if (selectedClient != null) db.updateReport(idDb, "clientId", selectedClient.id)
+                if (selectedClient != null){
+                    db.updateReport(idDb, "clientId", selectedClient.id)
+                    db.updateReport(idDb, "measurementId", -1L)
+                }
             }
             finish()
         }
+
+        reportClientsSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                reportClientsSearchView.clearFocus()
+                if (query != null) {
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    reportClientsAdapter.filterList(newText)
+                }
+                return true
+            }
+        })
 
 
 

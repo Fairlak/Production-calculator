@@ -11,6 +11,8 @@ import com.example.calculator.R
 import com.example.calculator.storage.ClientData
 import com.example.calculator.storage.ReportData
 import java.util.ArrayList
+import kotlin.text.isNotEmpty
+import kotlin.text.lowercase
 
 class ReportsAdapter(
     private var reportList: ArrayList<ReportData>,
@@ -19,6 +21,7 @@ class ReportsAdapter(
 ) : RecyclerView.Adapter<ReportsAdapter.ReportsViewHolder>() {
 
     private val dbHelper: DbHelper = DbHelper(context, null)
+    private var fullReportList = ArrayList(reportList)
 
 
     class ReportsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -62,6 +65,36 @@ class ReportsAdapter(
     fun updateData(newReportList: ArrayList<ReportData>) {
         reportList.clear()
         reportList.addAll(newReportList)
+        notifyDataSetChanged()
+    }
+
+    fun filterList(query: String) {
+        val filteredList = ArrayList<ReportData>()
+
+        if (query.isEmpty()) {
+            filteredList.addAll(fullReportList)
+        } else {
+            val filterPattern = query.lowercase().trim()
+            for (item in fullReportList) {
+                var clientName = ""
+
+                if (item.clientId != -1L) {
+                    dbHelper.getClientDataEntryById(item.clientId).use { cursor ->
+                        if (cursor.moveToFirst()) {
+                            val nameIndex = cursor.getColumnIndex("name")
+                            if (nameIndex != -1) {
+                                clientName = cursor.getString(nameIndex)
+                            }
+                        }
+                    }
+                }
+                if (clientName.isNotEmpty() && clientName.lowercase().contains(filterPattern)) {
+                    filteredList.add(item)
+                }
+
+            }
+        }
+        reportList = filteredList
         notifyDataSetChanged()
     }
 

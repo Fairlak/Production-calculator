@@ -63,6 +63,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 historyId INTEGER,
                 clientId INTEGER,
+                measurementId INTEGER,
                 reportTime TEXT, 
                 photoPath TEXT,
                 comment TEXT
@@ -111,6 +112,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 historyId INTEGER,
                 clientId INTEGER,
+                measurementId INTEGER,
                 reportTime TEXT, 
                 photoPath TEXT,
                 comment TEXT
@@ -184,6 +186,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         val values = ContentValues().apply {
             put("historyId", reportData.historyId)
             put("clientId", reportData.clientId)
+            put("measurementId", reportData.measurementId)
             put("reportTime", reportData.reportTime)
             put("photoPath", reportData.photoPath)
             put("comment", reportData.comment)
@@ -382,6 +385,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                         val idIndex = cursor.getColumnIndex("id")
                         val reportTimeIndex = cursor.getColumnIndex("reportTime")
                         val clientIdIndex = cursor.getColumnIndex("clientId")
+                        val measurementIdIndex = cursor.getColumnIndex("measurementId")
                         val photoPathIndex = cursor.getColumnIndex("photoPath")
                         val commentIndex = cursor.getColumnIndex("comment")
                         val historyIdIndex = cursor.getColumnIndex("historyId")
@@ -389,6 +393,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                         val id = cursor.getLong(idIndex)
                         val reportTime = cursor.getString(reportTimeIndex)
                         val clientId = cursor.getLong(clientIdIndex)
+                        val measurementId = cursor.getLong(measurementIdIndex)
                         val photoPath = cursor.getString(photoPathIndex)
                         val comment = cursor.getString(commentIndex)
                         val historyId = cursor.getLong(historyIdIndex)
@@ -398,6 +403,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                             id = id,
                             reportTime = reportTime,
                             clientId = clientId,
+                            measurementId = measurementId,
                             photoPath = photoPath,
                             comment = comment,
                             historyId = historyId

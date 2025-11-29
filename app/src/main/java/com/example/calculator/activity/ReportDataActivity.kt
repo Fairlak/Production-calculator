@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.calculator.DbHelper
 import com.example.calculator.R
 
@@ -66,25 +67,43 @@ class ReportDataActivity : AppCompatActivity() {
                     createReportDate.text = timeDb
 
                     val clientIdDb = cursor.getLong(cursor.getColumnIndexOrThrow("clientId"))
+                    val measurementIdDb = cursor.getLong(cursor.getColumnIndexOrThrow("measurementId"))
+
+                    var clientNameString = ""
+                    var measurementPointString = ""
 
                     db.getClientDataEntryById(clientIdDb).use { clientCursor ->
-                        if (clientCursor.moveToFirst()) {
-                            val clientName = clientCursor.getString(clientCursor.getColumnIndexOrThrow("name"))
-
-                            if (!clientName.isNullOrEmpty()) {
-                                clientSelectedNameStatic.visibility = View.VISIBLE
-                                clientSelectedNameStatic.text = clientCursor.getString(clientCursor.getColumnIndexOrThrow("name"))
-                            } else {
-                                clientSelectedNameStatic.visibility = View.VISIBLE
-                                clientSelectedNameStatic.text = "Имя клиента"
-                            }
-                        } else {
-                            clientSelectedNameStatic.visibility = View.GONE
-                            clientSelectedNameStatic.text = "Клиент не выбран"
+                        if (clientCursor.moveToFirst()){
+                            val name = clientCursor.getString(clientCursor.getColumnIndexOrThrow("name"))
+                            clientNameString = if (!name.isNullOrEmpty()) name else "Имя клиента"
                         }
                     }
+
+
+                    db.getMeasurementEntryById(measurementIdDb).use { measurementCursor ->
+                        if (measurementCursor.moveToFirst()) {
+                            val pointName = measurementCursor.getString(measurementCursor.getColumnIndexOrThrow("pointName"))
+                            measurementPointString = if (!pointName.isNullOrEmpty()) pointName else ""
+                        }
+                    }
+
+                    if (clientNameString.isNotEmpty()) {
+                        clientSelectedNameStatic.visibility = View.VISIBLE
+
+                        val fullText = if (measurementPointString.isNotEmpty()) {
+                            "$clientNameString $measurementPointString"
+                        } else {
+                            clientNameString
+                        }
+                        clientSelectedNameStatic.text = fullText
+                    } else {
+                        clientSelectedNameStatic.visibility = View.GONE
+                        clientSelectedNameStatic.text = "Клиент не выбран"
+                    }
+
                 }
             }
         }
     }
 }
+
