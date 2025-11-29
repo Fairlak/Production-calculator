@@ -46,7 +46,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/report_measurementsRecyclerView"
         android:layout_width="337dp"
-        android:layout_height="640dp"
+        android:layout_height="560dp"
         android:layout_marginTop="90dp"
         app:layout_constraintEnd_toEndOf="parent"
 

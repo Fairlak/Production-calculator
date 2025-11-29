@@ -30,12 +30,14 @@ class ReportDataClientsActivity : AppCompatActivity() {
         val reportClientsRecyclerView: RecyclerView = findViewById(R.id.report_clientsRecyclerView)
         val backReportButton: ImageButton = findViewById(R.id.back_to_report_button)
         val importClientButton: Button = findViewById(R.id.import_client_button)
+        val cancelButton: Button = findViewById(R.id.cancel_report_client_button)
         val reportClientsSearchView = findViewById<SearchView>(R.id.report_clients_searchView)
         val clientsData = db.getClientData()
 
 
         idDb = intent.getLongExtra("ID", -1L)
-
+        importClientButton.isEnabled = false
+        importClientButton.alpha = 0.5f
 
 
 
@@ -45,6 +47,8 @@ class ReportDataClientsActivity : AppCompatActivity() {
 
             onItemClicked = { clientData ->
                 Toast.makeText(this, "Выбран клиент: ${clientData.name}", Toast.LENGTH_SHORT).show()
+                importClientButton.isEnabled = true
+                importClientButton.alpha = 1.0f
             },
             onMeasurementsClicked = { clientData ->
                 val intent = Intent(this, ReportDataMeasurements::class.java)
@@ -61,6 +65,25 @@ class ReportDataClientsActivity : AppCompatActivity() {
 
         backReportButton.setOnClickListener {
             finish()
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                // Для Android 14+
+                overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+            } else {
+                // Для старых версий
+                @Suppress("DEPRECATION")
+                overridePendingTransition(0, 0)
+            }
+        }
+        cancelButton.setOnClickListener {
+            finish()
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                // Для Android 14+
+                overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+            } else {
+                // Для старых версий
+                @Suppress("DEPRECATION")
+                overridePendingTransition(0, 0)
+            }
         }
 
         importClientButton.setOnClickListener {
@@ -70,6 +93,14 @@ class ReportDataClientsActivity : AppCompatActivity() {
                     db.updateReport(idDb, "clientId", selectedClient.id)
                     db.updateReport(idDb, "measurementId", -1L)
                 }
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                // Для Android 14+
+                overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+            } else {
+                // Для старых версий
+                @Suppress("DEPRECATION")
+                overridePendingTransition(0, 0)
             }
             finish()
         }

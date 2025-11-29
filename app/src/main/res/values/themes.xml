@@ -11,7 +11,8 @@
 
     <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="autoCompleteTextViewStyle">@style/SearchViewAutoCompleteTextView</item>
-
+        <item name="colorAccent">#FF0000</item>
+        <item name="colorControlActivated">#FF0000</item>
         <item name="tint">@color/black</item>
         <item name="colorControlNormal">@color/black</item>
     </style>
@@ -19,27 +20,45 @@
     <style name="SearchViewAutoCompleteTextView" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHighlight">#55FF0000</item>
-        <item name="colorControlActivated">#FF0000</item>
         <item name="android:textColorHint">@color/black</item>
-
         <item name="android:textCursorDrawable">@null</item>
+        <item name="colorControlActivated">#FF0000</item>
+        <item name="colorAccent">#FF0000</item>
 
     </style>
 
-
-
     <style name="Theme.Calculator" parent="Base.Theme.Calculator" />
+
+
+    <style name="Widget.App.TextInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHighlight">#55FF0000</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="colorControlActivated">#FF0000</item>
+    </style>
+
 
     <style name="Widget.App.TextInputLayout"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">#FF0000</item>
         <item name="hintTextColor">#FF0000</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputEditText</item>
+        <item name="editTextStyle">@style/Widget.App.TextInputEditText</item>
     </style>
 
     <style name="ThemeOverlay.App.TextInputEditText" parent="">
         <item name="colorAccent">#FF0000</item>
         <item name="android:textColorHighlight">#55FF0000</item>
+    </style>
+
+
+
+    <style name="MyTextFieldTheme" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
+        <item name="colorControlActivated">#FF0000</item>
+        <item name="colorAccent">#FF0000</item>
+
+        <item name="android:textColorHighlight">#55FF0000</item>
+
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
 

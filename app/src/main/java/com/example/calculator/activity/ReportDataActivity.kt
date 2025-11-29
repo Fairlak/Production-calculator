@@ -3,6 +3,7 @@ package com.example.calculator.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -19,6 +20,7 @@ class ReportDataActivity : AppCompatActivity() {
 
     private lateinit var createReportDate: TextView
     private lateinit var clientSelectedNameStatic: TextView
+    private lateinit var deleteClientButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,7 @@ class ReportDataActivity : AppCompatActivity() {
         val backReportsButton: ImageButton = findViewById(R.id.back_to_reports_button)
         val deleteReportButton: ImageButton = findViewById(R.id.delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
+        deleteClientButton = findViewById(R.id.delete_client_report_button)
 
         idDb = intent.getLongExtra("ID", -1L)
 
@@ -51,6 +54,14 @@ class ReportDataActivity : AppCompatActivity() {
             val intent = Intent(this, ReportDataClientsActivity::class.java)
             intent.putExtra("ID", idDb)
             startActivity(intent)
+        }
+
+        deleteClientButton.setOnClickListener {
+            if (idDb != -1L) {
+                db.updateReport(idDb, "clientId", "")
+                db.updateReport(idDb, "measurementId", "")
+                refreshClientData()
+            }
         }
     }
 
@@ -89,6 +100,7 @@ class ReportDataActivity : AppCompatActivity() {
 
                     if (clientNameString.isNotEmpty()) {
                         clientSelectedNameStatic.visibility = View.VISIBLE
+                        deleteClientButton.visibility = View.VISIBLE
 
                         val fullText = if (measurementPointString.isNotEmpty()) {
                             "$clientNameString $measurementPointString"
@@ -98,6 +110,7 @@ class ReportDataActivity : AppCompatActivity() {
                         clientSelectedNameStatic.text = fullText
                     } else {
                         clientSelectedNameStatic.visibility = View.GONE
+                        deleteClientButton.visibility = View.GONE
                         clientSelectedNameStatic.text = "Клиент не выбран"
                     }
 
