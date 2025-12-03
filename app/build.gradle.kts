@@ -41,6 +41,7 @@ android {
 dependencies {
     implementation ("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

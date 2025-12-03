@@ -28,8 +28,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
+
+    <View
+        android:id="@+id/overlay_view_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
+
     <ImageButton
-        android:id="@+id/delete_photo_button"
+        android:id="@+id/warning_delete_photo_button"
         android:layout_width="48dp"
         android:layout_height="40dp"
         android:layout_marginStart="360dp"
@@ -71,6 +87,68 @@
         app:layout_constraintTop_toBottomOf="@+id/view1"
         app:layout_constraintVertical_bias="0.0"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:id="@+id/warning_layout"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="336dp"
+        android:background="@drawable/photos_layout_bg"
+        android:elevation="10dp"
+        android:backgroundTint="#E2E2E2"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            android:text="Предупреждение" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:textSize="19dp"
+            android:text="Хотите удалить это изображение?" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_photo_button"
+            android:layout_width="296dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#C92828"
+            android:layout_gravity="center"
+
+            android:text="Удалить изображение"
+            android:textColor="@color/white"
+            app:cornerRadius="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_cancel_photo_button"
+            android:layout_width="136dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#E2E2E2"
+            android:layout_gravity="center"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp"
+
+            android:text="Отмена"
+            android:textColor="@color/black"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

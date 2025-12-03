@@ -1,6 +1,7 @@
 package com.example.calculator.activity
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.graphics.BitmapFactory
@@ -8,6 +9,7 @@ import android.provider.MediaStore
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.view.animation.Animation
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -33,9 +35,15 @@ class ReportDataActivity : AppCompatActivity() {
     private lateinit var clientSelectedNameStatic: TextView
     private lateinit var deleteClientButton: ImageButton
     private lateinit var takePhotoButton: ImageButton
+    private lateinit var choosePhotoButton: ImageButton
+    private lateinit var warningDeletePhotoButton: ImageButton
+
+
 
     private lateinit var photosLayout: ConstraintLayout
     private lateinit var overlayView: View
+    private lateinit var overlayViewPhoto: View
+
     private lateinit var mainPhotoLayout: ConstraintLayout
 
     private lateinit var photosRecyclerView: RecyclerView
@@ -68,6 +76,41 @@ class ReportDataActivity : AppCompatActivity() {
         }
     }
 
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val selectedImageUri = result.data?.data
+            if (selectedImageUri != null) {
+                try {
+                    val photoFile = createImageFile()
+
+                    contentResolver.openInputStream(selectedImageUri)?.use { inputStream ->
+                        photoFile.outputStream().use { outputStream ->
+                            inputStream.copyTo(outputStream)
+                        }
+                    }
+
+                    db.addPhoto(idDb, photoFile.absolutePath)
+                    Toast.makeText(this, "Фото добавлено!", Toast.LENGTH_SHORT).show()
+
+                    refreshClientData()
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Ошибка при загрузке фото", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        if (::photosLayout.isInitialized && ::overlayView.isInitialized) {
+            photosLayout.visibility = View.GONE
+            overlayView.visibility = View.GONE
+        }
+    }
+
+
+
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -94,11 +137,16 @@ class ReportDataActivity : AppCompatActivity() {
         val backReportsButton: ImageButton = findViewById(R.id.back_to_reports_button)
         val deleteReportButton: ImageButton = findViewById(R.id.delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
+        val warningLayout: View = findViewById(R.id.warning_layout)
+        val deleteCancelPhotoButton: Button = findViewById(R.id.delete_cancel_photo_button)
         photosLayout = findViewById(R.id.photos_layout)
         val cancelButton: TextView = findViewById(R.id.cancel_text_view)
         overlayView = findViewById(R.id.overlay_view)
+        overlayViewPhoto = findViewById(R.id.overlay_view_photo)
         takePhotoButton = findViewById(R.id.take_photo_button)
+        choosePhotoButton = findViewById(R.id.choose_photo_button)
         deleteClientButton = findViewById(R.id.delete_client_report_button)
+        warningDeletePhotoButton = findViewById(R.id.warning_delete_photo_button)
 
 
 
@@ -121,6 +169,17 @@ class ReportDataActivity : AppCompatActivity() {
 
         }
 
+
+        warningDeletePhotoButton.setOnClickListener {
+            warningLayout.visibility = View.VISIBLE
+            overlayViewPhoto.visibility = View.VISIBLE
+        }
+
+        deleteCancelPhotoButton.setOnClickListener {
+            warningLayout.visibility = View.GONE
+            overlayViewPhoto.visibility = View.GONE
+        }
+
         findViewById<View>(R.id.delete_photo_button).setOnClickListener {
             currentOpenedPhotoPath?.let { path ->
                 db.deletePhoto(path)
@@ -129,6 +188,9 @@ class ReportDataActivity : AppCompatActivity() {
                 if (file.exists()) {
                     file.delete()
                 }
+
+                overlayViewPhoto.visibility = View.GONE
+                warningLayout.visibility = View.GONE
                 Toast.makeText(this, "Фото удалено", Toast.LENGTH_SHORT).show()
                 fullPhotoLayout.visibility = View.GONE
 
@@ -144,7 +206,8 @@ class ReportDataActivity : AppCompatActivity() {
 
         photoAdapter = ReportPhotosAdapter(
             onAddClick = {
-                checkCameraPermissionAndOpen()
+                photosLayout.visibility = View.VISIBLE
+                overlayView.visibility = View.VISIBLE
             },
             onPhotoClick = { path ->
                 currentOpenedPhotoPath = path
@@ -159,7 +222,8 @@ class ReportDataActivity : AppCompatActivity() {
 
                 val imgFile = File(path)
                 if (imgFile.exists()) {
-                    val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                    var myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                    myBitmap = rotateImageIfRequired(imgFile.absolutePath, myBitmap)
                     fullPhotoView.setImageBitmap(myBitmap)
                 }
 
@@ -216,6 +280,11 @@ class ReportDataActivity : AppCompatActivity() {
 
         takePhotoButton.setOnClickListener {
             checkCameraPermissionAndOpen()
+        }
+
+        choosePhotoButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            pickImageLauncher.launch(intent)
         }
     }
 
@@ -322,6 +391,34 @@ class ReportDataActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    private fun rotateImageIfRequired(photoPath: String, bitmap: Bitmap): Bitmap {
+        try {
+            val ei = androidx.exifinterface.media.ExifInterface(photoPath)
+            val orientation = ei.getAttributeInt(
+                androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION,
+                androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL
+            )
+
+            return when (orientation) {
+                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
+                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
+                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
+                else -> bitmap
+            }
+        } catch (e: IOException) {
+            return bitmap
+        }
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = android.graphics.Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile: File? = try {
