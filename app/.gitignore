@@ -2,5 +2,6 @@ gitignore
 /build
 /app/build
 /app/release
+.idea/
 *.apk
 *.aab

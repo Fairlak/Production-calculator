@@ -3,21 +3,24 @@ package com.example.calculator.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.provider.MediaStore
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.ImageView
+import android.view.animation.Animation
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
+import com.example.calculator.adapters.ReportPhotosAdapter
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 
 class ReportDataActivity : AppCompatActivity() {
@@ -33,29 +36,35 @@ class ReportDataActivity : AppCompatActivity() {
 
     private lateinit var photosLayout: ConstraintLayout
     private lateinit var overlayView: View
-    private lateinit var miniImage: ImageView
+    private lateinit var mainPhotoLayout: ConstraintLayout
 
+    private lateinit var photosRecyclerView: RecyclerView
+    private lateinit var photoAdapter: ReportPhotosAdapter
+    private var currentPhotoFile: File? = null
+
+
+    private lateinit var fullPhotoLayout: View
+    private lateinit var fullPhotoView: com.github.chrisbanes.photoview.PhotoView
+
+    private var currentOpenedPhotoPath: String? = null
 
 
     private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
+        if (result.resultCode == RESULT_OK) {
+            currentPhotoFile?.let { file ->
+                if (file.exists()) {
+                    Toast.makeText(this, "Фото сохранено!", Toast.LENGTH_SHORT).show()
+
+                    db.addPhoto(idDb, file.absolutePath)
+
+                    refreshClientData()
+                }
+            }
+        }
         if (::photosLayout.isInitialized && ::overlayView.isInitialized) {
             photosLayout.visibility = View.GONE
             overlayView.visibility = View.GONE
-        }
-        if (result.resultCode == RESULT_OK) {
-            val data: Intent? = result.data
-            val imageBitmap = data?.extras?.get("data") as? Bitmap
-
-            if (imageBitmap != null) {
-                val savedFile = saveImageToInternalStorage(imageBitmap)
-
-                if (savedFile != null) {
-                    Toast.makeText(this, "Фото сохранено: ${savedFile.absolutePath}", Toast.LENGTH_SHORT).show()
-                    miniImage.setImageBitmap(imageBitmap)
-                    db.updateReport(idDb, "photoPath", savedFile.absolutePath)
-                }
-            }
         }
     }
 
@@ -75,26 +84,98 @@ class ReportDataActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_report_data)
 
+        photosRecyclerView = findViewById(R.id.photos_recycler_view)
+        photosRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        mainPhotoLayout = findViewById(R.id.main_photo)
+
         createReportDate = findViewById(R.id.create_report_date)
         clientSelectedNameStatic = findViewById(R.id.selected_client_name)
 
         val backReportsButton: ImageButton = findViewById(R.id.back_to_reports_button)
         val deleteReportButton: ImageButton = findViewById(R.id.delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
-        val mainPhotoLayout: ConstraintLayout = findViewById(R.id.main_photo)
         photosLayout = findViewById(R.id.photos_layout)
         val cancelButton: TextView = findViewById(R.id.cancel_text_view)
         overlayView = findViewById(R.id.overlay_view)
         takePhotoButton = findViewById(R.id.take_photo_button)
         deleteClientButton = findViewById(R.id.delete_client_report_button)
 
+
+
+        fullPhotoLayout = findViewById(R.id.open_photo)
+
+        fullPhotoView = findViewById(R.id.full_photo)
+
+        findViewById<View>(R.id.back_to_report_button).setOnClickListener {
+
+            val slideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right)
+            slideOut.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    fullPhotoLayout.visibility = View.GONE
+                }
+            })
+            fullPhotoLayout.startAnimation(slideOut)
+
+        }
+
+        findViewById<View>(R.id.delete_photo_button).setOnClickListener {
+            currentOpenedPhotoPath?.let { path ->
+                db.deletePhoto(path)
+
+                val file = File(path)
+                if (file.exists()) {
+                    file.delete()
+                }
+                Toast.makeText(this, "Фото удалено", Toast.LENGTH_SHORT).show()
+                fullPhotoLayout.visibility = View.GONE
+
+                refreshClientData()
+            }
+
+        }
+
+
+
         idDb = intent.getLongExtra("ID", -1L)
 
-        miniImage = findViewById(R.id.mini_image)
+
+        photoAdapter = ReportPhotosAdapter(
+            onAddClick = {
+                checkCameraPermissionAndOpen()
+            },
+            onPhotoClick = { path ->
+                currentOpenedPhotoPath = path
+
+                val slideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+                fullPhotoLayout.startAnimation(slideIn)
+                fullPhotoLayout.visibility = View.VISIBLE
+
+
+
+                fullPhotoLayout.visibility = View.VISIBLE
+
+                val imgFile = File(path)
+                if (imgFile.exists()) {
+                    val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                    fullPhotoView.setImageBitmap(myBitmap)
+                }
+
+            }
+        )
+
+        photosRecyclerView.adapter = photoAdapter
+
+
+
 
         backReportsButton.setOnClickListener {
             finish()
         }
+
+
 
         deleteReportButton.setOnClickListener {
             if (idDb != -1L) {
@@ -158,6 +239,25 @@ class ReportDataActivity : AppCompatActivity() {
         refreshClientData()
     }
 
+    override fun onBackPressed() {
+        if (::fullPhotoLayout.isInitialized && fullPhotoLayout.visibility == View.VISIBLE) {
+            val slideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right)
+
+            slideOut.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    fullPhotoLayout.visibility = View.GONE
+                }
+            })
+            fullPhotoLayout.startAnimation(slideOut)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+
 
     private fun refreshClientData() {
         if (idDb != -1L) {
@@ -172,8 +272,21 @@ class ReportDataActivity : AppCompatActivity() {
                     var clientNameString = ""
                     var measurementPointString = ""
 
-                    val photoPathIndex = cursor.getColumnIndex("photoPath")
-                    val photoPath = if (photoPathIndex != -1) cursor.getString(photoPathIndex) else null
+
+
+
+                    val photoPaths = db.getPhotosByReportId(idDb)
+
+                    if (photoPaths.isEmpty()) {
+                        photosRecyclerView.visibility = View.GONE
+                        mainPhotoLayout.isEnabled = true
+                    } else {
+                        photosRecyclerView.visibility = View.VISIBLE
+                        mainPhotoLayout.isEnabled = false
+                        photoAdapter.submitList(photoPaths)
+                    }
+
+
 
                     db.getClientDataEntryById(clientIdDb).use { clientCursor ->
                         if (clientCursor.moveToFirst()){
@@ -205,54 +318,47 @@ class ReportDataActivity : AppCompatActivity() {
                         deleteClientButton.visibility = View.GONE
                         clientSelectedNameStatic.text = "Клиент не выбран"
                     }
-
-                    if (!photoPath.isNullOrEmpty()) {
-                        val imgFile = File(photoPath)
-                        if (imgFile.exists()) {
-                            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                            miniImage.setImageBitmap(myBitmap)
-                            miniImage.visibility = View.VISIBLE
-                        } else {
-                            miniImage.visibility = View.GONE
-                        }
-                    } else {
-                        miniImage.visibility = View.GONE
-                    }
-
                 }
             }
         }
     }
     private fun openCamera() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            takePictureLauncher.launch(takePictureIntent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Не удалось открыть камеру", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun saveImageToInternalStorage(bitmap: Bitmap): File? {
-        return try {
-            val fileName = "report_img_${System.currentTimeMillis()}.jpg"
-
-            val directory = File(filesDir, "report_images")
-            if (!directory.exists()) {
-                directory.mkdirs()
-            }
-
-            val file = File(directory, fileName)
-            val stream = FileOutputStream(file)
-
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            stream.flush()
-            stream.close()
-
-            file
-        } catch (e: IOException) {
-            e.printStackTrace()
+        val photoFile: File? = try {
+            createImageFile()
+        } catch (ex: IOException) {
             null
         }
+
+        photoFile?.also { file ->
+            currentPhotoFile = file
+            val photoURI: android.net.Uri = FileProvider.getUriForFile(
+                this,
+                "${applicationContext.packageName}.provider",
+                file
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+
+            try {
+                takePictureLauncher.launch(takePictureIntent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Ошибка камеры", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp: String = java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(java.util.Date())
+        val storageDir: File = File(filesDir, "report_images")
+        if (!storageDir.exists()) storageDir.mkdirs()
+
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        )
+    }
+
 }
 

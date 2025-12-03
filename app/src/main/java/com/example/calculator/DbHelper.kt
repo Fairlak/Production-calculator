@@ -13,7 +13,7 @@ import com.example.calculator.storage.ReportData
 
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "app", factory, 4) {
+    SQLiteOpenHelper(context, "app", factory, 5) {
 
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -65,14 +65,24 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 clientId INTEGER,
                 measurementId INTEGER,
                 reportTime TEXT, 
-                photoPath TEXT,
                 comment TEXT
             )
         """.trimIndent()
+
+        val reportsPhotos = """
+            CREATE TABLE reportsPhotos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                reportId INTEGER,
+                photoPath TEXT,
+                FOREIGN KEY(reportId) REFERENCES reports(id) ON DELETE CASCADE
+            )
+        """.trimIndent()
+
         db!!.execSQL(historyQuery)
         db.execSQL(clientsQuery)
         db.execSQL(measurementsQuery)
         db.execSQL(reportsQuery)
+        db.execSQL(reportsPhotos)
 
 
 
@@ -114,7 +124,6 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 clientId INTEGER,
                 measurementId INTEGER,
                 reportTime TEXT, 
-                photoPath TEXT,
                 comment TEXT
             )
         """.trimIndent()
@@ -122,6 +131,22 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
             db?.execSQL(measurementsQuery)
             db?.execSQL(reportsQuery)
 
+            if (oldVersion < 4) {
+                try {
+                    db?.execSQL("ALTER TABLE measurements ADD COLUMN client_id INTEGER DEFAULT -1")
+                } catch (e: Exception) { }
+            }
+            if (oldVersion < 5) {
+                val reportsPhotosQuery = """
+            CREATE TABLE reportsPhotos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                reportId INTEGER,
+                photoPath TEXT,
+                FOREIGN KEY(reportId) REFERENCES reports(id) ON DELETE CASCADE
+            )
+        """.trimIndent()
+                db?.execSQL(reportsPhotosQuery)
+            }
 
             if (oldVersion < 4) {
                 try {
@@ -188,13 +213,19 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
             put("clientId", reportData.clientId)
             put("measurementId", reportData.measurementId)
             put("reportTime", reportData.reportTime)
-            put("photoPath", reportData.photoPath)
             put("comment", reportData.comment)
         }
         return this.writableDatabase.use {
             it.insert("reports", null, values)
         }
+    }
 
+    fun addPhoto(reportId: Long, path: String) {
+        val values = ContentValues().apply {
+            put("reportId", reportId)
+            put("photoPath", path)
+        }
+        this.writableDatabase.insert("reportsPhotos", null, values)
     }
 
     fun getAllHistory(): ArrayList<DecisionResult> {
@@ -386,7 +417,6 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                         val reportTimeIndex = cursor.getColumnIndex("reportTime")
                         val clientIdIndex = cursor.getColumnIndex("clientId")
                         val measurementIdIndex = cursor.getColumnIndex("measurementId")
-                        val photoPathIndex = cursor.getColumnIndex("photoPath")
                         val commentIndex = cursor.getColumnIndex("comment")
                         val historyIdIndex = cursor.getColumnIndex("historyId")
 
@@ -394,7 +424,6 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                         val reportTime = cursor.getString(reportTimeIndex)
                         val clientId = cursor.getLong(clientIdIndex)
                         val measurementId = cursor.getLong(measurementIdIndex)
-                        val photoPath = cursor.getString(photoPathIndex)
                         val comment = cursor.getString(commentIndex)
                         val historyId = cursor.getLong(historyIdIndex)
 
@@ -404,7 +433,6 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                             reportTime = reportTime,
                             clientId = clientId,
                             measurementId = measurementId,
-                            photoPath = photoPath,
                             comment = comment,
                             historyId = historyId
                         )
@@ -443,6 +471,27 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         val db = this.writableDatabase
         db.delete("reports", "id = ?", arrayOf(id.toString()))
         db.close()
+    }
+
+
+
+    fun getPhotosByReportId(reportId: Long): List<String> {
+        val photos = mutableListOf<String>()
+        val cursor = this.readableDatabase.rawQuery("SELECT photoPath FROM reportsPhotos WHERE reportId = ?", arrayOf(reportId.toString()))
+
+        if (cursor.moveToFirst()) {
+            do {
+                val path = cursor.getString(cursor.getColumnIndexOrThrow("photoPath"))
+                photos.add(path)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return photos
+    }
+
+    fun deletePhoto(path: String) {
+        val db = this.writableDatabase
+        db.delete("reportsPhotos", "photoPath = ?", arrayOf(path))
     }
 
 }

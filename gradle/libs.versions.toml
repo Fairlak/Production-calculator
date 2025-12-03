@@ -13,6 +13,7 @@ annotation = "1.6.0"
 lifecycleLivedataKtx = "2.9.3"
 lifecycleViewmodelKtx = "2.9.3"
 coreAnimation = "1.0.0"
+animationCoreAndroid = "1.9.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,7 @@ androidx-annotation = { group = "androidx.annotation", name = "annotation", vers
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-core-animation = { group = "androidx.core", name = "core-animation", version.ref = "coreAnimation" }
+androidx-animation-core-android = { group = "androidx.compose.animation", name = "animation-core-android", version.ref = "animationCoreAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

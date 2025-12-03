@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -49,6 +50,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.animation)
+    implementation(libs.androidx.animation.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
