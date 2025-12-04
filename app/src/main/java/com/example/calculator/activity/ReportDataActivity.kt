@@ -41,7 +41,8 @@ class ReportDataActivity : AppCompatActivity() {
 
 
     private lateinit var photosLayout: ConstraintLayout
-    private lateinit var overlayView: View
+    private lateinit var overlayViewImage: View
+    private lateinit var overlayViewDeleteReport: View
     private lateinit var overlayViewPhoto: View
 
     private lateinit var mainPhotoLayout: ConstraintLayout
@@ -70,9 +71,9 @@ class ReportDataActivity : AppCompatActivity() {
                 }
             }
         }
-        if (::photosLayout.isInitialized && ::overlayView.isInitialized) {
+        if (::photosLayout.isInitialized && ::overlayViewImage.isInitialized) {
             photosLayout.visibility = View.GONE
-            overlayView.visibility = View.GONE
+            overlayViewImage.visibility = View.GONE
         }
     }
 
@@ -102,9 +103,9 @@ class ReportDataActivity : AppCompatActivity() {
             }
         }
 
-        if (::photosLayout.isInitialized && ::overlayView.isInitialized) {
+        if (::photosLayout.isInitialized && ::overlayViewImage.isInitialized) {
             photosLayout.visibility = View.GONE
-            overlayView.visibility = View.GONE
+            overlayViewImage.visibility = View.GONE
         }
     }
 
@@ -135,14 +136,18 @@ class ReportDataActivity : AppCompatActivity() {
         clientSelectedNameStatic = findViewById(R.id.selected_client_name)
 
         val backReportsButton: ImageButton = findViewById(R.id.back_to_reports_button)
-        val deleteReportButton: ImageButton = findViewById(R.id.delete_report_button)
+        val deleteReportButton: Button = findViewById(R.id.delete_report_button)
+        val openWarningDeleteReportButton: ImageButton = findViewById(R.id.open_warning_delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
         val warningLayout: View = findViewById(R.id.warning_layout)
         val deleteCancelPhotoButton: Button = findViewById(R.id.delete_cancel_photo_button)
+        val deleteCancelReportButton: Button = findViewById(R.id.delete_cancel_report_button)
+        val warningDeleteReportLayout: View = findViewById(R.id.warning_delete_report_layout)
         photosLayout = findViewById(R.id.photos_layout)
         val cancelButton: TextView = findViewById(R.id.cancel_text_view)
-        overlayView = findViewById(R.id.overlay_view)
+        overlayViewImage = findViewById(R.id.overlay_view_image)
         overlayViewPhoto = findViewById(R.id.overlay_view_photo)
+        overlayViewDeleteReport = findViewById(R.id.overlay_view_delete_report)
         takePhotoButton = findViewById(R.id.take_photo_button)
         choosePhotoButton = findViewById(R.id.choose_photo_button)
         deleteClientButton = findViewById(R.id.delete_client_report_button)
@@ -180,6 +185,18 @@ class ReportDataActivity : AppCompatActivity() {
             overlayViewPhoto.visibility = View.GONE
         }
 
+        openWarningDeleteReportButton.setOnClickListener {
+            overlayViewDeleteReport.visibility = View.VISIBLE
+            warningDeleteReportLayout.visibility = View.VISIBLE
+        }
+
+        deleteCancelReportButton.setOnClickListener {
+            overlayViewDeleteReport.visibility = View.GONE
+            warningDeleteReportLayout.visibility = View.GONE
+
+        }
+
+
         findViewById<View>(R.id.delete_photo_button).setOnClickListener {
             currentOpenedPhotoPath?.let { path ->
                 db.deletePhoto(path)
@@ -207,7 +224,7 @@ class ReportDataActivity : AppCompatActivity() {
         photoAdapter = ReportPhotosAdapter(
             onAddClick = {
                 photosLayout.visibility = View.VISIBLE
-                overlayView.visibility = View.VISIBLE
+                overlayViewImage.visibility = View.VISIBLE
             },
             onPhotoClick = { path ->
                 currentOpenedPhotoPath = path
@@ -256,18 +273,18 @@ class ReportDataActivity : AppCompatActivity() {
 
         mainPhotoLayout.setOnClickListener {
             photosLayout.visibility = View.VISIBLE
-            overlayView.visibility = View.VISIBLE
+            overlayViewImage.visibility = View.VISIBLE
 
         }
 
-        overlayView.setOnClickListener {
+        overlayViewImage.setOnClickListener {
             photosLayout.visibility = View.GONE
-            overlayView.visibility = View.GONE
+            overlayViewImage.visibility = View.GONE
         }
 
         cancelButton.setOnClickListener {
             photosLayout.visibility = View.GONE
-            overlayView.visibility = View.GONE
+            overlayViewImage.visibility = View.GONE
         }
 
         deleteClientButton.setOnClickListener {

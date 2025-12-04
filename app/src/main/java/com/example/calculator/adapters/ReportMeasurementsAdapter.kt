@@ -16,6 +16,7 @@ class ReportMeasurementsAdapter(
     private val onItemClicked: (MeasurementData) -> Unit,
 ) : RecyclerView.Adapter<ReportMeasurementsAdapter.ReportMeasurementViewHolder>() {
 
+    private var fullReportMeasurementsList = ArrayList(reportMeasurementsList)
     private var selectedPosition = -1
 
     class ReportMeasurementViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -53,7 +54,7 @@ class ReportMeasurementsAdapter(
         }
     }
 
-    override fun getItemCount(): Int = reportMeasurementsList.size
+    override fun getItemCount(): Int = fullReportMeasurementsList.size
 
 
 
@@ -72,6 +73,13 @@ class ReportMeasurementsAdapter(
             return reportMeasurementsList[selectedPosition]
         }
         return null
+    }
+
+    fun updateData(newMeasurementList: java.util.ArrayList<MeasurementData>) {
+        reportMeasurementsList.clear()
+        reportMeasurementsList.addAll(newMeasurementList)
+        fullReportMeasurementsList = newMeasurementList
+        notifyDataSetChanged()
     }
 
 

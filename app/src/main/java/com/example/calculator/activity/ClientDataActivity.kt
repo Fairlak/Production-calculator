@@ -48,8 +48,13 @@ class ClientDataActivity : AppCompatActivity() {
         val measurementsRecyclerView: RecyclerView = findViewById(R.id.measuring_points_RecyclerView)
 
 
+        val overlayViewDeleteClient: View = findViewById(R.id.overlay_view_delete_client)
+        val openWarningDeleteClientButton: ImageButton = findViewById(R.id.open_warning_delete_client_button)
+        val deleteCancelClientButton: Button = findViewById(R.id.delete_cancel_client_button)
+        val deleteButton: Button = findViewById(R.id.delete_client_button)
+        val warningDeleteClientLayout: View = findViewById(R.id.warning_delete_client_layout)
+
         val comeBack: ImageButton = findViewById(R.id.back_to_clients_button)
-        val deleteButton: ImageButton = findViewById(R.id.delete_client_button)
         val addPointsButton: Button = findViewById(R.id.add_measuring_points_button)
         val measuringPoints: TextView = findViewById(R.id.measuring_points)
         val contact: TextView = findViewById(R.id.contact)
@@ -101,6 +106,16 @@ class ClientDataActivity : AppCompatActivity() {
             clientLiner.visibility = View.VISIBLE
             measurementsRecyclerView.visibility = View.GONE
 
+        }
+
+        openWarningDeleteClientButton.setOnClickListener {
+            warningDeleteClientLayout.visibility = View.VISIBLE
+            overlayViewDeleteClient.visibility = View.VISIBLE
+        }
+
+        deleteCancelClientButton.setOnClickListener {
+            warningDeleteClientLayout.visibility = View.GONE
+            overlayViewDeleteClient.visibility = View.GONE
         }
 
         onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {

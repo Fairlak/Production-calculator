@@ -93,6 +93,13 @@ class ReportClientsAdapter(
         return null
     }
 
+    fun updateData(newClientList: ArrayList<ClientData>) {
+        clientList.clear()
+        clientList.addAll(newClientList)
+        fullClientList = newClientList
+        notifyDataSetChanged()
+    }
+
     fun filterList(query: String) {
         val filteredList = ArrayList<ClientData>()
 

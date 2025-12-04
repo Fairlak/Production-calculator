@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
+import com.example.calculator.activity.ReportAddClientActivity
 import com.example.calculator.adapters.ReportClientsAdapter
 import com.example.calculator.storage.ClientData
 
@@ -32,6 +33,7 @@ class ReportDataClientsActivity : AppCompatActivity() {
         val importClientButton: Button = findViewById(R.id.import_client_button)
         val cancelButton: Button = findViewById(R.id.cancel_report_client_button)
         val reportClientsSearchView = findViewById<SearchView>(R.id.report_clients_searchView)
+        val addReportClientButton: Button = findViewById(R.id.add_report_client_button)
         val clientsData = db.getClientData()
 
 
@@ -105,6 +107,23 @@ class ReportDataClientsActivity : AppCompatActivity() {
             finish()
         }
 
+
+        addReportClientButton.setOnClickListener {
+            val client = ClientData()
+            val newId = db.addClient(client)
+
+            if (newId != -1L) {
+
+                val updatedClients = db.getClientData()
+                reportClientsAdapter.updateData(updatedClients)
+
+                val intent = Intent(this, ReportAddClientActivity::class.java)
+                intent.putExtra("ID", newId)
+                startActivity(intent)
+
+            }
+        }
+
         reportClientsSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 reportClientsSearchView.clearFocus()
@@ -120,8 +139,11 @@ class ReportDataClientsActivity : AppCompatActivity() {
                 return true
             }
         })
+    }
 
-
-
+    override fun onResume() {
+        super.onResume()
+        val clientsData = db.getClientData()
+        reportClientsAdapter.updateData(clientsData)
     }
 }

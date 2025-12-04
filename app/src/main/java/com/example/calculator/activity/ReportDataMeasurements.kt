@@ -16,6 +16,8 @@ import com.example.calculator.DbHelper
 import com.example.calculator.R
 import com.example.calculator.adapters.ReportClientsAdapter
 import com.example.calculator.adapters.ReportMeasurementsAdapter
+import com.example.calculator.storage.ClientData
+import com.example.calculator.storage.MeasurementData
 
 class ReportDataMeasurements : AppCompatActivity() {
     private val dbHelper = DbHelper(this, null)
@@ -34,6 +36,7 @@ class ReportDataMeasurements : AppCompatActivity() {
         val backClientButton: ImageButton = findViewById(R.id.back_to_report_clients_button)
         val importMeasurementButton: Button = findViewById(R.id.import_measurement_button)
         val cancelButton: Button = findViewById(R.id.cancel_report_measurement_button)
+        val addReportMeasurementButton: Button = findViewById(R.id.add_report_measurement_button)
         val selectedClientName: TextView = findViewById(R.id.report_client_name_inMeasurement)
 
 
@@ -69,6 +72,21 @@ class ReportDataMeasurements : AppCompatActivity() {
             }
         }
 
+        addReportMeasurementButton.setOnClickListener {
+            val measurement = MeasurementData()
+            val newId = dbHelper.addMeasurement(measurement, clientId)
+
+            if (newId != -1L) {
+
+                val updatedMeasurements = dbHelper.getMeasurementData(clientId)
+                reportMeasurementsAdapter.updateData(updatedMeasurements)
+
+                val intent = Intent(this, ReportAddMeasurementActivity::class.java)
+                intent.putExtra("ID", newId)
+                startActivity(intent)
+
+            }
+        }
 
 
         backClientButton.setOnClickListener {
@@ -115,8 +133,12 @@ class ReportDataMeasurements : AppCompatActivity() {
             }
         }
 
+    }
 
-
+    override fun onResume() {
+        super.onResume()
+        val clientsData = dbHelper.getMeasurementData(clientId)
+        reportMeasurementsAdapter.updateData(clientsData)
     }
 
 
