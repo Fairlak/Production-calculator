@@ -1,6 +1,6 @@
 package com.example.calculator
 
-import com.example.calculator.storage.InputData
+import com.example.calculator.storage.calculate.InputData
 import kotlin.math.sqrt
 
 const val R_d = 287.05

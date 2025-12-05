@@ -1,5 +1,4 @@
-
-package com.example.calculator.adapters
+package com.example.calculator.adapters.reports
 
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.calculator.adapters
+package com.example.calculator.adapters.reports
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.storage.ClientData
+import com.example.calculator.storage.clients.ClientData
 import java.util.ArrayList
 
 class ReportClientsAdapter(

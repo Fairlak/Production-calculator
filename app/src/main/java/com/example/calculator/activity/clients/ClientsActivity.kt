@@ -1,12 +1,10 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.clients
 
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -14,9 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.activity.ClientDataActivity
-import com.example.calculator.adapters.ClientsAdapter
-import com.example.calculator.storage.ClientData
+import com.example.calculator.adapters.clients.ClientsAdapter
+import com.example.calculator.storage.clients.ClientData
 
 class ClientsActivity : AppCompatActivity() {
 

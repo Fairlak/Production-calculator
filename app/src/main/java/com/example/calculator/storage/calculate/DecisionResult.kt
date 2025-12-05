@@ -1,4 +1,4 @@
-package com.example.calculator.storage
+package com.example.calculator.storage.calculate
 
 data class DecisionResult(
     val id: Long = 0,

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.ReportDataActivity">
+    tools:context=".activity.reports.ReportDataActivity">
 
     <View
         android:id="@+id/view"
@@ -75,7 +75,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="410dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/report_data_elements_bg"
-            tools:context=".activity.ReportDataActivity">
+            tools:context=".activity.reports.ReportDataActivity">
 
             <TextView
                 android:id="@+id/date_text"
@@ -136,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/report_data_elements_bg"
-            tools:context=".activity.ReportDataActivity">
+            tools:context=".activity.reports.ReportDataActivity">
 
             <TextView
                 android:id="@+id/add_client_static"
@@ -146,10 +146,10 @@
                 android:text="Добавить клиента"
                 android:textColor="@color/black"
                 android:textSize="23dp"
-                app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintBottom_toTopOf="@+id/selected_client_name"
                 app:layout_constraintStart_toEndOf="@+id/avatar_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/selected_client_name"
@@ -159,11 +159,11 @@
                 android:textColor="@color/black"
                 android:textSize="18dp"
                 android:visibility="gone"
-                tools:text="Иван Иванов"
-                tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/avatar_image"
-                app:layout_constraintTop_toBottomOf="@+id/add_client_static" />
+                app:layout_constraintTop_toBottomOf="@+id/add_client_static"
+                tools:text="Иван Иванов"
+                tools:visibility="visible" />
 
 
             <ImageView
@@ -197,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/report_data_elements_bg"
-            tools:context=".activity.ReportDataActivity">
+            tools:context=".activity.reports.ReportDataActivity">
 
             <TextView
                 android:id="@+id/add_image_static"
@@ -207,22 +207,22 @@
                 android:text="Изображения"
                 android:textColor="@color/black"
                 android:textSize="23dp"
-                app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintBottom_toTopOf="@+id/photos_recycler_view"
                 app:layout_constraintStart_toEndOf="@+id/camera_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photos_recycler_view"
                 android:layout_width="250dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="36dp"
-                android:visibility="visible"
                 android:orientation="horizontal"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/camera_image"
                 app:layout_constraintTop_toBottomOf="@+id/add_image_static"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/photo_item"
                 tools:visibility="visible" />
 
@@ -245,7 +245,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/report_data_elements_bg"
-            tools:context=".activity.ReportDataActivity">
+            tools:context=".activity.reports.ReportDataActivity">
 
             <TextView
                 android:id="@+id/create_comment_static"
@@ -255,10 +255,10 @@
                 android:text="Составить комментарий"
                 android:textColor="@color/black"
                 android:textSize="23dp"
-                app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintBottom_toTopOf="@+id/mini_comment"
                 app:layout_constraintStart_toEndOf="@+id/comment_image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/mini_comment"
@@ -289,25 +289,66 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/report_calculate_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/item_border"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/date_report_calculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="01.11.2005"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/report_calculate_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Плотность X,\nРасход Y"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/report_calculate_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Компания"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/select_calculation_button"
         android:layout_width="296dp"
         android:layout_height="52dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="44dp"
         android:backgroundTint="#C92828"
-        android:gravity="center"
-
-        android:stateListAnimator="@null"
         android:elevation="0dp"
-
+        android:gravity="center"
+        android:stateListAnimator="@null"
         android:text="Выбрать Расчёт"
         android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
+        app:layout_constraintTop_toBottomOf="@+id/report_calculate_linearLayout" />
 
     <View
         android:id="@+id/overlay_view_image"
@@ -315,13 +356,13 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
+        android:elevation="10dp"
         android:focusable="true"
         android:visibility="gone"
-        android:elevation="10dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/overlay_view_delete_report"
@@ -329,13 +370,13 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
+        android:elevation="10dp"
         android:focusable="true"
         android:visibility="gone"
-        android:elevation="10dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/photos_layout"
@@ -424,8 +465,8 @@
         android:layout_height="250dp"
         android:layout_marginTop="336dp"
         android:background="@drawable/photos_layout_bg"
-        android:elevation="10dp"
         android:backgroundTint="#E2E2E2"
+        android:elevation="10dp"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -436,29 +477,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Предупреждение"
             android:textColor="@color/black"
             android:textSize="26dp"
-            android:textStyle="bold"
-            android:text="Предупреждение" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Хотите удалить данные отчёта?"
             android:textColor="@color/black"
-            android:textSize="19dp"
-            android:text="Хотите удалить данные отчёта?" />
+            android:textSize="19dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_report_button"
             android:layout_width="296dp"
             android:layout_height="52dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:backgroundTint="#C92828"
-            android:layout_gravity="center"
 
             android:text="Удалить отчёт"
             android:textColor="@color/white"
@@ -468,15 +509,15 @@
             android:id="@+id/delete_cancel_report_button"
             android:layout_width="136dp"
             android:layout_height="52dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:backgroundTint="#E2E2E2"
-            android:layout_gravity="center"
-            app:strokeColor="#C92828"
-            app:strokeWidth="2dp"
-
             android:text="Отмена"
             android:textColor="@color/black"
-            app:cornerRadius="20dp" />
+
+            app:cornerRadius="20dp"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
 
@@ -485,14 +526,14 @@
         layout="@layout/open_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:elevation="20dp"
         android:translationZ="50dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone"/>
+        tools:visibility="gone" />
 
 
     <include
@@ -501,15 +542,14 @@
         android:layout_width="390dp"
         android:layout_height="250dp"
         android:layout_marginBottom="400dp"
-        android:visibility="gone"
         android:elevation="50dp"
         android:translationZ="50dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone"/>
-
+        tools:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

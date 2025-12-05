@@ -1,4 +1,4 @@
-package com.example.calculator.adapters
+package com.example.calculator.adapters.menu
 
 import android.view.LayoutInflater
 import android.view.View

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.calculator.storage.DecisionResult
+import com.example.calculator.storage.calculate.DecisionResult
 import java.util.ArrayList
 
 class HistoryAdapter(private val historyList: ArrayList<DecisionResult>, private val onItemClicked: (DecisionResult) -> Unit) :

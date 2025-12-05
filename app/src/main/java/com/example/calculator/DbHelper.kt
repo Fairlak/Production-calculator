@@ -5,10 +5,10 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.calculator.storage.ClientData
-import com.example.calculator.storage.DecisionResult
-import com.example.calculator.storage.InputData
-import com.example.calculator.storage.MeasurementData
+import com.example.calculator.storage.clients.ClientData
+import com.example.calculator.storage.calculate.DecisionResult
+import com.example.calculator.storage.calculate.InputData
+import com.example.calculator.storage.clients.MeasurementData
 import com.example.calculator.storage.ReportData
 
 
@@ -266,6 +266,29 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
     fun getHistoryEntryById(entryId: Long): Cursor {
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM history WHERE id = ?", arrayOf(entryId.toString()))
+    }
+
+    fun updateHistoryData(id: Long, nameField: String, recordValue: Any){
+        val values = ContentValues().apply {
+            when (recordValue) {
+                is String -> put(nameField, recordValue)
+                is Int -> put(nameField, recordValue)
+                is Long -> put(nameField, recordValue)
+                is Float -> put(nameField, recordValue)
+                is Double -> put(nameField, recordValue)
+                is Boolean -> put(nameField, recordValue)
+                else -> throw IllegalArgumentException("Unsupported type: ${recordValue::class.java}")
+            }
+        }
+        this.writableDatabase.use { db ->
+            db.update("history", values, "id = ?",arrayOf(id.toString()))
+        }
+
+    }
+    fun deleteHistory(id: Long) {
+        val db = this.writableDatabase
+        db.delete("history", "id = ?", arrayOf(id.toString()))
+        db.close()
     }
 
 

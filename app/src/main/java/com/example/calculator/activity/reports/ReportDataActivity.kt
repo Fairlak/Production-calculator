@@ -1,31 +1,40 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.reports
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.os.Bundle
-import android.view.View
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
-import android.view.animation.AnimationUtils
-import android.widget.ImageButton
+import android.view.View
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.adapters.ReportPhotosAdapter
+import com.example.calculator.activity.calculate.UpdateCalculateActivity
+import com.example.calculator.adapters.reports.ReportPhotosAdapter
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ReportDataActivity : AppCompatActivity() {
 
@@ -55,13 +64,22 @@ class ReportDataActivity : AppCompatActivity() {
 
 
     private lateinit var fullPhotoLayout: View
-    private lateinit var fullPhotoView: com.github.chrisbanes.photoview.PhotoView
+    private lateinit var fullPhotoView: PhotoView
 
     private var currentOpenedPhotoPath: String? = null
 
     private lateinit var miniComment: TextView
     private lateinit var cancelComment: TextView
     private lateinit var inputReportComment: TextInputLayout
+
+
+    private lateinit var dateReportCalculate: TextView
+    private lateinit var resultReportCalculate: TextView
+    private lateinit var companyReportCalculate: TextView
+    private lateinit var reportCalculateLayout: View
+
+
+
 
 
     private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -135,7 +153,8 @@ class ReportDataActivity : AppCompatActivity() {
         setContentView(R.layout.activity_report_data)
 
         photosRecyclerView = findViewById(R.id.photos_recycler_view)
-        photosRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        photosRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mainPhotoLayout = findViewById(R.id.main_photo)
 
         createReportDate = findViewById(R.id.create_report_date)
@@ -154,6 +173,8 @@ class ReportDataActivity : AppCompatActivity() {
         val saveCommentTextView: TextView = findViewById(R.id.save_comment)
         miniComment = findViewById(R.id.mini_comment)
         inputReportComment = findViewById(R.id.report_comment_InputLayout)
+        val selectCalculationButton: Button = findViewById(R.id.select_calculation_button)
+
         photosLayout = findViewById(R.id.photos_layout)
         cancelComment = findViewById(R.id.cancel_comment)
         val cancelButton: TextView = findViewById(R.id.cancel_text_view)
@@ -164,7 +185,7 @@ class ReportDataActivity : AppCompatActivity() {
         choosePhotoButton = findViewById(R.id.choose_photo_button)
         deleteClientButton = findViewById(R.id.delete_client_report_button)
         warningDeletePhotoButton = findViewById(R.id.warning_delete_photo_button)
-
+        reportCalculateLayout = findViewById(R.id.report_calculate_linearLayout)
 
 
         fullPhotoLayout = findViewById(R.id.open_photo)
@@ -334,22 +355,42 @@ class ReportDataActivity : AppCompatActivity() {
             checkCameraPermissionAndOpen()
         }
 
+
         choosePhotoButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             pickImageLauncher.launch(intent)
         }
+
+        selectCalculationButton.setOnClickListener {
+            val intent = Intent(this, ReportCalculationsActivity::class.java)
+            startActivity(intent.putExtra("ID", idDb))
+        }
+
+        reportCalculateLayout.setOnClickListener {
+            db.getReportDataEntryById(idDb).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val calculateDb = cursor.getLong(cursor.getColumnIndexOrThrow("historyId"))
+                    val intent = Intent(this, UpdateCalculateActivity::class.java)
+                    intent.putExtra("HistoryId", calculateDb)
+                    intent.putExtra("ReportId", idDb)
+                    startActivity(intent)
+                }
+            }
+
+        }
+
     }
 
     private fun checkCameraPermissionAndOpen() {
         when {
-            androidx.core.content.ContextCompat.checkSelfPermission(
+            ContextCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.CAMERA
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED -> {
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 openCamera()
             }
             else -> {
-                requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
@@ -401,6 +442,14 @@ class ReportDataActivity : AppCompatActivity() {
                     }
 
 
+                    reportCalculateLayout = findViewById(R.id.report_calculate_linearLayout)
+                    resultReportCalculate = findViewById(R.id.report_calculate_result)
+                    dateReportCalculate = findViewById(R.id.date_report_calculate)
+                    companyReportCalculate = findViewById(R.id.report_calculate_company)
+                    val calculateDb = cursor.getLong(cursor.getColumnIndexOrThrow("historyId"))
+
+
+
 
 
                     var clientNameString = ""
@@ -421,6 +470,7 @@ class ReportDataActivity : AppCompatActivity() {
                     }
 
 
+                    if (calculateDb == -1L) reportCalculateLayout.visibility = View.GONE else reportCalculateLayout.visibility = View.VISIBLE
 
                     db.getClientDataEntryById(clientIdDb).use { clientCursor ->
                         if (clientCursor.moveToFirst()){
@@ -434,6 +484,22 @@ class ReportDataActivity : AppCompatActivity() {
                         if (measurementCursor.moveToFirst()) {
                             val pointName = measurementCursor.getString(measurementCursor.getColumnIndexOrThrow("pointName"))
                             measurementPointString = if (!pointName.isNullOrEmpty()) pointName else ""
+                        }
+                    }
+
+                    db.getHistoryEntryById(calculateDb).use { calculateCursor ->
+                        if (calculateCursor.moveToFirst()){
+                            val timeStamp = calculateCursor.getString(calculateCursor.getColumnIndexOrThrow("timeStamp"))
+                            dateReportCalculate.text = timeStamp
+
+                            val finalDensityValue = calculateCursor.getDouble(calculateCursor.getColumnIndexOrThrow("finalDensityValue"))
+                            val finalConsumptionValue = calculateCursor.getDouble(calculateCursor.getColumnIndexOrThrow("finalConsumptionValue"))
+                            val resultText = "Плотность: %.4f,\nРасход: %.2f".format(finalDensityValue, finalConsumptionValue)
+                            resultReportCalculate.text = resultText
+
+                            val calculateCompany = calculateCursor.getString(calculateCursor.getColumnIndexOrThrow("company"))
+                            companyReportCalculate.text = calculateCompany
+
                         }
                     }
 
@@ -460,16 +526,16 @@ class ReportDataActivity : AppCompatActivity() {
 
     private fun rotateImageIfRequired(photoPath: String, bitmap: Bitmap): Bitmap {
         try {
-            val ei = androidx.exifinterface.media.ExifInterface(photoPath)
+            val ei = ExifInterface(photoPath)
             val orientation = ei.getAttributeInt(
-                androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION,
-                androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
             )
 
             return when (orientation) {
-                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
-                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
-                androidx.exifinterface.media.ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
+                ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90f)
+                ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180f)
+                ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270f)
                 else -> bitmap
             }
         } catch (e: IOException) {
@@ -478,7 +544,7 @@ class ReportDataActivity : AppCompatActivity() {
     }
 
     private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
-        val matrix = android.graphics.Matrix()
+        val matrix = Matrix()
         matrix.postRotate(angle)
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
@@ -494,7 +560,7 @@ class ReportDataActivity : AppCompatActivity() {
 
         photoFile?.also { file ->
             currentPhotoFile = file
-            val photoURI: android.net.Uri = FileProvider.getUriForFile(
+            val photoURI: Uri = FileProvider.getUriForFile(
                 this,
                 "${applicationContext.packageName}.provider",
                 file
@@ -511,7 +577,7 @@ class ReportDataActivity : AppCompatActivity() {
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
-        val timeStamp: String = java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(java.util.Date())
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = File(filesDir, "report_images")
         if (!storageDir.exists()) storageDir.mkdirs()
 
@@ -523,4 +589,3 @@ class ReportDataActivity : AppCompatActivity() {
     }
 
 }
-

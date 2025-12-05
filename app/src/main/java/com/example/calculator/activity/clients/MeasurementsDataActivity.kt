@@ -1,17 +1,19 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.clients
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calculator.DbHelper
 import com.example.calculator.R
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class ReportAddMeasurementActivity : AppCompatActivity() {
+class MeasurementsDataActivity : AppCompatActivity() {
     private var idDb: Long = -1L
     private val dbHelper by lazy { DbHelper(this, null) }
 
@@ -25,24 +27,36 @@ class ReportAddMeasurementActivity : AppCompatActivity() {
     private lateinit var note: TextInputLayout
     private lateinit var pointNameStatic: TextView
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_report_add_measurement)
+        setContentView(R.layout.activity_measurements_data)
 
-        val comeBack: ImageButton = findViewById(R.id.back_to_report_clients_button)
+        val comeBack: ImageButton = findViewById(R.id.back_to_client_data_button)
 
-        pointName = findViewById(R.id.add_point_name)
-        installationNumber = findViewById(R.id.add_installation_number)
-        installationName = findViewById(R.id.add_installation_name)
-        manufacture = findViewById(R.id.add_manufacture)
-        yearRelease = findViewById(R.id.add_year_release)
-        serialNumber = findViewById(R.id.add_serial_number)
-        note = findViewById(R.id.add_note)
-        pointNameStatic = findViewById(R.id.add_measurement_location_static)
+
+
+        val overlayViewDeleteClient: View = findViewById(R.id.overlay_view_delete_measurement)
+        val openWarningDeleteClientButton: ImageButton = findViewById(R.id.open_warning_delete_measurement_button)
+        val deleteCancelMeasurementButton: Button = findViewById(R.id.delete_cancel_measurement_button)
+        val deleteButton: Button = findViewById(R.id.delete_measurement_button)
+        val warningDeleteMeasurementLayout: View = findViewById(R.id.warning_delete_measurement_layout)
 
 
         idDb = intent.getLongExtra("ID", -1L)
+
+
+        pointName = findViewById(R.id.point_name)
+        installationNumber = findViewById(R.id.installation_number)
+        installationName = findViewById(R.id.installation_name)
+        manufacture = findViewById(R.id.manufacture)
+        yearRelease = findViewById(R.id.year_release)
+        serialNumber = findViewById(R.id.serial_number)
+        note = findViewById(R.id.note)
+        pointNameStatic = findViewById(R.id.measurement_location_static)
+
 
 
         comeBack.setOnClickListener {
@@ -50,16 +64,32 @@ class ReportAddMeasurementActivity : AppCompatActivity() {
             finish()
         }
 
+        deleteButton.setOnClickListener {
+            if (idDb != -1L) {
+                dbHelper.deleteMeasurement(idDb)
+            }
+            finish()
+        }
 
-        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+        openWarningDeleteClientButton.setOnClickListener {
+            overlayViewDeleteClient.visibility = View.VISIBLE
+            warningDeleteMeasurementLayout.visibility = View.VISIBLE
+        }
+
+        deleteCancelMeasurementButton.setOnClickListener {
+            overlayViewDeleteClient.visibility = View.GONE
+            warningDeleteMeasurementLayout.visibility = View.GONE
+        }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 saveAllFields()
                 finish()
             }
         })
 
-
         if (idDb != -1L) {
+            val dbHelper = DbHelper(this, null)
             dbHelper.getMeasurementEntryById(idDb).use { cursor ->
                 if (cursor.moveToFirst()) {
                     val pointNameDb = cursor.getString(cursor.getColumnIndexOrThrow("pointName"))
@@ -87,9 +117,11 @@ class ReportAddMeasurementActivity : AppCompatActivity() {
             }
         }
 
+
+
         val focusListener = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
-                val editText = view as? com.google.android.material.textfield.TextInputEditText
+                val editText = view as? TextInputEditText
                 if (editText == null) return@OnFocusChangeListener
                 val inputText = editText.text.toString()
 
@@ -121,6 +153,7 @@ class ReportAddMeasurementActivity : AppCompatActivity() {
         yearRelease.editText?.onFocusChangeListener = focusListener
         serialNumber.editText?.onFocusChangeListener = focusListener
         note.editText?.onFocusChangeListener = focusListener
+
     }
 
     fun saveAllFields() {

@@ -1,18 +1,15 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.calculate
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.calculator.DbHelper
-import com.example.calculator.storage.DecisionResult
+import com.example.calculator.storage.calculate.DecisionResult
 import com.example.calculator.FormulaCalc
-import com.example.calculator.storage.InputData
+import com.example.calculator.storage.calculate.InputData
 import com.example.calculator.R
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat

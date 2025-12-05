@@ -1,14 +1,13 @@
-package com.example.calculator.adapters
+package com.example.calculator.adapters.reports
 
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.calculator.storage.MeasurementData
+import com.example.calculator.storage.clients.MeasurementData
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import com.example.calculator.R
-import com.example.calculator.storage.ClientData
 
 
 class ReportMeasurementsAdapter(

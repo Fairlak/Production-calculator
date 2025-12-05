@@ -1,6 +1,7 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.reports
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -12,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.activity.ReportAddClientActivity
-import com.example.calculator.adapters.ReportClientsAdapter
-import com.example.calculator.storage.ClientData
+import com.example.calculator.adapters.reports.ReportClientsAdapter
+import com.example.calculator.storage.clients.ClientData
 
 
 class ReportDataClientsActivity : AppCompatActivity() {
@@ -67,7 +67,7 @@ class ReportDataClientsActivity : AppCompatActivity() {
 
         backReportButton.setOnClickListener {
             finish()
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 // Для Android 14+
                 overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
             } else {
@@ -78,7 +78,7 @@ class ReportDataClientsActivity : AppCompatActivity() {
         }
         cancelButton.setOnClickListener {
             finish()
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 // Для Android 14+
                 overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
             } else {
@@ -96,7 +96,7 @@ class ReportDataClientsActivity : AppCompatActivity() {
                     db.updateReport(idDb, "measurementId", -1L)
                 }
             }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 // Для Android 14+
                 overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
             } else {

@@ -18,11 +18,14 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.calculator.activity.HistoryCalculations
 import com.example.calculator.R
-import com.example.calculator.adapters.AdapterScroll
+import com.example.calculator.adapters.menu.AdapterScroll
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import com.example.calculator.activity.calculate.HistoryCalculations
+import com.example.calculator.activity.calculate.MainActivity
+import com.example.calculator.activity.clients.ClientsActivity
+import com.example.calculator.activity.reports.ReportsActivity
 
 class MainMenu : AppCompatActivity(), OnParamClickListener {
 

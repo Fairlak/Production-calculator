@@ -22,7 +22,7 @@
 
 
     <Button
-        android:id="@+id/button_sort"
+        android:id="@+id/button_repor_calc_sort"
         android:layout_width="215dp"
         android:layout_height="55dp"
         android:layout_marginTop="60dp"
@@ -33,8 +33,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/cancel_report_calc_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="17dp"
+
+        android:background="@null"
+        android:contentDescription="back to report"
+        android:scaleType="fitXY"
+        android:elevation="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_repor_calc_sort"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        app:tint="#000000" />
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/history_recycler_view"
+        android:id="@+id/repor_calc_recycler_view"
         android:layout_width="391dp"
         android:layout_height="836dp"
         android:paddingTop="70dp"
@@ -46,14 +63,14 @@
         tools:listitem="@layout/history_item" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sorting"
+        android:id="@+id/repor_calc_sorting"
         android:layout_width="0dp"
         android:layout_height="280dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/button_sort"
+        app:layout_constraintEnd_toEndOf="@+id/button_repor_calc_sort"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_sort"
-        app:layout_constraintTop_toBottomOf="@+id/button_sort"
+        app:layout_constraintStart_toStartOf="@+id/button_repor_calc_sort"
+        app:layout_constraintTop_toBottomOf="@+id/button_repor_calc_sort"
         tools:listitem="@layout/sorting_item"
         tools:visibility="invisible" />
 

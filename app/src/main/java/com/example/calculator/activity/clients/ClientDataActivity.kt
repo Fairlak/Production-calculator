@@ -1,4 +1,4 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.clients
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,16 +8,16 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.adapters.ClientsAdapter
-import com.example.calculator.adapters.MeasurementsAdapter
-import com.example.calculator.storage.ClientData
-import com.example.calculator.storage.MeasurementData
+import com.example.calculator.adapters.clients.MeasurementsAdapter
+import com.example.calculator.storage.clients.MeasurementData
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class ClientDataActivity : AppCompatActivity() {
@@ -118,7 +118,7 @@ class ClientDataActivity : AppCompatActivity() {
             overlayViewDeleteClient.visibility = View.GONE
         }
 
-        onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 saveAllFields()
                 finish()
@@ -161,7 +161,7 @@ class ClientDataActivity : AppCompatActivity() {
 
         val focusListener = View.OnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
-                val editText = view as? com.google.android.material.textfield.TextInputEditText
+                val editText = view as? TextInputEditText
                 if (editText == null) return@OnFocusChangeListener
                 val inputText = editText.text.toString()
 

@@ -1,4 +1,4 @@
-package com.example.calculator.adapters
+package com.example.calculator.adapters.clients
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.R
-import com.example.calculator.storage.MeasurementData
+import com.example.calculator.storage.clients.MeasurementData
 import java.util.ArrayList
 
 class MeasurementsAdapter(

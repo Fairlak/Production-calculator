@@ -1,4 +1,4 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.reports
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.adapters.ReportsAdapter
+import com.example.calculator.adapters.reports.ReportsAdapter
 import com.example.calculator.storage.ReportData
 import java.text.SimpleDateFormat
 import java.util.Date

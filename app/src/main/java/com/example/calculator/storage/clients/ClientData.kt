@@ -1,4 +1,4 @@
-package com.example.calculator.storage
+package com.example.calculator.storage.clients
 
 data class ClientData(
     val id: Long = 0,

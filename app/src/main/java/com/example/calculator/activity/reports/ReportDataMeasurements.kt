@@ -1,6 +1,7 @@
-package com.example.calculator.activity
+package com.example.calculator.activity.reports
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -8,16 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
-import com.example.calculator.adapters.ReportClientsAdapter
-import com.example.calculator.adapters.ReportMeasurementsAdapter
-import com.example.calculator.storage.ClientData
-import com.example.calculator.storage.MeasurementData
+import com.example.calculator.adapters.reports.ReportMeasurementsAdapter
+import com.example.calculator.storage.clients.MeasurementData
 
 class ReportDataMeasurements : AppCompatActivity() {
     private val dbHelper = DbHelper(this, null)
@@ -97,7 +94,7 @@ class ReportDataMeasurements : AppCompatActivity() {
             val intent = Intent(this, ReportDataActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 // Для Android 14+
                 overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
             } else {
@@ -119,7 +116,7 @@ class ReportDataMeasurements : AppCompatActivity() {
                     val intent = Intent(this, ReportDataActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     startActivity(intent)
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                         // Для Android 14+
                         overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
                     } else {
