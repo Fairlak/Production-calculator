@@ -248,17 +248,31 @@
             tools:context=".activity.ReportDataActivity">
 
             <TextView
-                android:id="@+id/add_comment_static"
+                android:id="@+id/create_comment_static"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:text="Составить комментарий"
                 android:textColor="@color/black"
                 android:textSize="23dp"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintBottom_toTopOf="@+id/mini_comment"
+                app:layout_constraintStart_toEndOf="@+id/comment_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mini_comment"
+                android:layout_width="305dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="36dp"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/comment_image"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.507" />
+                app:layout_constraintTop_toBottomOf="@+id/create_comment_static"
+                tools:text="Текст комментария"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/comment_image"
@@ -473,6 +487,22 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:elevation="20dp"
+        android:translationZ="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone"/>
+
+
+    <include
+        android:id="@+id/open_comment"
+        layout="@layout/open_comment"
+        android:layout_width="390dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="400dp"
+        android:visibility="gone"
+        android:elevation="50dp"
         android:translationZ="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

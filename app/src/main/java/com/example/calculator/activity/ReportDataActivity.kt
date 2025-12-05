@@ -17,11 +17,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
 import com.example.calculator.R
 import com.example.calculator.adapters.ReportPhotosAdapter
+import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 import java.io.IOException
 
@@ -57,6 +59,10 @@ class ReportDataActivity : AppCompatActivity() {
 
     private var currentOpenedPhotoPath: String? = null
 
+    private lateinit var miniComment: TextView
+    private lateinit var cancelComment: TextView
+    private lateinit var inputReportComment: TextInputLayout
+
 
     private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
@@ -67,7 +73,7 @@ class ReportDataActivity : AppCompatActivity() {
 
                     db.addPhoto(idDb, file.absolutePath)
 
-                    refreshClientData()
+                    refreshData()
                 }
             }
         }
@@ -94,7 +100,7 @@ class ReportDataActivity : AppCompatActivity() {
                     db.addPhoto(idDb, photoFile.absolutePath)
                     Toast.makeText(this, "Фото добавлено!", Toast.LENGTH_SHORT).show()
 
-                    refreshClientData()
+                    refreshData()
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -139,11 +145,17 @@ class ReportDataActivity : AppCompatActivity() {
         val deleteReportButton: Button = findViewById(R.id.delete_report_button)
         val openWarningDeleteReportButton: ImageButton = findViewById(R.id.open_warning_delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
+        val mainCommentLayout: ConstraintLayout = findViewById(R.id.main_comment)
         val warningLayout: View = findViewById(R.id.warning_layout)
         val deleteCancelPhotoButton: Button = findViewById(R.id.delete_cancel_photo_button)
         val deleteCancelReportButton: Button = findViewById(R.id.delete_cancel_report_button)
         val warningDeleteReportLayout: View = findViewById(R.id.warning_delete_report_layout)
+        val openCommentLayout: View = findViewById(R.id.open_comment)
+        val saveCommentTextView: TextView = findViewById(R.id.save_comment)
+        miniComment = findViewById(R.id.mini_comment)
+        inputReportComment = findViewById(R.id.report_comment_InputLayout)
         photosLayout = findViewById(R.id.photos_layout)
+        cancelComment = findViewById(R.id.cancel_comment)
         val cancelButton: TextView = findViewById(R.id.cancel_text_view)
         overlayViewImage = findViewById(R.id.overlay_view_image)
         overlayViewPhoto = findViewById(R.id.overlay_view_photo)
@@ -211,7 +223,7 @@ class ReportDataActivity : AppCompatActivity() {
                 Toast.makeText(this, "Фото удалено", Toast.LENGTH_SHORT).show()
                 fullPhotoLayout.visibility = View.GONE
 
-                refreshClientData()
+                refreshData()
             }
 
         }
@@ -277,6 +289,29 @@ class ReportDataActivity : AppCompatActivity() {
 
         }
 
+
+        mainCommentLayout.setOnClickListener {
+            overlayViewDeleteReport.visibility = View.VISIBLE
+            openCommentLayout.visibility = View.VISIBLE
+        }
+
+        saveCommentTextView.setOnClickListener {
+            val reportComment = inputReportComment.editText?.text.toString()
+
+            db.updateReport(idDb, "comment", reportComment)
+            overlayViewDeleteReport.visibility = View.GONE
+            openCommentLayout.visibility = View.GONE
+            refreshData()
+
+
+        }
+
+        cancelComment.setOnClickListener {
+            overlayViewDeleteReport.visibility = View.GONE
+            openCommentLayout.visibility = View.GONE
+            refreshData()
+        }
+
         overlayViewImage.setOnClickListener {
             photosLayout.visibility = View.GONE
             overlayViewImage.visibility = View.GONE
@@ -291,7 +326,7 @@ class ReportDataActivity : AppCompatActivity() {
             if (idDb != -1L) {
                 db.updateReport(idDb, "clientId", "")
                 db.updateReport(idDb, "measurementId", "")
-                refreshClientData()
+                refreshData()
             }
         }
 
@@ -322,7 +357,7 @@ class ReportDataActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        refreshClientData()
+        refreshData()
     }
 
     override fun onBackPressed() {
@@ -345,7 +380,7 @@ class ReportDataActivity : AppCompatActivity() {
 
 
 
-    private fun refreshClientData() {
+    private fun refreshData() {
         if (idDb != -1L) {
             db.getReportDataEntryById(idDb).use { cursor ->
                 if (cursor.moveToFirst()) {
@@ -354,6 +389,19 @@ class ReportDataActivity : AppCompatActivity() {
 
                     val clientIdDb = cursor.getLong(cursor.getColumnIndexOrThrow("clientId"))
                     val measurementIdDb = cursor.getLong(cursor.getColumnIndexOrThrow("measurementId"))
+
+                    val commentDb = cursor.getString(cursor.getColumnIndexOrThrow("comment"))
+                    miniComment.text = commentDb
+                    inputReportComment.editText?.setText(commentDb)
+
+                    if (commentDb.isNotEmpty()){
+                        miniComment.visibility = View.VISIBLE
+                    }else {
+                        miniComment.visibility = View.GONE
+                    }
+
+
+
 
                     var clientNameString = ""
                     var measurementPointString = ""
