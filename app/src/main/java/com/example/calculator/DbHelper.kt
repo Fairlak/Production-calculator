@@ -192,19 +192,23 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         }
     }
 
-    fun addHistory(inputData: InputData, decisionResult: DecisionResult) {
-        val values = ContentValues()
-        values.put("company", decisionResult.company)
-        values.put("tempCelsius", inputData.tempCelsius)
-        values.put("relativeHumidity", inputData.relativeHumidity)
-        values.put("atmPressure", inputData.atmPressure)
-        values.put("statPressure", inputData.statPressure)
-        values.put("calibrationFactor", inputData.calibrationFactor)
-        values.put("pressureDrop", inputData.pressureDrop)
-        values.put("finalDensityValue", decisionResult.finalDensityValue)
-        values.put("finalConsumptionValue", decisionResult.finalConsumptionValue)
-        values.put("timeStamp", decisionResult.timeStamp)
-        this.writableDatabase.insert("history", null, values)
+    fun addHistory(inputData: InputData, decisionResult: DecisionResult): Long {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put("company", decisionResult.company)
+            put("tempCelsius", inputData.tempCelsius)
+            put("relativeHumidity", inputData.relativeHumidity)
+            put("atmPressure", inputData.atmPressure)
+            put("statPressure", inputData.statPressure)
+            put("calibrationFactor", inputData.calibrationFactor)
+            put("pressureDrop", inputData.pressureDrop)
+            put("finalDensityValue", decisionResult.finalDensityValue)
+            put("finalConsumptionValue", decisionResult.finalConsumptionValue)
+            put("timeStamp", decisionResult.timeStamp)
+        }
+        val newId = db.insert("history", null, values)
+        db.close()
+        return newId
     }
 
     fun addReport(reportData: ReportData) : Long{

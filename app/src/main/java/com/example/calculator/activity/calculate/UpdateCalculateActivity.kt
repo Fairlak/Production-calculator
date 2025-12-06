@@ -85,8 +85,12 @@ class UpdateCalculateActivity : AppCompatActivity() {
         }
 
         deleteCalcButton.setOnClickListener {
-            db.deleteHistory(historyId)
-            db.updateReport(reportId, "historyId", -1L)
+            if (historyId != -1L) db.deleteHistory(historyId)
+
+            if (reportId != -1L){
+                db.updateReport(reportId, "historyId", -1L)
+
+            }
             finish()
         }
 

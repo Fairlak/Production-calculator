@@ -39,6 +39,7 @@ import java.util.Date
 class ReportDataActivity : AppCompatActivity() {
 
     private var idDb: Long = -1L
+
     private val db by lazy { DbHelper(this, null) }
 
 
@@ -187,6 +188,13 @@ class ReportDataActivity : AppCompatActivity() {
         warningDeletePhotoButton = findViewById(R.id.warning_delete_photo_button)
         reportCalculateLayout = findViewById(R.id.report_calculate_linearLayout)
 
+        val deleteCalcReportWarningLayout: View = findViewById(R.id.delete_calc_report_warning_layout)
+        val openUpdateCalcButton: Button = findViewById(R.id.open_update_calc_button)
+        val deleteReportCalcButton: Button = findViewById(R.id.delete_report_calc_button)
+        val deleteCancelReportCalcButton: Button = findViewById(R.id.delete_cancel_report_calc_button)
+
+
+
 
         fullPhotoLayout = findViewById(R.id.open_photo)
 
@@ -252,7 +260,11 @@ class ReportDataActivity : AppCompatActivity() {
 
 
         idDb = intent.getLongExtra("ID", -1L)
+        val historyId = intent.getLongExtra("historyId", -1L)
 
+        if (idDb != -1L && historyId != -1L) {
+            db.updateReport(idDb, "historyId", historyId)
+        }
 
         photoAdapter = ReportPhotosAdapter(
             onAddClick = {
@@ -367,6 +379,25 @@ class ReportDataActivity : AppCompatActivity() {
         }
 
         reportCalculateLayout.setOnClickListener {
+            deleteCalcReportWarningLayout.visibility = View.VISIBLE
+            overlayViewDeleteReport.visibility = View.VISIBLE
+        }
+
+        deleteCancelReportCalcButton.setOnClickListener {
+            deleteCalcReportWarningLayout.visibility = View.GONE
+            overlayViewDeleteReport.visibility = View.GONE
+        }
+
+        deleteReportCalcButton.setOnClickListener {
+            db.updateReport(idDb, "historyId", -1L)
+            deleteCalcReportWarningLayout.visibility = View.GONE
+            overlayViewDeleteReport.visibility = View.GONE
+            refreshData()
+        }
+
+        openUpdateCalcButton.setOnClickListener {
+            deleteCalcReportWarningLayout.visibility = View.GONE
+            overlayViewDeleteReport.visibility = View.GONE
             db.getReportDataEntryById(idDb).use { cursor ->
                 if (cursor.moveToFirst()) {
                     val calculateDb = cursor.getLong(cursor.getColumnIndexOrThrow("historyId"))
@@ -376,7 +407,6 @@ class ReportDataActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
-
         }
 
     }
@@ -470,7 +500,8 @@ class ReportDataActivity : AppCompatActivity() {
                     }
 
 
-                    if (calculateDb == -1L) reportCalculateLayout.visibility = View.GONE else reportCalculateLayout.visibility = View.VISIBLE
+                    reportCalculateLayout.visibility = View.GONE
+
 
                     db.getClientDataEntryById(clientIdDb).use { clientCursor ->
                         if (clientCursor.moveToFirst()){
@@ -487,19 +518,35 @@ class ReportDataActivity : AppCompatActivity() {
                         }
                     }
 
-                    db.getHistoryEntryById(calculateDb).use { calculateCursor ->
-                        if (calculateCursor.moveToFirst()){
-                            val timeStamp = calculateCursor.getString(calculateCursor.getColumnIndexOrThrow("timeStamp"))
-                            dateReportCalculate.text = timeStamp
+                    if (calculateDb != -1L) {
+                        db.getHistoryEntryById(calculateDb).use { calculateCursor ->
+                            if (calculateCursor.moveToFirst()) {
+                                reportCalculateLayout.visibility = View.VISIBLE
+                                val timeStamp = calculateCursor.getString(
+                                    calculateCursor.getColumnIndexOrThrow("timeStamp")
+                                )
+                                dateReportCalculate.text = timeStamp
 
-                            val finalDensityValue = calculateCursor.getDouble(calculateCursor.getColumnIndexOrThrow("finalDensityValue"))
-                            val finalConsumptionValue = calculateCursor.getDouble(calculateCursor.getColumnIndexOrThrow("finalConsumptionValue"))
-                            val resultText = "Плотность: %.4f,\nРасход: %.2f".format(finalDensityValue, finalConsumptionValue)
-                            resultReportCalculate.text = resultText
+                                val finalDensityValue = calculateCursor.getDouble(
+                                    calculateCursor.getColumnIndexOrThrow("finalDensityValue")
+                                )
+                                val finalConsumptionValue = calculateCursor.getDouble(
+                                    calculateCursor.getColumnIndexOrThrow("finalConsumptionValue")
+                                )
+                                val resultText = "Плотность: %.4f,\nРасход: %.2f".format(
+                                    finalDensityValue,
+                                    finalConsumptionValue
+                                )
+                                resultReportCalculate.text = resultText
 
-                            val calculateCompany = calculateCursor.getString(calculateCursor.getColumnIndexOrThrow("company"))
-                            companyReportCalculate.text = calculateCompany
+                                val calculateCompany = calculateCursor.getString(
+                                    calculateCursor.getColumnIndexOrThrow("company")
+                                )
+                                companyReportCalculate.text = calculateCompany
 
+                            } else{
+                                db.updateReport(idDb, "historyId", -1L)
+                            }
                         }
                     }
 

@@ -521,6 +521,63 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/delete_calc_report_warning_layout"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="336dp"
+        android:background="@drawable/photos_layout_bg"
+        android:elevation="10dp"
+        android:backgroundTint="#E2E2E2"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone">
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/open_update_calc_button"
+            android:layout_width="296dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#C92828"
+            android:layout_gravity="center"
+
+            android:text="Изменить измерение"
+            android:textColor="@color/white"
+            app:cornerRadius="20dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_report_calc_button"
+            android:layout_width="296dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="#666666"
+            android:layout_gravity="center"
+
+            android:text="Удалить измерение"
+            android:textColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_cancel_report_calc_button"
+            android:layout_width="136dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="90dp"
+            android:backgroundTint="#E2E2E2"
+            android:layout_gravity="center"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp"
+
+            android:text="Отмена"
+            android:textColor="@color/black"
+            app:cornerRadius="20dp" />
+
+    </LinearLayout>
+
     <include
         android:id="@+id/open_photo"
         layout="@layout/open_photo"

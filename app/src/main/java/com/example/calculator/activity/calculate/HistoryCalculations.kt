@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,27 +21,32 @@ import androidx.core.view.isGone
 
 class HistoryCalculations : AppCompatActivity() {
 
+    private val db by lazy { DbHelper(this, null) }
+    private lateinit var historyAdapter: HistoryAdapter
+
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_calculations)
         val historyRecyclerView: RecyclerView = findViewById(R.id.history_recycler_view)
-        val db = DbHelper(this, null)
         val historyData = db.getAllHistory()
-        val historyAdapter = HistoryAdapter(historyData){ clickedEntry ->
+        historyAdapter = HistoryAdapter(historyData){ clickedEntry ->
             val selectedId = clickedEntry.id
-            val toastText = "Вы нажали на запись от: ${clickedEntry.company}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent.putExtra("ID", selectedId))
+            val intent = Intent(this, UpdateCalculateActivity::class.java)
+            intent.putExtra("HistoryId", selectedId)
+            startActivity(intent)
+
+
         }
         historyData.sortByDescending { it.timeStamp }
         historyRecyclerView.adapter = historyAdapter
         historyRecyclerView.layoutManager = LinearLayoutManager(this)
 
 
-        val sortingButton: Button = findViewById(R.id.button_sort)
-        val sortingRecyclerView: RecyclerView = findViewById(R.id.sorting)
+        val sortingButton: Button = findViewById(R.id.calc_history_sort_button)
+        val sortingRecyclerView: RecyclerView = findViewById(R.id.history_calc_sorting)
+        val cancelHistoryCalcButton: ImageButton = findViewById(R.id.cancel_history_calc_button)
 
 
         val options = listOf(
@@ -53,6 +59,11 @@ class HistoryCalculations : AppCompatActivity() {
 
         sortingButton.setOnClickListener {
             sortingRecyclerView.visibility = if (sortingRecyclerView.isGone) View.VISIBLE else View.GONE
+        }
+
+        cancelHistoryCalcButton.setOnClickListener {
+            sortingRecyclerView.visibility = View.GONE
+            finish()
         }
 
 
@@ -93,6 +104,11 @@ class HistoryCalculations : AppCompatActivity() {
 
         sortingRecyclerView.layoutManager = LinearLayoutManager(this)
         sortingRecyclerView.adapter = sortingAdapter
+    }
 
+    override fun onResume() {
+        super.onResume()
+        val measurementsData = db.getAllHistory()
+        historyAdapter.updateData(measurementsData)
     }
 }

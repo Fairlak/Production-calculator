@@ -35,6 +35,8 @@ class ReportsActivity : AppCompatActivity() {
 
 
 
+        val historyId = intent.getLongExtra("historyId", -1L)
+
 
         val reportData = db.getReportsData()
         reportAdapter = ReportsAdapter(reportData, { clickedEntry ->
@@ -43,9 +45,9 @@ class ReportsActivity : AppCompatActivity() {
             Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, ReportDataActivity::class.java)
+            if (historyId != -1L) intent.putExtra("historyId", historyId)
             intent.putExtra("ID", selectedId)
             startActivity(intent)
-
         }, this)
 
         reportsRecyclerView.adapter = reportAdapter

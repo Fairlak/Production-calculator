@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.calculator.storage.ReportData
 import com.example.calculator.storage.calculate.DecisionResult
 import java.util.ArrayList
 
@@ -38,5 +39,11 @@ class HistoryAdapter(private val historyList: ArrayList<DecisionResult>, private
         holder.itemView.setOnClickListener {
             onItemClicked(entry)
         }
+    }
+
+    fun updateData(newHistoryList: ArrayList<DecisionResult>) {
+        historyList.clear()
+        historyList.addAll(newHistoryList)
+        notifyDataSetChanged()
     }
 }
