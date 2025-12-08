@@ -3,10 +3,12 @@
         <item name="android:textColorHighlight">#55FF0000</item>
         <item name="colorControlActivated">#FF0000</item>
         <item name="android:statusBarColor">@color/status_bar_color</item>
+        <item name="android:navigationBarColor">#656565</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
     </style>
+
 
 
     <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
@@ -49,7 +51,6 @@
         <item name="colorAccent">#FF0000</item>
         <item name="android:textColorHighlight">#55FF0000</item>
     </style>
-
 
 
     <style name="MyTextFieldTheme" parent="ThemeOverlay.MaterialComponents.TextInputEditText">

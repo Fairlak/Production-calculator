@@ -29,6 +29,7 @@ import com.example.calculator.DbHelper
 import com.example.calculator.R
 import com.example.calculator.activity.calculate.UpdateCalculateActivity
 import com.example.calculator.adapters.reports.ReportPhotosAdapter
+import com.example.calculator.pdf.createReportPdfStorage
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.textfield.TextInputLayout
 import java.io.File
@@ -88,7 +89,7 @@ class ReportDataActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             currentPhotoFile?.let { file ->
                 if (file.exists()) {
-                    Toast.makeText(this, "Фото сохранено!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, file.absolutePath, Toast.LENGTH_SHORT).show()
 
                     db.addPhoto(idDb, file.absolutePath)
 
@@ -194,6 +195,7 @@ class ReportDataActivity : AppCompatActivity() {
         val deleteCancelReportCalcButton: Button = findViewById(R.id.delete_cancel_report_calc_button)
 
 
+        val takePdfButton: ImageButton = findViewById(R.id.take_pdf_button)
 
 
         fullPhotoLayout = findViewById(R.id.open_photo)
@@ -407,6 +409,11 @@ class ReportDataActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+        }
+
+        takePdfButton.setOnClickListener {
+            val photoPaths = db.getPhotosByReportId(idDb)
+            createReportPdfStorage(idDb, photoPaths, this)
         }
 
     }

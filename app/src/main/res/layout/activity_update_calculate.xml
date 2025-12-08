@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/root_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.calculate.MainActivity">
 
@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/view1"
         android:layout_width="match_parent"
@@ -31,14 +32,14 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
+        android:elevation="10dp"
         android:focusable="true"
         android:visibility="gone"
-        android:elevation="10dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
     <ImageButton
         android:id="@+id/calc_back_button"
@@ -57,19 +58,20 @@
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
 
+
     <ImageButton
         android:id="@+id/open_warning_delete_calc_button"
         android:layout_width="48dp"
         android:layout_height="40dp"
-        android:layout_marginStart="360dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:background="#E2E2E2"
         android:contentDescription="Удалить"
         android:scaleType="fitCenter"
         android:src="@drawable/trash"
-        app:layout_constraintStart_toStartOf="@+id/view1"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.4" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -110,131 +112,136 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="numberSigned|numberDecimal"
                     android:textColor="#000000"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberSigned|numberDecimal" />
+                    android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_wet"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="370dp"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Отн.влажность (%)"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#070505"
                 app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:hintTextColor="#070505">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
                     android:textColor="#000000"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberDecimal" />
+                    android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_atm_pressure"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="370dp"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Атм. давление (гПа)"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#000000"
                 app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:hintTextColor="#000000">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_stat_pressure"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="370dp"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Статическое давление (-Па)"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#000000"
                 app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:hintTextColor="#000000">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_calibration_factor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="370dp"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Калибровочный фактор К10"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#000000"
                 app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:hintTextColor="#000000">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_pressure_drop"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="370dp"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Перепад давления (ПА)"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#000000"
                 app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:hintTextColor="#000000">
+
                 <com.google.android.material.textfield.TextInputEditText
-                    android:textColor="#000000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/update_calc_button"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"
                 android:layout_width="300dp"
                 android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="#A51717"
-                android:textColor="#FFFFFF"
-                android:text="Расчитать" />
+                android:text="Расчитать"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/update_itog"
@@ -242,10 +249,10 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:textColor="#000000"
                 android:background="@drawable/item_border"
                 android:backgroundTint="#959595"
                 android:text=" Плотность: \n\n Расход:"
+                android:textColor="#000000"
                 android:textSize="18dp" />
 
 
@@ -324,8 +331,8 @@
         android:layout_height="250dp"
         android:layout_marginTop="336dp"
         android:background="@drawable/photos_layout_bg"
-        android:elevation="10dp"
         android:backgroundTint="#E2E2E2"
+        android:elevation="10dp"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -336,29 +343,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Предупреждение"
             android:textColor="@color/black"
             android:textSize="26dp"
-            android:textStyle="bold"
-            android:text="Предупреждение" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Хотите навсегда удалить это измерение?"
             android:textColor="@color/black"
-            android:textSize="19dp"
-            android:text="Хотите навсегда удалить это измерение?" />
+            android:textSize="19dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_calc_button"
             android:layout_width="296dp"
             android:layout_height="52dp"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:backgroundTint="#C92828"
-            android:layout_gravity="center"
 
             android:text="Удалить измерение"
             android:textColor="@color/white"
@@ -368,15 +375,15 @@
             android:id="@+id/delete_cancel_calc_button"
             android:layout_width="136dp"
             android:layout_height="52dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:backgroundTint="#E2E2E2"
-            android:layout_gravity="center"
-            app:strokeColor="#C92828"
-            app:strokeWidth="2dp"
-
             android:text="Отмена"
             android:textColor="@color/black"
-            app:cornerRadius="20dp" />
+
+            app:cornerRadius="20dp"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
 

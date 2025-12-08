@@ -233,6 +233,7 @@ class UpdateCalculateActivity : AppCompatActivity() {
         }
     }
 
+
     fun saveAllFields() {
         if (historyId == -1L) {
             return
