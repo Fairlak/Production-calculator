@@ -3,25 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DB1717">
 
-    android:layout_height="match_parent">
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="340dp"
-        android:layout_height="952dp"
-        android:background="#DB1717"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/params_recyclerview"
-        android:layout_width="277dp"
-        android:layout_height="640dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="128dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/param_item"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="4"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:listitem="@layout/param_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

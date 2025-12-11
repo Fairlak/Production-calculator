@@ -18,11 +18,10 @@
 
     <View
         android:id="@+id/view1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="#E2E2E2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -46,32 +45,27 @@
         android:layout_width="38dp"
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="7dp"
-
-        android:background="#E2E2E2"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="back to report"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.25"
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
-
 
     <ImageButton
         android:id="@+id/open_warning_delete_calc_button"
         android:layout_width="48dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="24dp"
-        android:background="#E2E2E2"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Удалить"
         android:scaleType="fitCenter"
         android:src="@drawable/trash"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -88,19 +82,16 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:orientation="vertical"
-            android:paddingBottom="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view">
-
+            android:paddingStart="24dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="100dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_temp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Температура (°C)"
@@ -117,13 +108,11 @@
                     android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_wet"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Отн.влажность (%)"
@@ -140,13 +129,11 @@
                     android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_atm_pressure"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Атм. давление (гПа)"
@@ -163,13 +150,11 @@
                     android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_stat_pressure"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Статическое давление (-Па)"
@@ -186,13 +171,11 @@
                     android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_calibration_factor"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Калибровочный фактор К10"
@@ -209,13 +192,11 @@
                     android:theme="@style/MyTextFieldTheme" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/update_pressure_drop"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:hint="Перепад давления (ПА)"
@@ -235,39 +216,38 @@
 
             <Button
                 android:id="@+id/update_calc_button"
-                android:layout_width="300dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
                 android:backgroundTint="#A51717"
                 android:text="Расчитать"
                 android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/update_itog"
-                android:layout_width="265dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/item_border"
                 android:backgroundTint="#959595"
+                android:minHeight="70dp"
+                android:padding="12dp"
                 android:text=" Плотность: \n\n Расход:"
                 android:textColor="#000000"
-                android:textSize="18dp" />
-
+                android:textSize="18sp" />
 
             <TableLayout
                 android:id="@+id/update_copied_data_table"
-                android:layout_width="372dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:background="#756E6E"
                 android:padding="4dp"
-                android:stretchColumns="0,1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:stretchColumns="0,1">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -300,7 +280,6 @@
                     android:layout_height="wrap_content"
                     android:background="#7A0B0B">
 
-                    <!-- Эти TextView мы будем заполнять программно -->
                     <TextView
                         android:id="@+id/update_manufacturer"
                         android:layout_width="0dp"
@@ -327,14 +306,17 @@
 
     <LinearLayout
         android:id="@+id/delete_calc_warning_layout"
-        android:layout_width="380dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="336dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/photos_layout_bg"
         android:backgroundTint="#E2E2E2"
         android:elevation="10dp"
         android:orientation="vertical"
+        android:paddingBottom="20dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -343,49 +325,49 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="Предупреждение"
             android:textColor="@color/black"
-            android:textSize="26dp"
+            android:textSize="26sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:text="Хотите навсегда удалить это измерение?"
             android:textColor="@color/black"
-            android:textSize="19dp" />
+            android:textSize="19sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_calc_button"
-            android:layout_width="296dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:backgroundTint="#C92828"
-
             android:text="Удалить измерение"
             android:textColor="@color/white"
             app:cornerRadius="20dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_cancel_calc_button"
-            android:layout_width="136dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_gravity="center"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="60dp"
             android:backgroundTint="#E2E2E2"
             android:text="Отмена"
             android:textColor="@color/black"
-
             app:cornerRadius="20dp"
             app:strokeColor="#C92828"
             app:strokeWidth="2dp" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

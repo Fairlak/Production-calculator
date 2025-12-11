@@ -9,6 +9,6 @@
 
 
     <!-- Цвет заливки внутри (можно сделать прозрачным) -->
-    <solid android:color="#A51717" />
+    <solid android:color="@color/ic_launcher_background" />
 
 </shape>

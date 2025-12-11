@@ -2,29 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/black"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
 
     <View
         android:id="@+id/view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:background="#DF1818"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <View
         android:id="@+id/view1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="#E2E2E2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -35,28 +33,29 @@
         android:layout_height="match_parent"
         android:background="#80000000"
         android:clickable="true"
+        android:elevation="10dp"
         android:focusable="true"
         android:visibility="gone"
-        android:elevation="10dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
 
     <ImageButton
         android:id="@+id/warning_delete_photo_button"
         android:layout_width="48dp"
         android:layout_height="40dp"
-        android:layout_marginStart="360dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:background="#E2E2E2"
         android:contentDescription="Удалить"
         android:scaleType="fitCenter"
         android:src="@drawable/trash"
-        app:layout_constraintStart_toStartOf="@+id/view1"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintEnd_toEndOf="@+id/view1"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.55" />
 
     <ImageButton
         android:id="@+id/back_to_report_button"
@@ -64,7 +63,6 @@
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="7dp"
-
         android:background="#E2E2E2"
         android:contentDescription="back to report"
         android:scaleType="fitXY"
@@ -90,14 +88,17 @@
 
     <LinearLayout
         android:id="@+id/warning_layout"
-        android:layout_width="380dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="336dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:background="@drawable/photos_layout_bg"
-        android:elevation="10dp"
         android:backgroundTint="#E2E2E2"
+        android:elevation="10dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:paddingBottom="24dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -107,48 +108,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
+            android:text="Предупреждение"
             android:textColor="@color/black"
-            android:textSize="26dp"
-            android:textStyle="bold"
-            android:text="Предупреждение" />
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="Хотите удалить это изображение?"
             android:textColor="@color/black"
-            android:textSize="19dp"
-            android:text="Хотите удалить это изображение?" />
+            android:textSize="19sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_photo_button"
-            android:layout_width="296dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#C92828"
-            android:layout_gravity="center"
-
             android:text="Удалить изображение"
             android:textColor="@color/white"
             app:cornerRadius="20dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_cancel_photo_button"
-            android:layout_width="136dp"
+            android:layout_width="wrap_content"
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="#E2E2E2"
-            android:layout_gravity="center"
-            app:strokeColor="#C92828"
-            app:strokeWidth="2dp"
-
+            android:minWidth="136dp"
             android:text="Отмена"
             android:textColor="@color/black"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="20dp"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

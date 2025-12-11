@@ -68,61 +68,68 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
+
     <ImageButton
         android:id="@+id/open_warning_delete_measurement_button"
-        android:layout_width="58dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="352dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="39dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="24dp"
         android:background="#E2E2E2"
         android:contentDescription="Удалить"
         android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_menu_delete"
-        app:layout_constraintStart_toStartOf="@+id/view1"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        android:src="@drawable/trash"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.38" />
+
+
 
     <LinearLayout
         android:id="@+id/warning_delete_measurement_layout"
-        android:layout_width="380dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="336dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:background="@drawable/photos_layout_bg"
-        android:elevation="10dp"
         android:backgroundTint="#E2E2E2"
+        android:elevation="10dp"
         android:orientation="vertical"
+        android:paddingBottom="20dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Предупреждение"
             android:textColor="@color/black"
             android:textSize="26dp"
-            android:textStyle="bold"
-            android:text="Предупреждение" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:text="Хотите удалить точку измерения?"
             android:textColor="@color/black"
-            android:textSize="19dp"
-            android:text="Хотите удалить точку измерения?" />
+            android:textSize="19dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_measurement_button"
-            android:layout_width="296dp"
+            android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="#C92828"
-            android:layout_gravity="center"
-
             android:text="Удалить точку измерения"
             android:textColor="@color/white"
             app:cornerRadius="20dp" />
@@ -131,201 +138,209 @@
             android:id="@+id/delete_cancel_measurement_button"
             android:layout_width="136dp"
             android:layout_height="52dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:backgroundTint="#E2E2E2"
-            android:layout_gravity="center"
-            app:strokeColor="#C92828"
-            app:strokeWidth="2dp"
-
             android:text="Отмена"
             android:textColor="@color/black"
-            app:cornerRadius="20dp" />
+            app:cornerRadius="20dp"
+            app:strokeColor="#C92828"
+            app:strokeWidth="2dp" />
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1">
 
-    <LinearLayout
-        android:id="@+id/measurement_liner"
-        tools:openDrawer="start"
-        android:layout_width="match_parent"
-        android:layout_height="750dp"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="50dp" >
+        <LinearLayout
+            android:id="@+id/measurement_liner"
+            tools:openDrawer="start"
+            android:layout_width="match_parent"
+            android:layout_height="750dp"
+            android:paddingHorizontal="23dp"
+            app:layout_constraintTop_toBottomOf="@+id/view1"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="50dp" >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/point_name"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Имя точки измеренения"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/point_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Имя точки измеренения"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/installation_number"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="№ установки"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/installation_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="№ установки"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/installation_name"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Наименование установки"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/installation_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Наименование установки"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/manufacture"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Производитель"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/manufacture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Производитель"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/client_phone"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Номер телефона"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/client_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Номер телефона"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/year_release"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Год выпуска"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/year_release"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Год выпуска"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/serial_number"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Серийный № установки"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/serial_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:theme="@style/MyTextFieldTheme"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Серийный № установки"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/note"
-            android:layout_width="370dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Заметка"
-            android:textColorHint="#000000"
-            app:boxStrokeColor="#DB0515"
-            app:hintTextColor="#070505"
-            app:cursorColor="#000000"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:gravity="top|start"
-                android:inputType="textMultiLine|textCapSentences"
-                android:minLines="3"
-                android:maxLines="6"
-                android:theme="@style/MyTextFieldTheme"
-                android:scrollbars="vertical" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="Заметка"
+                android:textColorHint="#000000"
+                app:boxStrokeColor="#DB0515"
+                app:hintTextColor="#070505"
+                app:cursorColor="#000000"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:minLines="3"
+                    android:maxLines="6"
+                    android:theme="@style/MyTextFieldTheme"
+                    android:scrollbars="vertical" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

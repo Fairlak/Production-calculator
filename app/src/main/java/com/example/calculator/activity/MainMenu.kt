@@ -31,7 +31,6 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
 
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var scrollView: ScrollView
     private lateinit var paramsRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,8 +47,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
         val manufacturerTable: TextView = findViewById(R.id.manufacturer_table)
         val dataTable = findViewById<TableLayout>(R.id.data_table)
         val manufacturerFormula: TextView = findViewById(R.id.manufacturer_formula)
-        scrollView = findViewById(R.id.scroll_view_container)
-        val recyclerView: RecyclerView = findViewById(R.id.my_recycler_view)
+        val companiesRecyclerView: RecyclerView = findViewById(R.id.companies_recycler_view)
 
 
         setupParamsRecyclerView()
@@ -82,24 +80,24 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
             "Common probe (e.g. FloXact)"
         )
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        companiesRecyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = AdapterScroll(manufacturers) { clickedItem ->
             showListButton.text = clickedItem
             manufacturerTable.text = clickedItem
             manufacturerFormula.text = formuls[clickedItem]
-            scrollView.visibility = View.GONE
+            companiesRecyclerView.visibility = View.GONE
             dataTable.visibility = View.VISIBLE
             decideButton.visibility = View.VISIBLE
         }
-        recyclerView.adapter = adapter
+        companiesRecyclerView.adapter = adapter
 
         showListButton.setOnClickListener {
-            scrollView.visibility = if (scrollView.isGone) View.VISIBLE else View.GONE
+            companiesRecyclerView.visibility = if (companiesRecyclerView.isGone) View.VISIBLE else View.GONE
         }
 
         mainLayout.setOnClickListener {
-            if (scrollView.isVisible) {
-                scrollView.visibility = View.GONE
+            if (companiesRecyclerView.isVisible) {
+                companiesRecyclerView.visibility = View.GONE
             }
         }
 

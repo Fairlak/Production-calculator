@@ -10,134 +10,137 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:background="#DF1818"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="#E2E2E2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-
-    <TextView
-        android:id="@+id/measurement_title"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:layout_marginLeft="20dp"
-        android:text="Название места измерения"
-        android:textColor="@color/black"
-        android:textSize="22dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintStart_toEndOf="@+id/back_to_report_clients_button"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/report_measurementsRecyclerView"
-        android:layout_width="337dp"
-        android:layout_height="560dp"
-        android:layout_marginTop="90dp"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
-        tools:listitem="@layout/report_measurements_item" />
-
     <ImageButton
         android:id="@+id/back_to_report_clients_button"
-        android:layout_width="38dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="7dp"
-
-        android:background="#E2E2E2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="back to report clients"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintTop_toTopOf="@+id/view1"
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
 
+    <TextView
+        android:id="@+id/measurement_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center_vertical|start"
+        android:text="Название места измерения"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/back_to_report_clients_button"
+        app:layout_constraintTop_toTopOf="@+id/view1" />
 
     <TextView
         android:id="@+id/report_client_name_inMeasurement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="Клиент: Имя клиента"
         android:textColor="@color/black"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/report_measurementsRecyclerView"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:text="Точки измерения"
         android:textColor="@color/black"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/report_measurementsRecyclerView"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view1"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/report_client_name_inMeasurement" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_report_measurement_button"
-        android:layout_width="118dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="#C92828"
-        android:gravity="center"
-        android:text="Новый"
-        android:textColor="@color/white"
-        app:cornerRadius="20dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/report_measurementsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/import_measurement_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_measurementsRecyclerView" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:listitem="@layout/report_measurements_item" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/import_measurement_button"
-        android:layout_width="118dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="#C92828"
-        android:gravity="center"
-        android:text="Импорт"
-        android:textColor="@color/white"
-        app:cornerRadius="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/add_report_measurement_button"
-        app:layout_constraintStart_toEndOf="@+id/cancel_report_measurement_button"
-        app:layout_constraintTop_toBottomOf="@+id/report_measurementsRecyclerView" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_report_measurement_button"
-        android:layout_width="118dp"
+        android:layout_width="0dp"
         android:layout_height="51dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
         android:backgroundTint="#C92828"
         android:gravity="center"
         android:text="Отмена"
         android:textColor="@color/white"
         app:cornerRadius="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_measurementsRecyclerView" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/import_measurement_button"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/import_measurement_button"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:layout_marginHorizontal="8dp"
+        android:backgroundTint="#C92828"
+        android:gravity="center"
+        android:text="Импорт"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_report_measurement_button"
+        app:layout_constraintEnd_toStartOf="@+id/add_report_measurement_button"
+        app:layout_constraintStart_toEndOf="@+id/cancel_report_measurement_button"
+        app:layout_constraintTop_toTopOf="@+id/cancel_report_measurement_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_report_measurement_button"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+
+        android:backgroundTint="#C92828"
+        android:gravity="center"
+        android:text="Новый"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_report_measurement_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/import_measurement_button"
+        app:layout_constraintTop_toTopOf="@+id/cancel_report_measurement_button"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

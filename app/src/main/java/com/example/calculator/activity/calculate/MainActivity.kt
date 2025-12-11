@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
             mainCreateReportButton.isEnabled = true
             mainCreateReportButton.alpha = 1.0f
-            
+
 
 
             itog.text = String.format(
