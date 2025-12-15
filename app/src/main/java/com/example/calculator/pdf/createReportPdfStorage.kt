@@ -6,6 +6,7 @@ import com.example.calculator.storage.CalculationPdfData
 import com.example.calculator.storage.ClientPdfData
 import com.example.calculator.storage.MeasurementPdfData
 import com.example.calculator.storage.ReportPdfData
+import com.example.calculator.storage.YourCompanyPdfData
 
 
 fun createReportPdfStorage(reportId: Long, images: List<String>, context: Context) {
@@ -49,7 +50,16 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
     var timeStamp: String = ""
 
 
-
+    var yourCompanyName: String = ""
+    var yourInitials: String = ""
+    var yourAddress: String = ""
+    var yourCity: String = ""
+    var yourCountry: String = ""
+    var yourPhoneNumber: String = ""
+    var yourFax: String = ""
+    var yourEMail: String = ""
+    var yourWebsite: String = ""
+    var imagePath: String = ""
 
 
 
@@ -111,6 +121,22 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
         }
     }
 
+    db.getYourCompanyData().use { cursor ->
+        if (cursor.moveToFirst()) {
+            yourCompanyName = cursor.getString(cursor.getColumnIndexOrThrow("yourCompanyName"))
+            yourInitials = cursor.getString(cursor.getColumnIndexOrThrow("yourInitials"))
+            yourAddress = cursor.getString(cursor.getColumnIndexOrThrow("yourAddress"))
+            yourCity = cursor.getString(cursor.getColumnIndexOrThrow("yourCity"))
+            yourCity = cursor.getString(cursor.getColumnIndexOrThrow("yourCity"))
+            yourCountry = cursor.getString(cursor.getColumnIndexOrThrow("yourCountry"))
+            yourPhoneNumber = cursor.getString(cursor.getColumnIndexOrThrow("yourPhoneNumber"))
+            yourFax = cursor.getString(cursor.getColumnIndexOrThrow("yourFax"))
+            yourEMail = cursor.getString(cursor.getColumnIndexOrThrow("yourEMail"))
+            yourWebsite = cursor.getString(cursor.getColumnIndexOrThrow("yourWebsite"))
+            imagePath = cursor.getString(cursor.getColumnIndexOrThrow("imagePath"))
+        }
+    }
+
     val reportPdfData = ReportPdfData(
         calculation = CalculationPdfData(
             company = company,
@@ -129,7 +155,7 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
             city = city,
             country = country,
             phone = phoneNumber,
-            email = null, // Этого поля не будет в отчете
+            email = eMail,
             contactPersons = contactPersons,
             customerData = customerData
         ),
@@ -142,6 +168,18 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
             yearOfManufacture = yearRelease,
             serialNumber = serialNumber,
             note = note
+        ),
+        yourCompanyData = YourCompanyPdfData(
+            companyName = yourCompanyName,
+            initials = yourInitials,
+            address = yourAddress,
+            city = yourCity,
+            country = yourCountry,
+            phone = yourPhoneNumber,
+            fax = yourFax,
+            email = yourEMail,
+            website = yourWebsite,
+            imagePath = imagePath
         ),
         images = images,
         comment = comment,

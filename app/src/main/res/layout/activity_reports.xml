@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".activity.reports.ReportsActivity">
 
-    <!-- Верхняя красная полоса -->
     <View
         android:id="@+id/view"
         android:layout_width="0dp"
@@ -18,7 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Верхняя серая панель -->
     <View
         android:id="@+id/view1"
         android:layout_width="0dp"
@@ -28,7 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <!-- Заголовок -->
     <TextView
         android:id="@+id/measurement_location_static"
         android:layout_width="wrap_content"
@@ -41,7 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <!-- Кнопка Назад -->
     <ImageButton
         android:id="@+id/back_to_menu_button"
         android:layout_width="38dp"
@@ -56,7 +52,7 @@
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
 
-    <!-- Поиск (Без изменений) -->
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchReport"
         android:layout_width="297dp"
@@ -68,8 +64,7 @@
         app:layout_constraintTop_toTopOf="@+id/view"
         app:theme="@style/CustomSearchViewStyle" />
 
-    <!-- Список отчетов -->
-    <!-- Изменено: нижняя граница теперь привязана к кнопке (toTopOf), а не к экрану -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reportsRecyclerView"
         android:layout_width="0dp"
@@ -83,12 +78,11 @@
         app:layout_constraintTop_toBottomOf="@+id/view1"
         tools:listitem="@layout/reports_item" />
 
-    <!-- Кнопка создания отчета -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_report_button"
         android:layout_width="296dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="100dp"
         android:backgroundTint="#C92828"
         android:gravity="center"
         android:text="Создать отчёт"

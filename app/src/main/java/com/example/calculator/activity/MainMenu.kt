@@ -26,6 +26,7 @@ import com.example.calculator.activity.calculate.HistoryCalculations
 import com.example.calculator.activity.calculate.MainActivity
 import com.example.calculator.activity.clients.ClientsActivity
 import com.example.calculator.activity.reports.ReportsActivity
+import com.example.calculator.storage.YourCompanyData
 
 class MainMenu : AppCompatActivity(), OnParamClickListener {
 
@@ -116,7 +117,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
         paramsRecyclerView = findViewById(R.id.params_recyclerview)
         paramsRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val data = listOf("Создание отчёта", "Клиент", "История", "Настройки")
+        val data = listOf("Создание отчёта", "Клиент", "История", "Данные компании")
         val adapter = ParamsAdapter(data, this)
         paramsRecyclerView.adapter = adapter
     }
@@ -127,6 +128,7 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
             "История" -> startActivity(Intent(this, HistoryCalculations::class.java))
             "Клиент" -> startActivity(Intent(this, ClientsActivity::class.java))
             "Создание отчёта" -> startActivity(Intent(this, ReportsActivity::class.java))
+            "Данные компании" -> startActivity(Intent(this, YourCompanyActivity::class.java))
         }
         Toast.makeText(this, "Выбран параметр: $param", Toast.LENGTH_SHORT).show()
         drawerLayout.closeDrawer(GravityCompat.START)

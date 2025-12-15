@@ -9,7 +9,8 @@ data class ReportPdfData(
     val images: List<String>,
     val comment: String?,
     val reportDate: String,
-    val calculationDate: String
+    val calculationDate: String,
+    val yourCompanyData: YourCompanyPdfData
 )
 
 data class CalculationPdfData(
@@ -44,4 +45,17 @@ data class MeasurementPdfData(
     val yearOfManufacture: String?,
     val serialNumber: String?,
     val note: String?
+)
+
+data class YourCompanyPdfData(
+    val companyName: String?,
+    val initials: String?,
+    val address: String?,
+    val city: String?,
+    val country: String?,
+    val phone: String?,
+    val fax: String?,
+    val email: String?,
+    val website: String?,
+    val imagePath: String?
 )

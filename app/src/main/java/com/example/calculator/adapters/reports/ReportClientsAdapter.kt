@@ -54,6 +54,8 @@ class ReportClientsAdapter(
             if (currentPosition != RecyclerView.NO_POSITION) {
                 updateSelection(currentPosition)
             }
+            onItemClicked(clientList[currentPosition])
+
         }
 
         holder.itemView.setOnClickListener {

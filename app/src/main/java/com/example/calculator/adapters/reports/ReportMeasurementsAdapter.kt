@@ -42,6 +42,7 @@ class ReportMeasurementsAdapter(
             if (currentPosition != RecyclerView.NO_POSITION) {
                 updateSelection(currentPosition)
             }
+            onItemClicked(reportMeasurementsList[currentPosition])
         }
 
         holder.itemView.setOnClickListener {

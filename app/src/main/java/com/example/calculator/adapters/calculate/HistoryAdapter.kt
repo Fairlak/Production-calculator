@@ -29,7 +29,7 @@ class HistoryAdapter(private val historyList: ArrayList<DecisionResult>, private
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val entry = historyList[position]
 
-        val resultText = "Плотность: %.4f,\nРасход: %.2f".format(entry.finalDensityValue, entry.finalConsumptionValue)
+        val resultText = "Плотность: %.4f\nРасход: %.2f".format(entry.finalDensityValue, entry.finalConsumptionValue)
         holder.resultTextView.text = resultText
 
         holder.companyTextView.text = entry.company

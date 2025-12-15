@@ -10,10 +10,11 @@ import com.example.calculator.storage.calculate.DecisionResult
 import com.example.calculator.storage.calculate.InputData
 import com.example.calculator.storage.clients.MeasurementData
 import com.example.calculator.storage.ReportData
+import com.example.calculator.storage.YourCompanyData
 
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "app", factory, 5) {
+    SQLiteOpenHelper(context, "app", factory, 6) {
 
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -58,6 +59,21 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
                 note TEXT          
             )
         """.trimIndent()
+        val yourCompanyQuery = """
+            CREATE TABLE your_company (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                yourCompanyName TEXT, 
+                yourInitials TEXT, 
+                yourAddress TEXT,
+                yourCity TEXT,
+                yourCountry TEXT,
+                yourPhoneNumber TEXT,
+                yourFax TEXT,
+                yourEMail TEXT,
+                yourWebsite TEXT,
+                imagePath TEXT
+            )
+        """.trimIndent()
         val reportsQuery = """
             CREATE TABLE reports (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -83,7 +99,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         db.execSQL(measurementsQuery)
         db.execSQL(reportsQuery)
         db.execSQL(reportsPhotos)
-
+        db.execSQL(yourCompanyQuery)
 
 
 
@@ -91,72 +107,45 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 3) {
-            val clientsQuery = """
-                CREATE TABLE clients (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    name TEXT, 
-                    street TEXT, 
-                    city TEXT,
-                    country TEXT,
-                    phoneNumber TEXT,
-                    eMail TEXT,
-                    contactPersons TEXT,
-                    customerData TEXT          
-                )
-            """.trimIndent()
-            val measurementsQuery = """
-            CREATE TABLE measurements (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                pointName TEXT, 
-                installationNumber TEXT, 
-                installationName TEXT,
-                manufacture TEXT,
-                yearRelease TEXT,
-                serialNumber TEXT,
-                note TEXT          
-            )
-        """.trimIndent()
-            val reportsQuery = """
-            CREATE TABLE reports (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                historyId INTEGER,
-                clientId INTEGER,
-                measurementId INTEGER,
-                reportTime TEXT, 
-                comment TEXT
-            )
-        """.trimIndent()
-            db?.execSQL(clientsQuery)
-            db?.execSQL(measurementsQuery)
-            db?.execSQL(reportsQuery)
-
-            if (oldVersion < 4) {
-                try {
-                    db?.execSQL("ALTER TABLE measurements ADD COLUMN client_id INTEGER DEFAULT -1")
-                } catch (e: Exception) { }
-            }
-            if (oldVersion < 5) {
-                val reportsPhotosQuery = """
-            CREATE TABLE reportsPhotos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                reportId INTEGER,
-                photoPath TEXT,
-                FOREIGN KEY(reportId) REFERENCES reports(id) ON DELETE CASCADE
-            )
-        """.trimIndent()
-                db?.execSQL(reportsPhotosQuery)
-            }
-
-            if (oldVersion < 4) {
-                try {
-                    db?.execSQL("ALTER TABLE measurements ADD COLUMN client_id INTEGER DEFAULT -1")
-                } catch (e: Exception) {
-
-                }
+        if (oldVersion < 4) {
+            try {
+                db?.execSQL("ALTER TABLE measurements ADD COLUMN client_id INTEGER DEFAULT -1")
+            } catch (e: Exception) {
             }
         }
+
+        if (oldVersion < 5) {
+            val reportsPhotosQuery = """
+                CREATE TABLE reportsPhotos (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    reportId INTEGER,
+                    photoPath TEXT,
+                    FOREIGN KEY(reportId) REFERENCES reports(id) ON DELETE CASCADE
+                )
+            """.trimIndent()
+            db?.execSQL(reportsPhotosQuery)
+        }
+
+        if (oldVersion < 6) {
+            val yourCompanyQuery = """
+                CREATE TABLE your_company (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    yourCompanyName TEXT, 
+                    yourInitials TEXT, 
+                    yourAddress TEXT,
+                    yourCity TEXT,
+                    yourCountry TEXT,
+                    yourPhoneNumber TEXT,
+                    yourFax TEXT,
+                    yourEMail TEXT,
+                    yourWebsite TEXT,
+                    imagePath TEXT
+                )
+            """.trimIndent()
+            db?.execSQL(yourCompanyQuery)
+        }
     }
+
 
     fun addClient(clientData: ClientData): Long {
         val values = ContentValues().apply {
@@ -519,6 +508,52 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
     fun deletePhoto(path: String) {
         val db = this.writableDatabase
         db.delete("reportsPhotos", "photoPath = ?", arrayOf(path))
+    }
+
+
+    fun updateYourCompanyData(yourCompanyData: YourCompanyData) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("id", 1)
+            put("yourCompanyName", yourCompanyData.companyName)
+            put("yourInitials", yourCompanyData.initials)
+            put("yourAddress", yourCompanyData.address)
+            put("yourCity", yourCompanyData.city)
+            put("yourCountry", yourCompanyData.country)
+            put("yourPhoneNumber", yourCompanyData.phone)
+            put("yourFax", yourCompanyData.fax)
+            put("yourEMail", yourCompanyData.email)
+            put("yourWebsite", yourCompanyData.website)
+        }
+
+        val rowsAffected = db.update("your_company", contentValues, "id = ?", arrayOf("1"))
+
+        if (rowsAffected == 0) {
+            db.insert("your_company", null, contentValues)
+        }
+    }
+
+    fun addYourImageIcon(imagePath: String){
+        val values = ContentValues().apply {
+            put("imagePath", imagePath)
+        }
+        this.writableDatabase.use { db ->
+            val rowsAffected = db.update("your_company", values, "id = ?",arrayOf("1"))
+            if (rowsAffected == 0) {
+                values.put("id", 1)
+                db.insert("your_company", null, values)
+            }
+        }
+    }
+
+    fun deleteYourImageIcon(path: String) {
+        val db = this.writableDatabase
+        db.delete("your_company", "imagePath = ?", arrayOf(path))
+    }
+
+    fun getYourCompanyData(): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM your_company WHERE id = 1", null)
     }
 
 }

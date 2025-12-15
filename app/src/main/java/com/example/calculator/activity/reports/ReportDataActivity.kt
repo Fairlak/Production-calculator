@@ -236,7 +236,6 @@ class ReportDataActivity : AppCompatActivity() {
         deleteCancelReportButton.setOnClickListener {
             overlayViewDeleteReport.visibility = View.GONE
             warningDeleteReportLayout.visibility = View.GONE
-
         }
 
 
@@ -540,7 +539,7 @@ class ReportDataActivity : AppCompatActivity() {
                                 val finalConsumptionValue = calculateCursor.getDouble(
                                     calculateCursor.getColumnIndexOrThrow("finalConsumptionValue")
                                 )
-                                val resultText = "Плотность: %.4f,\nРасход: %.2f".format(
+                                val resultText = "Плотность: %.4f\nРасход: %.2f".format(
                                     finalDensityValue,
                                     finalConsumptionValue
                                 )
