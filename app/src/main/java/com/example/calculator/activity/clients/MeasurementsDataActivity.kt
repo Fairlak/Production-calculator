@@ -94,7 +94,7 @@ class MeasurementsDataActivity : AppCompatActivity() {
                 if (cursor.moveToFirst()) {
                     val pointNameDb = cursor.getString(cursor.getColumnIndexOrThrow("pointName"))
                     pointName.editText?.setText(pointNameDb)
-                    pointNameStatic.text = if (pointNameDb == "") "Имя клиента" else pointNameDb
+                    pointNameStatic.text = if (pointNameDb == "") "Название места измерения" else pointNameDb
 
                     val installationNumberDb = cursor.getString(cursor.getColumnIndexOrThrow("installationNumber"))
                     installationNumber.editText?.setText(installationNumberDb)

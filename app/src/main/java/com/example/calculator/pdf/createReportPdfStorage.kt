@@ -6,6 +6,7 @@ import com.example.calculator.storage.CalculationPdfData
 import com.example.calculator.storage.ClientPdfData
 import com.example.calculator.storage.MeasurementPdfData
 import com.example.calculator.storage.ReportPdfData
+import com.example.calculator.storage.ToolsData
 import com.example.calculator.storage.YourCompanyPdfData
 
 
@@ -51,6 +52,7 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
 
 
     var yourCompanyName: String = ""
+    var yourCompanyINN: String = ""
     var yourInitials: String = ""
     var yourAddress: String = ""
     var yourCity: String = ""
@@ -124,6 +126,7 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
     db.getYourCompanyData().use { cursor ->
         if (cursor.moveToFirst()) {
             yourCompanyName = cursor.getString(cursor.getColumnIndexOrThrow("yourCompanyName"))
+            yourCompanyINN = cursor.getString(cursor.getColumnIndexOrThrow("INN"))
             yourInitials = cursor.getString(cursor.getColumnIndexOrThrow("yourInitials"))
             yourAddress = cursor.getString(cursor.getColumnIndexOrThrow("yourAddress"))
             yourCity = cursor.getString(cursor.getColumnIndexOrThrow("yourCity"))
@@ -136,6 +139,13 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
             imagePath = cursor.getString(cursor.getColumnIndexOrThrow("imagePath"))
         }
     }
+
+    val toolsList: ArrayList<ToolsData>? = if (reportId != -1L) {
+        db.getToolsData(reportId)
+    } else {
+        null
+    }
+
 
     val reportPdfData = ReportPdfData(
         calculation = CalculationPdfData(
@@ -171,6 +181,7 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
         ),
         yourCompanyData = YourCompanyPdfData(
             companyName = yourCompanyName,
+            INN = yourCompanyINN,
             initials = yourInitials,
             address = yourAddress,
             city = yourCity,
@@ -184,7 +195,8 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
         images = images,
         comment = comment,
         reportDate = reportTime,
-        calculationDate = timeStamp
+        calculationDate = timeStamp,
+        tools = toolsList
     )
 
     val htmlContent = getReportHtml(reportPdfData)

@@ -43,6 +43,7 @@ class YourCompanyActivity : AppCompatActivity() {
     private lateinit var insertCompanyLogoButton: Button
 
     private lateinit var yourCompanyName: TextInputLayout
+    private lateinit var yourCompanyINN: TextInputLayout
     private lateinit var yourInitials: TextInputLayout
     private lateinit var yourAddress: TextInputLayout
     private lateinit var yourCity: TextInputLayout
@@ -159,6 +160,7 @@ class YourCompanyActivity : AppCompatActivity() {
         insertCompanyLogoButton = findViewById(R.id.insert_company_logo)
 
         yourCompanyName = findViewById(R.id.your_company_name)
+        yourCompanyINN = findViewById(R.id.your_company_INN)
         yourInitials = findViewById(R.id.your_initials)
         yourAddress = findViewById(R.id.your_address)
         yourCity = findViewById(R.id.your_city)
@@ -194,6 +196,9 @@ class YourCompanyActivity : AppCompatActivity() {
             if (cursor.moveToFirst()) {
                 val yourCompanyNameDb = cursor.getString(cursor.getColumnIndexOrThrow("yourCompanyName"))
                 yourCompanyName.editText?.setText(yourCompanyNameDb)
+
+                val yourCompanyINNDb = cursor.getString(cursor.getColumnIndexOrThrow("INN"))
+                yourCompanyINN.editText?.setText(yourCompanyINNDb)
 
                 val yourInitialsDb = cursor.getString(cursor.getColumnIndexOrThrow("yourInitials"))
                 yourInitials.editText?.setText(yourInitialsDb)
@@ -232,6 +237,7 @@ class YourCompanyActivity : AppCompatActivity() {
         }
 
         yourCompanyName.editText?.onFocusChangeListener = focusListener
+        yourCompanyINN.editText?.onFocusChangeListener = focusListener
         yourInitials.editText?.onFocusChangeListener = focusListener
         yourAddress.editText?.onFocusChangeListener = focusListener
         yourCity.editText?.onFocusChangeListener = focusListener
@@ -365,6 +371,7 @@ class YourCompanyActivity : AppCompatActivity() {
     private fun updateYourCompanyData(){
         dbHelper.updateYourCompanyData(YourCompanyData(
             yourCompanyName.editText?.text.toString(),
+            yourCompanyINN.editText?.text.toString(),
             yourInitials.editText?.text.toString(),
             yourAddress.editText?.text.toString(),
             yourCity.editText?.text.toString(),

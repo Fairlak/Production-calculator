@@ -22,6 +22,12 @@
         android:theme="@style/Theme.Calculator"
         tools:targetApi="31">
         <activity
+            android:name=".activity.reports.ReportToolDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.reports.ReportToolsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.YourCompanyActivity"
             android:exported="false" />
         <activity

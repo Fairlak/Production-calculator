@@ -10,11 +10,12 @@ import com.example.calculator.storage.calculate.DecisionResult
 import com.example.calculator.storage.calculate.InputData
 import com.example.calculator.storage.clients.MeasurementData
 import com.example.calculator.storage.ReportData
+import com.example.calculator.storage.ToolsData
 import com.example.calculator.storage.YourCompanyData
 
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "app", factory, 6) {
+    SQLiteOpenHelper(context, "app", factory, 7) {
 
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -63,6 +64,7 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
             CREATE TABLE your_company (
                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                 yourCompanyName TEXT, 
+                INN TEXT,
                 yourInitials TEXT, 
                 yourAddress TEXT,
                 yourCity TEXT,
@@ -94,12 +96,24 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
             )
         """.trimIndent()
 
+        val toolsQuery = """
+            CREATE TABLE tools (
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                reportId INTEGER,
+                toolName TEXT,
+                serialNumber TEXT,
+                certificateNumber TEXT,
+                endDate TEXT
+            )
+        """.trimIndent()
+
         db!!.execSQL(historyQuery)
         db.execSQL(clientsQuery)
         db.execSQL(measurementsQuery)
         db.execSQL(reportsQuery)
         db.execSQL(reportsPhotos)
         db.execSQL(yourCompanyQuery)
+        db.execSQL(toolsQuery)
 
 
 
@@ -219,6 +233,19 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
             put("photoPath", path)
         }
         this.writableDatabase.insert("reportsPhotos", null, values)
+    }
+
+    fun addTool(reportId: Long, toolsData: ToolsData): Long {
+        val values = ContentValues().apply {
+            put("reportId", reportId)
+            put("toolName", toolsData.toolName)
+            put("serialNumber", toolsData.serialNumber)
+            put("certificateNumber", toolsData.certificateNumber)
+            put("endDate", toolsData.endDate)
+        }
+        return this.writableDatabase.use {
+            it.insert("tools", null, values)
+        }
     }
 
     fun getAllHistory(): ArrayList<DecisionResult> {
@@ -510,12 +537,69 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
         db.delete("reportsPhotos", "photoPath = ?", arrayOf(path))
     }
 
+    fun getToolsData(reportId: Long): ArrayList<ToolsData> {
+        val toolsList = ArrayList<ToolsData>()
+        this.readableDatabase.use { db ->
+            db.rawQuery("SELECT * FROM tools WHERE reportId = ? ORDER BY id DESC", arrayOf(reportId.toString())).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    do {
+                        val idIndex = cursor.getColumnIndex("id")
+                        val toolNameIndex = cursor.getColumnIndex("toolName")
+                        val serialNumberIndex = cursor.getColumnIndex("serialNumber")
+                        val certificateNumberIndex = cursor.getColumnIndex("certificateNumber")
+                        val endDateIndex = cursor.getColumnIndex("endDate")
+
+
+                        val id = cursor.getLong(idIndex)
+                        val toolName = cursor.getString(toolNameIndex)
+                        val serialNumber = cursor.getString(serialNumberIndex)
+                        val certificateNumber = cursor.getString(certificateNumberIndex)
+                        val endDate = cursor.getString(endDateIndex)
+
+
+
+                        val entry = ToolsData(
+                            id = id,
+                            toolName = toolName,
+                            serialNumber = serialNumber,
+                            certificateNumber = certificateNumber,
+                            endDate = endDate
+                        )
+                        toolsList.add(entry)
+
+                    } while (cursor.moveToNext())
+                }
+            }
+        }
+        return toolsList
+    }
+
+    fun updateTool(id: Long, nameField: String, recordValue: String){
+        val values = ContentValues().apply {
+            put(nameField, recordValue)
+        }
+        this.writableDatabase.use { db ->
+            db.update("tools", values, "id = ?",arrayOf(id.toString()))
+        }
+    }
+
+    fun getToolEntryById(entryId: Long): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM tools WHERE id = ?", arrayOf(entryId.toString()))
+    }
+
+    fun deleteTool(id: Long) {
+        val db = this.writableDatabase
+        db.delete("tools", "id = ?", arrayOf(id.toString()))
+        db.close()
+    }
 
     fun updateYourCompanyData(yourCompanyData: YourCompanyData) {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
             put("id", 1)
             put("yourCompanyName", yourCompanyData.companyName)
+            put("INN", yourCompanyData.INN)
             put("yourInitials", yourCompanyData.initials)
             put("yourAddress", yourCompanyData.address)
             put("yourCity", yourCompanyData.city)

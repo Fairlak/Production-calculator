@@ -72,7 +72,7 @@
         app:tint="#000000" />
 
     <TextView
-        android:id="@+id/client_name_static"
+        android:id="@+id/client_report_name_static"
         android:layout_width="168dp"
         android:layout_height="28dp"
         android:layout_marginStart="20dp"
@@ -104,7 +104,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="410dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -314,6 +314,54 @@
                         app:layout_constraintVertical_bias="0.507"
                         app:srcCompat="@drawable/comment"
                         app:tint="#808080" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/main_tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/report_data_elements_bg"
+                    tools:context=".activity.reports.ReportDataActivity">
+
+                    <TextView
+                        android:id="@+id/add_tool_static"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:text="Измерит. приборы"
+                        android:textColor="@color/black"
+                        android:textSize="23dp"
+                        app:layout_constraintBottom_toTopOf="@+id/selected_first_tool"
+                        app:layout_constraintStart_toEndOf="@+id/tool_image"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                    <TextView
+                        android:id="@+id/selected_first_tool"
+                        android:layout_width="173dp"
+                        android:layout_height="28dp"
+                        android:layout_marginStart="36dp"
+                        android:textColor="@color/black"
+                        android:textSize="18dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tool_image"
+                        app:layout_constraintTop_toBottomOf="@+id/add_tool_static"
+                        tools:text="Testo228aye"
+                        tools:visibility="visible" />
+
+
+                    <ImageView
+                        android:id="@+id/tool_image"
+                        android:layout_width="58dp"
+                        android:layout_height="64dp"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/tools"
+                        app:tint="#808080" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

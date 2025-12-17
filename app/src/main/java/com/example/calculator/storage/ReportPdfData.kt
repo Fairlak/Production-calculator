@@ -8,6 +8,7 @@ data class ReportPdfData(
     val measurementPoint: MeasurementPdfData,
     val images: List<String>,
     val comment: String?,
+    val tools: List<ToolsData>?,
     val reportDate: String,
     val calculationDate: String,
     val yourCompanyData: YourCompanyPdfData
@@ -49,6 +50,7 @@ data class MeasurementPdfData(
 
 data class YourCompanyPdfData(
     val companyName: String?,
+    val INN: String?,
     val initials: String?,
     val address: String?,
     val city: String?,

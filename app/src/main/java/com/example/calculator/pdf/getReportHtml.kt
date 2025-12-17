@@ -23,14 +23,49 @@ fun getReportHtml(data: ReportPdfData): String {
     }
 
     val yourCompanyInfoHtml = listOfNotNull(
-        data.yourCompanyData.companyName?.let { "<strong>$it</strong>" },
-        data.yourCompanyData.address,
-        listOfNotNull(data.yourCompanyData.city, data.yourCompanyData.country).joinToString(", ").takeIf { it.isNotBlank() },
-        data.yourCompanyData.phone?.let { "Tel: $it" },
-        data.yourCompanyData.fax?.let { "Fax: $it" },
-        data.yourCompanyData.email,
-        data.yourCompanyData.website
+        data.yourCompanyData.companyName?.takeIf { it.isNotBlank() }?.let { "<strong>$it</strong>" },
+        data.yourCompanyData.INN?.takeIf { it.isNotBlank() }?.let { "ИНН: $it" },
+        data.yourCompanyData.address?.takeIf { it.isNotBlank() },
+        listOfNotNull(data.yourCompanyData.city, data.yourCompanyData.country)
+            .filter { it.isNotBlank() }
+            .joinToString(", ")
+            .takeIf { it.isNotBlank() },
+        data.yourCompanyData.phone?.takeIf { it.isNotBlank() }?.let { "Tel: $it" },
+        data.yourCompanyData.fax?.takeIf { it.isNotBlank() }?.let { "Fax: $it" },
+        data.yourCompanyData.email?.takeIf { it.isNotBlank() },
+        data.yourCompanyData.website?.takeIf { it.isNotBlank() }
     ).joinToString("<br>")
+
+    val toolsHtml = if (!data.tools.isNullOrEmpty()) { // <-- ИЗМЕНЕНИЕ ЗДЕСЬ
+        val tableRows = data.tools.joinToString("") { tool ->
+            """
+            <tr>
+                <td>${tool.toolName ?: ""}</td>
+                <td>${tool.serialNumber ?: ""}</td>
+                <td>${tool.certificateNumber ?: ""}</td>
+                <td>${tool.endDate ?: ""}</td>
+            </tr>
+            """.trimIndent()
+        }
+        """
+        <div class="section-title">ИСПОЛЬЗУЕМЫЕ ИНСТРУМЕНТЫ</div>
+        <table class="tools-table">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Серийный номер</th>
+                    <th>№ свидетельства о поверке сертификата</th>
+                    <th>Срок окончания поверки</th>
+                </tr>
+            </thead>
+            <tbody>
+                $tableRows
+            </tbody>
+        </table>
+        """.trimIndent()
+    } else {
+        ""
+    }
 
     val imagesHtml = if (data.images.isNotEmpty()) {
         val imgs = data.images.joinToString("") { imgPath ->
@@ -58,23 +93,11 @@ fun getReportHtml(data: ReportPdfData): String {
                 justify-content: space-between;
                 align-items: flex-start;
                 margin-bottom: 30px;
-                /* border-bottom: 1px solid #ccc;  <-- ЭТА СТРОКА УДАЛЕНА */
                 padding-bottom: 5px;
             }
-            .header-left {
-                width: 45%;
-            }
-            .header-right {
-                width: 50%;
-                text-align: right;
-                font-size: 9pt;
-                color: #555;
-            }
-            .company-logo {
-                max-width: 100%;
-                max-height: 120px;
-                object-fit: contain;
-            }
+            .header-left { width: 45%; }
+            .header-right { width: 50%; text-align: right; font-size: 9pt; color: #555; }
+            .company-logo { max-width: 100%; max-height: 120px; object-fit: contain; }
 
             /* Заголовки секций */
             .section-title { 
@@ -97,6 +120,24 @@ fun getReportHtml(data: ReportPdfData): String {
             }
             .label { font-weight: bold; color: #444; width: 40%; }
             .value { color: #000; width: 60%; text-align: left; }
+
+            /* --- НОВЫЕ СТИЛИ ДЛЯ ТАБЛИЦЫ ИНСТРУМЕНТОВ --- */
+            .tools-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 5px;
+                font-size: 9pt;
+            }
+            .tools-table th, .tools-table td {
+                border: 1px solid #ddd;
+                padding: 6px;
+                text-align: left;
+            }
+            .tools-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+                color: #333;
+            }
             
             /* Изображения */
             .images-grid { display: block; text-align: center; margin-top: 10px; }
@@ -153,6 +194,9 @@ fun getReportHtml(data: ReportPdfData): String {
             ${renderRow("Год выпуска:", data.measurementPoint.yearOfManufacture)}
             ${renderRow("Серийный номер:", data.measurementPoint.serialNumber)}
             ${renderRow("Заметка:", data.measurementPoint.note)}
+
+            <!-- НОВЫЙ РАЗДЕЛ ВСТАВЛЕН ЗДЕСЬ -->
+            $toolsHtml
 
             <!-- 3. ИЗМЕРЕНИЯ (РАСЧЕТ) -->
             <div class="section-title">ИЗМЕРЕНИЯ</div>

@@ -46,6 +46,7 @@ class ReportDataActivity : AppCompatActivity() {
 
     private lateinit var createReportDate: TextView
     private lateinit var clientSelectedNameStatic: TextView
+    private lateinit var clientNameStatic: TextView
     private lateinit var deleteClientButton: ImageButton
     private lateinit var takePhotoButton: ImageButton
     private lateinit var choosePhotoButton: ImageButton
@@ -161,11 +162,14 @@ class ReportDataActivity : AppCompatActivity() {
 
         createReportDate = findViewById(R.id.create_report_date)
         clientSelectedNameStatic = findViewById(R.id.selected_client_name)
+        clientNameStatic = findViewById(R.id.client_report_name_static)
+
 
         val backReportsButton: ImageButton = findViewById(R.id.back_to_reports_button)
         val deleteReportButton: Button = findViewById(R.id.delete_report_button)
         val openWarningDeleteReportButton: ImageButton = findViewById(R.id.open_warning_delete_report_button)
         val mainClientLayout: ConstraintLayout = findViewById(R.id.main_client)
+        val mainToolLayout: ConstraintLayout = findViewById(R.id.main_tools)
         val mainCommentLayout: ConstraintLayout = findViewById(R.id.main_comment)
         val warningLayout: View = findViewById(R.id.warning_layout)
         val deleteCancelPhotoButton: Button = findViewById(R.id.delete_cancel_photo_button)
@@ -316,6 +320,13 @@ class ReportDataActivity : AppCompatActivity() {
             intent.putExtra("ID", idDb)
             startActivity(intent)
         }
+
+        mainToolLayout.setOnClickListener {
+            val intent = Intent(this, ReportToolsActivity::class.java)
+            intent.putExtra("reportId", idDb)
+            startActivity(intent)
+        }
+
 
         mainPhotoLayout.setOnClickListener {
             photosLayout.visibility = View.VISIBLE
@@ -508,11 +519,16 @@ class ReportDataActivity : AppCompatActivity() {
 
                     reportCalculateLayout.visibility = View.GONE
 
+                    if (clientIdDb != -1L) {
+                        db.getClientDataEntryById(clientIdDb).use { clientCursor ->
+                            if (clientCursor.moveToFirst()) {
+                                val name = clientCursor.getString(clientCursor.getColumnIndexOrThrow("name"))
+                                clientNameString = if (!name.isNullOrEmpty()) name else "Имя клиента"
+                                clientNameStatic.text = if (!name.isNullOrEmpty()) name else "Имя клиента"
 
-                    db.getClientDataEntryById(clientIdDb).use { clientCursor ->
-                        if (clientCursor.moveToFirst()){
-                            val name = clientCursor.getString(clientCursor.getColumnIndexOrThrow("name"))
-                            clientNameString = if (!name.isNullOrEmpty()) name else "Имя клиента"
+                            } else{
+                                clientNameStatic.text = "Имя клиента"
+                            }
                         }
                     }
 

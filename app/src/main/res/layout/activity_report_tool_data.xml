@@ -3,33 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.clients.MeasurementsDataActivity">
+    android:background="@color/white"
+    tools:context=".activity.reports.ReportToolDataActivity">
+
 
     <View
         android:id="@+id/view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         android:background="#DF1818"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:background="#E2E2E2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <View
-        android:id="@+id/overlay_view_delete_measurement"
+        android:id="@+id/overlay_view_delete_tool"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
@@ -43,34 +42,34 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/measurement_location_static"
-        android:layout_width="267dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="80dp"
-        android:text="Название места измерения"
+        android:id="@+id/tool_name_text_static"
+        android:layout_width="280dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="19dp"
+        android:text="Название прибора"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tool_back_to_tools_button"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <ImageButton
-        android:id="@+id/back_to_client_data_button"
+        android:id="@+id/tool_back_to_tools_button"
         android:layout_width="38dp"
         android:layout_height="37dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="7dp"
-        android:background="#E2E2E2"
-        android:contentDescription="back to clientData"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="back to menu"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="#000000"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        app:tint="#000000" />
 
 
     <ImageButton
-        android:id="@+id/open_warning_delete_measurement_button"
+        android:id="@+id/open_warning_delete_tool_button"
         android:layout_width="39dp"
         android:layout_height="36dp"
         android:layout_marginEnd="24dp"
@@ -80,13 +79,12 @@
         android:src="@drawable/trash"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
 
     <LinearLayout
-        android:id="@+id/warning_delete_measurement_layout"
+        android:id="@+id/warning_delete_tool_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
@@ -123,7 +121,7 @@
             android:textSize="19dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/delete_measurement_button"
+            android:id="@+id/delete_tool_button"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_gravity="center"
@@ -135,7 +133,7 @@
             app:cornerRadius="20dp" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/delete_cancel_measurement_button"
+            android:id="@+id/delete_cancel_tool_button"
             android:layout_width="136dp"
             android:layout_height="52dp"
             android:layout_gravity="center"
@@ -149,6 +147,7 @@
 
     </LinearLayout>
 
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -159,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view1">
 
         <LinearLayout
-            android:id="@+id/measurement_liner"
+            android:id="@+id/tool_liner"
             tools:openDrawer="start"
             android:layout_width="match_parent"
             android:layout_height="750dp"
@@ -169,13 +168,13 @@
             tools:layout_editor_absoluteX="50dp" >
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/point_name"
+                android:id="@+id/tool_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Имя точки измеренения"
+                android:hint="Название прибора"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
                 app:hintTextColor="#070505"
@@ -190,13 +189,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/installation_number"
+                android:id="@+id/tool_serial_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="№ установки"
+                android:hint="Серийный номер"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
                 app:hintTextColor="#070505"
@@ -211,13 +210,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/installation_name"
+                android:id="@+id/tool_certificate_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Наименование установки"
+                android:hint=" Номер свидетельства о поверке"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
                 app:hintTextColor="#070505"
@@ -232,13 +231,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/manufacture"
+                android:id="@+id/tool_end_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="Производитель"
+                android:hint="Дата окончания поверки"
                 android:textColorHint="#000000"
                 app:boxStrokeColor="#DB0515"
                 app:hintTextColor="#070505"
@@ -252,73 +251,6 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/year_release"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:hint="Год выпуска"
-                android:textColorHint="#000000"
-                app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#070505"
-                app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/serial_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:hint="Серийный № установки"
-                android:textColorHint="#000000"
-                app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#070505"
-                app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:hint="Заметка"
-                android:textColorHint="#000000"
-                app:boxStrokeColor="#DB0515"
-                app:hintTextColor="#070505"
-                app:cursorColor="#000000"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#000000"
-                    android:gravity="top|start"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:minLines="3"
-                    android:maxLines="6"
-                    android:theme="@style/MyTextFieldTheme"
-                    android:scrollbars="vertical" />
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 
