@@ -3,6 +3,9 @@ package com.example.calculator.activity.reports
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
@@ -139,6 +142,19 @@ class ReportDataClientsActivity : AppCompatActivity() {
                 return true
             }
         })
+    }
+
+    override fun onBackPressed() {
+        finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // Для Android 14+
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        } else {
+            // Для старых версий
+            @Suppress("DEPRECATION")
+            overridePendingTransition(0, 0)
+        }
+        super.onBackPressed()
     }
 
     override fun onResume() {

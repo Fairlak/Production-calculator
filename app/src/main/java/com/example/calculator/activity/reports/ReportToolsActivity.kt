@@ -91,4 +91,17 @@ class ReportToolsActivity : AppCompatActivity() {
         val toolsData = db.getToolsData(reportId)
         reportToolsAdapter.updateData(toolsData)
     }
+
+    override fun onBackPressed() {
+        finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // Для Android 14+
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        } else {
+            // Для старых версий
+            @Suppress("DEPRECATION")
+            overridePendingTransition(0, 0)
+        }
+        super.onBackPressed()
+    }
 }

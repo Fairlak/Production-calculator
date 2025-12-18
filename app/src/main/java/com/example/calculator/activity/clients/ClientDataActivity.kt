@@ -11,6 +11,9 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calculator.DbHelper
@@ -60,6 +63,20 @@ class ClientDataActivity : AppCompatActivity() {
         val contact: TextView = findViewById(R.id.contact)
         val clientLiner: LinearLayout = findViewById(R.id.client_liner)
 
+
+
+        val mainView: View = findViewById(R.id.main_client_data)
+        val toolBar: View = findViewById(R.id.client_data_tool_bar)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, windowInsets ->
+            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            toolBar.updatePadding(top = systemBars.top)
+            val bottomPadding = ime.bottom.coerceAtLeast(systemBars.bottom)
+            view.updatePadding(bottom = bottomPadding)
+            windowInsets
+        }
 
 
         contact.alpha = 1.0f

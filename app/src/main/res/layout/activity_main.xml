@@ -2,15 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
+    android:id="@+id/main_calc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.calculate.MainActivity">
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/calc_tool_bar"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="#DF1818"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:background="#E2E2E2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@+id/calc_tool_bar" />
 
     <ImageButton
         android:id="@+id/main_calc_back_button"
@@ -35,7 +35,7 @@
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/calc_tool_bar"
         app:srcCompat="?attr/actionModeCloseDrawable"
         app:tint="#000000" />
 

@@ -2,12 +2,16 @@ package com.example.calculator.activity.calculate
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.calculator.DbHelper
 import com.example.calculator.storage.calculate.DecisionResult
 import com.example.calculator.FormulaCalc
@@ -45,6 +49,19 @@ class MainActivity : AppCompatActivity() {
         val formulaTextView: TextView = findViewById(R.id.copied_formula)
 
 
+
+        val mainView: View = findViewById(R.id.main_calc)
+        val toolBar: View = findViewById(R.id.calc_tool_bar)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, windowInsets ->
+            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            toolBar.updatePadding(top = systemBars.top)
+            val bottomPadding = ime.bottom.coerceAtLeast(systemBars.bottom)
+            view.updatePadding(bottom = bottomPadding)
+            windowInsets
+        }
 
         manufacturerTextView.text = manufacturer
         formulaTextView.text = formula

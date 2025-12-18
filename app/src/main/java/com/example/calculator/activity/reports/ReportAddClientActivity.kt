@@ -7,6 +7,9 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.calculator.DbHelper
 import com.example.calculator.R
 import com.google.android.material.textfield.TextInputEditText
@@ -53,6 +56,19 @@ class ReportAddClientActivity : AppCompatActivity() {
         idDb = intent.getLongExtra("ID", -1L)
 
 
+
+        val mainView: View = findViewById(R.id.main_report_add_client)
+        val toolBar: View = findViewById(R.id.report_add_client_tool_bar)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, windowInsets ->
+            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            toolBar.updatePadding(top = systemBars.top)
+            val bottomPadding = ime.bottom.coerceAtLeast(systemBars.bottom)
+            view.updatePadding(bottom = bottomPadding)
+            windowInsets
+        }
 
         comeBack.setOnClickListener {
             saveAllFields()

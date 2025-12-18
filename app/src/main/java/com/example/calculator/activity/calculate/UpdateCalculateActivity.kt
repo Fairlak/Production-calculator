@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.database.getDoubleOrNull
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.example.calculator.DbHelper
 import com.example.calculator.FormulaCalc
 import com.example.calculator.R
-import com.example.calculator.storage.calculate.DecisionResult
 import com.example.calculator.storage.calculate.InputData
 import com.google.android.material.textfield.TextInputLayout
 
@@ -53,6 +55,20 @@ class UpdateCalculateActivity : AppCompatActivity() {
         val deleteCancelCalcButton: Button = findViewById(R.id.delete_cancel_calc_button)
 
 
+
+
+        val mainView: View = findViewById(R.id.main_update_calc)
+        val toolBar: View = findViewById(R.id.update_calc_tool_bar)
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, windowInsets ->
+            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            toolBar.updatePadding(top = systemBars.top)
+            val bottomPadding = ime.bottom.coerceAtLeast(systemBars.bottom)
+            view.updatePadding(bottom = bottomPadding)
+            windowInsets
+        }
 
 
         reportId = intent.getLongExtra("ReportId", -1L)

@@ -29,6 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.YourCompanyActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".activity.calculate.UpdateCalculateActivity"
@@ -41,9 +42,11 @@
         <activity
             android:name=".activity.reports.ReportAddMeasurementActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".activity.reports.ReportAddClientActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity
@@ -65,9 +68,11 @@
         <activity
             android:name=".activity.clients.MeasurementsDataActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".activity.clients.ClientDataActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity
@@ -90,6 +95,7 @@
         </activity>
         <activity
             android:name=".activity.calculate.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
 
