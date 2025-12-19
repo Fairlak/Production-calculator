@@ -51,7 +51,6 @@ class ReportDataClientsActivity : AppCompatActivity() {
             context = this,
 
             onItemClicked = { clientData ->
-                Toast.makeText(this, "Выбран клиент: ${clientData.name}", Toast.LENGTH_SHORT).show()
                 importClientButton.isEnabled = true
                 importClientButton.alpha = 1.0f
             },

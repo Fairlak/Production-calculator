@@ -10,16 +10,15 @@
 
     <TextView
         android:id="@+id/report_point_name"
-        android:layout_width="332dp"
+        android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginStart="64dp"
         android:text="Название измерения"
         android:textColor="@color/black"
-        android:textSize="22dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioButton
         android:id="@+id/report_point_radioButton"

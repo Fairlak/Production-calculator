@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -78,9 +77,6 @@ class MainActivity : AppCompatActivity() {
             val finalDensityValue = processor.airDensityCalculation()
             var finalConsumptionValue = processor.consumption(manufacturer)
             if (finalConsumptionValue.isNaN()) finalConsumptionValue = 0.0
-
-            val toastText = "Расход ${finalConsumptionValue}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
 
 
             val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())

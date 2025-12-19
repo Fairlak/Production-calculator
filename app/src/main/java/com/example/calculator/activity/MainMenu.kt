@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.ScrollView
 import android.widget.TableLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -130,7 +129,6 @@ class MainMenu : AppCompatActivity(), OnParamClickListener {
             "Создание отчёта" -> startActivity(Intent(this, ReportsActivity::class.java))
             "Данные компании" -> startActivity(Intent(this, YourCompanyActivity::class.java))
         }
-        Toast.makeText(this, "Выбран параметр: $param", Toast.LENGTH_SHORT).show()
         drawerLayout.closeDrawer(GravityCompat.START)
     }
 

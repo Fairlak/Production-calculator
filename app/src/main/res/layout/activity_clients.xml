@@ -33,8 +33,6 @@
         android:id="@+id/clients_title"
         android:layout_width="95dp"
         android:layout_height="0dp"
-
-
         android:gravity="center"
         android:text="Клиент"
         android:textColor="@color/black"
@@ -73,14 +71,14 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        android:layout_width="283dp"
+        android:layout_width="263dp"
         android:layout_height="58dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="40dp"
         android:layoutDirection="rtl"
         android:queryHint="Поиск клиента..."
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view"
         app:theme="@style/CustomSearchViewStyle" />
 
     <ImageButton

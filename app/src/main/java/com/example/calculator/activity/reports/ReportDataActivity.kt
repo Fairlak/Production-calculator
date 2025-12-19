@@ -90,8 +90,6 @@ class ReportDataActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             currentPhotoFile?.let { file ->
                 if (file.exists()) {
-                    Toast.makeText(this, file.absolutePath, Toast.LENGTH_SHORT).show()
-
                     db.addPhoto(idDb, file.absolutePath)
 
                     refreshData()
@@ -119,8 +117,6 @@ class ReportDataActivity : AppCompatActivity() {
                     }
 
                     db.addPhoto(idDb, photoFile.absolutePath)
-                    Toast.makeText(this, "Фото добавлено!", Toast.LENGTH_SHORT).show()
-
                     refreshData()
 
                 } catch (e: Exception) {
@@ -462,6 +458,7 @@ class ReportDataActivity : AppCompatActivity() {
             })
             fullPhotoLayout.startAnimation(slideOut)
         } else {
+            super.onBackPressed()
             super.onBackPressed()
         }
     }

@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -225,16 +224,10 @@ class ClientDataActivity : AppCompatActivity() {
             measurementsData,
             onItemClicked = { clickedEntry ->
                 val selectedId = clickedEntry.id
-                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MeasurementsDataActivity::class.java)
                 startActivity(intent.putExtra("ID", selectedId))
             },
             onImageButtonClicked = {clickedEntry, position ->
-                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-
-
                 val newId = dbHelper.addMeasurement(clickedEntry, idDb)
 
                 if (newId != -1L) {

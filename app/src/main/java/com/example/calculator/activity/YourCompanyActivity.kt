@@ -15,7 +15,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -83,8 +82,6 @@ class YourCompanyActivity : AppCompatActivity() {
         if (result.resultCode == RESULT_OK) {
             currentPhotoFile?.let { file ->
                 if (file.exists()) {
-                    Toast.makeText(this, file.absolutePath, Toast.LENGTH_SHORT).show()
-
                     dbHelper.addYourImageIcon(file.absolutePath)
 
                     refreshData()
@@ -112,8 +109,6 @@ class YourCompanyActivity : AppCompatActivity() {
                     }
 
                     dbHelper.addYourImageIcon(photoFile.absolutePath)
-                    Toast.makeText(this, "Фото добавлено!", Toast.LENGTH_SHORT).show()
-
                     refreshData()
 
                 } catch (e: Exception) {
@@ -331,7 +326,6 @@ class YourCompanyActivity : AppCompatActivity() {
 
                 overlayViewPhoto.visibility = View.GONE
                 warningLayout.visibility = View.GONE
-                Toast.makeText(this, "Фото удалено", Toast.LENGTH_SHORT).show()
                 fullPhotoLayout.visibility = View.GONE
 
                 refreshData()

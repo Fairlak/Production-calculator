@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,15 +38,10 @@ class ReportToolsActivity : AppCompatActivity() {
         reportToolsAdapter = ReportToolsAdapter(toolsData,
             onItemClicked = { clickedEntry ->
                 val selectedId = clickedEntry.id
-                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, ReportToolDataActivity::class.java)
                 startActivity(intent.putExtra("ID", selectedId))
             },
             onImageButtonClicked = {clickedEntry, position ->
-                val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
-
                 val newId = db.addTool(reportId, clickedEntry)
 
                 if (newId != -1L) {

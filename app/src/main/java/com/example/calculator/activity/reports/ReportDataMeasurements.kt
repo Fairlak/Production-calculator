@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,8 +51,6 @@ class ReportDataMeasurements : AppCompatActivity() {
         }
 
         reportMeasurementsAdapter = ReportMeasurementsAdapter(measurementsData) { clickedEntry ->
-            val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
             importMeasurementButton.isEnabled = true
             importMeasurementButton.alpha = 1.0f
         }

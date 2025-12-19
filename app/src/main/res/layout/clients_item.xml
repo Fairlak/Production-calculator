@@ -10,24 +10,25 @@
 
     <TextView
         android:id="@+id/client_name"
-        android:layout_width="192dp"
+        android:layout_width="match_parent"
         android:layout_height="23dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/black"
         android:text="Имя клиента"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.106" />
 
     <TextView
         android:id="@+id/objects_meterage"
-        android:layout_width="179dp"
+        android:layout_width="wrap_content"
         android:layout_height="23dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="40dp"
-        android:textColor="@color/black"
         android:text="Обьекты измерения: 0"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/client_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

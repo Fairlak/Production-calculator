@@ -44,6 +44,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/menu_button_bg"
                     android:text="Выберите производителя"
+                    android:textSize="17dp"
                     android:textColor="@color/white"
                     app:backgroundTint="#C92828"
                     app:layout_constraintEnd_toEndOf="parent"

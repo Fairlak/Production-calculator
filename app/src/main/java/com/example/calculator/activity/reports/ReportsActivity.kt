@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -41,8 +40,7 @@ class ReportsActivity : AppCompatActivity() {
         val reportData = db.getReportsData()
         reportAdapter = ReportsAdapter(reportData, { clickedEntry ->
             val selectedId = clickedEntry.id
-            val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
+
 
             val intent = Intent(this, ReportDataActivity::class.java)
             if (historyId != -1L) intent.putExtra("historyId", historyId)
@@ -70,8 +68,6 @@ class ReportsActivity : AppCompatActivity() {
 
             }
 
-            val toastText = "${reportData.size}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
         }
 
         backMenuButton.setOnClickListener {

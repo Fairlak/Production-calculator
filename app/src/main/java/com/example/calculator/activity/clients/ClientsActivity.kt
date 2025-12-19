@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,8 +32,6 @@ class ClientsActivity : AppCompatActivity() {
 
         clientAdapter = ClientsAdapter(clientsData, { clickedEntry ->
             val selectedId = clickedEntry.id
-            val toastText = "Вы нажали на запись от: ${clickedEntry.id}"
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ClientDataActivity::class.java)
             startActivity(intent.putExtra("ID", selectedId))
         }, this)

@@ -15,7 +15,7 @@ import com.example.calculator.storage.YourCompanyData
 
 
 class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
-    SQLiteOpenHelper(context, "app", factory, 7) {
+    SQLiteOpenHelper(context, "app", factory, 1) {
 
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -120,45 +120,8 @@ class DbHelper(val context: Context, factory: SQLiteDatabase.CursorFactory?):
 
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        if (oldVersion < 4) {
-            try {
-                db?.execSQL("ALTER TABLE measurements ADD COLUMN client_id INTEGER DEFAULT -1")
-            } catch (e: Exception) {
-            }
-        }
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}
 
-        if (oldVersion < 5) {
-            val reportsPhotosQuery = """
-                CREATE TABLE reportsPhotos (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    reportId INTEGER,
-                    photoPath TEXT,
-                    FOREIGN KEY(reportId) REFERENCES reports(id) ON DELETE CASCADE
-                )
-            """.trimIndent()
-            db?.execSQL(reportsPhotosQuery)
-        }
-
-        if (oldVersion < 6) {
-            val yourCompanyQuery = """
-                CREATE TABLE your_company (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    yourCompanyName TEXT, 
-                    yourInitials TEXT, 
-                    yourAddress TEXT,
-                    yourCity TEXT,
-                    yourCountry TEXT,
-                    yourPhoneNumber TEXT,
-                    yourFax TEXT,
-                    yourEMail TEXT,
-                    yourWebsite TEXT,
-                    imagePath TEXT
-                )
-            """.trimIndent()
-            db?.execSQL(yourCompanyQuery)
-        }
-    }
 
 
     fun addClient(clientData: ClientData): Long {
