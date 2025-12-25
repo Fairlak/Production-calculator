@@ -60,7 +60,7 @@ fun getReportHtml(data: ReportPdfData): String {
     }
 
     val measurementPointHtml = with(data.measurementPoint) {
-        if (name.isNullOrBlank() && installationNumber.isNullOrBlank() && installationName.isNullOrBlank() && manufacturer.isNullOrBlank() && phone.isNullOrBlank() && yearOfManufacture.isNullOrBlank() && serialNumber.isNullOrBlank() && note.isNullOrBlank()) {
+        if (name.isNullOrBlank() && installationNumber.isNullOrBlank() && installationName.isNullOrBlank() && manufacturer.isNullOrBlank() && yearOfManufacture.isNullOrBlank() && serialNumber.isNullOrBlank() && note.isNullOrBlank()) {
             ""
         } else {
             """
@@ -70,7 +70,6 @@ fun getReportHtml(data: ReportPdfData): String {
                 ${renderRow("Номер установки:", installationNumber)}
                 ${renderRow("Наименование:", installationName)}
                 ${renderRow("Производитель:", manufacturer)}
-                ${renderRow("Телефон произв.:", phone)}
                 ${renderRow("Год выпуска:", yearOfManufacture)}
                 ${renderRow("Серийный номер:", serialNumber)}
                 ${renderRow("Заметка:", note)}
@@ -156,14 +155,14 @@ fun getReportHtml(data: ReportPdfData): String {
             <div class="unbreakable">
                 <div class="section-title">ИЗМЕРЕНИЯ</div>
                 ${renderRow("Формула расчета:", calculationFormulaDisplay)}
-                ${renderRow("Температура:", temperature)}
-                ${renderRow("Отн. влажность:", relativeHumidity)}
-                ${renderRow("Атм. давление:", atmosphericPressure)}
-                ${renderRow("Стат. давление:", staticPressure)}
+                ${renderRow("Температура:", "$temperature °C")}
+                ${renderRow("Отн. влажность:", "$relativeHumidity %")}
+                ${renderRow("Атм. давление:", "$atmosphericPressure гПа")}
+                ${renderRow("Стат. давление:", "$staticPressure -Па")}
                 ${renderRow("Калибровочный фактор:", calibrationFactor)}
-                ${renderRow("Перепад давления:", pressureDrop)}
-                ${renderRow("ПЛОТНОСТЬ:", density)}
-                ${renderRow("РАСХОД:", flowRate)}
+                ${renderRow("Перепад давления:", "$pressureDrop ПА")}
+                ${renderRow("ПЛОТНОСТЬ:", "$density кг/м³")}
+                ${renderRow("РАСХОД:", "$flowRate м³/${if (companyName == "FläktWoods") "c" else "ч"}")}
             </div>
             """
         }

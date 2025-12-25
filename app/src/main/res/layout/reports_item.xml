@@ -9,9 +9,25 @@
     android:layout_height="70dp">
 
     <TextView
+        android:id="@+id/report_initials_circle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:textColor="@color/ic_launcher_background"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ADFG"/>
+
+
+    <TextView
         android:id="@+id/report_client_name"
         android:layout_width="192dp"
-        android:layout_height="23dp"
+        android:layout_height="20dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/black"

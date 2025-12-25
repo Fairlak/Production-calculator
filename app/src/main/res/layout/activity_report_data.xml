@@ -183,7 +183,7 @@
                     <TextView
                         android:id="@+id/selected_client_name"
                         android:layout_width="173dp"
-                        android:layout_height="28dp"
+                        android:layout_height="24dp"
                         android:layout_marginStart="36dp"
                         android:textColor="@color/black"
                         android:textSize="18dp"

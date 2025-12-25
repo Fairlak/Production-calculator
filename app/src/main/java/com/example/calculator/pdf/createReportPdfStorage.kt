@@ -10,7 +10,7 @@ import com.example.calculator.storage.ToolsData
 import com.example.calculator.storage.YourCompanyPdfData
 
 
-fun createReportPdfStorage(reportId: Long, images: List<String>, context: Context) {
+fun createReportPdfStorage(reportId: Long, images: List<String>, context: Context): ReportPdfData {
     val db = DbHelper(context, null)
 
     var historyId: Long = -1L
@@ -156,8 +156,8 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
             staticPressure = statPressure.toString(),
             calibrationFactor = calibrationFactor.toString(),
             pressureDrop = pressureDrop.toString(),
-            density = finalDensityValue.toString(),
-            flowRate = finalConsumptionValue.toString()
+            density = "%.4f".format(finalDensityValue),
+            flowRate = "%.2f".format(finalConsumptionValue)
         ),
         client = ClientPdfData(
             name = name,
@@ -174,7 +174,6 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
             installationNumber = installationNumber,
             installationName = installationName,
             manufacturer = manufacture,
-            phone = null,
             yearOfManufacture = yearRelease,
             serialNumber = serialNumber,
             note = note
@@ -199,7 +198,5 @@ fun createReportPdfStorage(reportId: Long, images: List<String>, context: Contex
         tools = toolsList
     )
 
-    val htmlContent = getReportHtml(reportPdfData)
-    createPdfFromHtml(context, htmlContent)
-
+    return reportPdfData
 }

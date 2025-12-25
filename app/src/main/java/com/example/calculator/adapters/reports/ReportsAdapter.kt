@@ -26,6 +26,8 @@ class ReportsAdapter(
     class ReportsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val reportClientName: TextView = itemView.findViewById(R.id.report_client_name)
         val reportCreateTime: TextView = itemView.findViewById(R.id.report_time)
+        val reportInitialsCircle: TextView = itemView.findViewById(R.id.report_initials_circle)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportsViewHolder {
@@ -43,15 +45,22 @@ class ReportsAdapter(
                 if (cursor.moveToFirst()) {
                     val clientName = cursor.getString(cursor.getColumnIndexOrThrow("name"))
                     if (!clientName.isNullOrEmpty()) {
-                        val nameDb = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-                        holder.reportClientName.text = nameDb
-                    } else holder.reportClientName.text = "Имя клиента"
-
+                        holder.reportClientName.text = clientName
+                        holder.reportInitialsCircle.text = getInitials(clientName)
+                    } else {
+                        holder.reportClientName.text = "Имя клиента"
+                        holder.reportInitialsCircle.text = getInitials("Имя клиента")
+                    }
+                } else {
+                    holder.reportClientName.text = "Имя клиента"
+                    holder.reportInitialsCircle.text = getInitials("Имя клиента")
                 }
             }
         }else{
             holder.reportClientName.text = "Имя клиента"
+            holder.reportInitialsCircle.text = getInitials("Имя клиента")
         }
+
 
         holder.itemView.setOnClickListener {
             onItemClicked(report)
@@ -65,6 +74,11 @@ class ReportsAdapter(
         reportList.clear()
         reportList.addAll(newReportList)
         notifyDataSetChanged()
+    }
+
+    private fun getInitials(name: String): String {
+        return name.split(" ")
+            .filter { it.isNotEmpty() }.joinToString("") { it.first().uppercase() }.take(4)
     }
 
     fun filterList(query: String) {

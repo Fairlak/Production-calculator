@@ -29,13 +29,16 @@ import com.example.calculator.DbHelper
 import com.example.calculator.R
 import com.example.calculator.activity.calculate.UpdateCalculateActivity
 import com.example.calculator.adapters.reports.ReportPhotosAdapter
+import com.example.calculator.pdf.createPdfFromHtml
 import com.example.calculator.pdf.createReportPdfStorage
+import com.example.calculator.pdf.getReportHtml
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
+import kotlin.jvm.java
 
 class ReportDataActivity : AppCompatActivity() {
 
@@ -417,12 +420,19 @@ class ReportDataActivity : AppCompatActivity() {
             }
         }
 
+
+
         takePdfButton.setOnClickListener {
             val photoPaths = db.getPhotosByReportId(idDb)
-            createReportPdfStorage(idDb, photoPaths, this)
+            val reportPdfData = createReportPdfStorage(idDb, photoPaths, this)
+            val htmlContent = getReportHtml(reportPdfData)
+            createPdfFromHtml(this, htmlContent)
+
+
         }
 
     }
+
 
     private fun checkCameraPermissionAndOpen() {
         when {
@@ -652,6 +662,27 @@ class ReportDataActivity : AppCompatActivity() {
             ".jpg",
             storageDir
         )
+    }
+
+    private fun sharePdfFile(file: java.io.File) {
+        val context = this // или applicationContext
+
+        // ВАЖНО: эта строка должна совпадать с тем, что в AndroidManifest (authorities)
+        val authority = "${context.packageName}.provider"
+
+        val contentUri = androidx.core.content.FileProvider.getUriForFile(
+            context,
+            authority,
+            file
+        )
+
+        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(android.content.Intent.EXTRA_STREAM, contentUri)
+            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivity(android.content.Intent.createChooser(shareIntent, "Поделиться отчетом"))
     }
 
 }

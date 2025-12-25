@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/report_client_name_inReport"
         android:layout_width="220dp"
-        android:layout_height="23dp"
+        android:layout_height="20dp"
         android:layout_marginStart="68dp"
         android:text="Имя клиента"
         android:textColor="@color/black"

@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/tool_name_text_static"
-        android:layout_width="280dp"
+        android:layout_width="220dp"
         android:layout_height="26dp"
         android:layout_marginLeft="19dp"
         android:text="Название прибора"

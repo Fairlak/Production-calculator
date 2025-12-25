@@ -20,6 +20,8 @@ class ClientsAdapter(private var clientList: ArrayList<ClientData>, private val 
     class ClientViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val clientName: TextView = itemView.findViewById(R.id.client_name)
         val clientObjectsMeterage: TextView = itemView.findViewById(R.id.objects_meterage)
+        val clientInitialsCircle: TextView = itemView.findViewById(R.id.client_initials_circle)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientViewHolder {
@@ -35,11 +37,20 @@ class ClientsAdapter(private var clientList: ArrayList<ClientData>, private val 
 
         holder.clientName.text = if (client.name != "") client.name else "Имя клиента"
         holder.clientObjectsMeterage.text = "Обьекты измерения: ${clientObjects.size}"
+        holder.clientInitialsCircle.text = if (client.name.isNotBlank()) {
+            getInitials(client.name)
+        } else {
+            getInitials("Имя клиента")
+        }
 
         holder.itemView.setOnClickListener {
             onItemClicked(client)
         }
 
+    }
+
+    private fun getInitials(name: String): String {
+        return name.split(" ").filter { it.isNotEmpty() }.joinToString("") { it.first().uppercase() }.take(4)
     }
 
     override fun getItemCount(): Int = clientList.size

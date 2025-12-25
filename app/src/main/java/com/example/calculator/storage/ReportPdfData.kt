@@ -42,7 +42,6 @@ data class MeasurementPdfData(
     val installationNumber: String?,
     val installationName: String?,
     val manufacturer: String?,
-    val phone: String?,
     val yearOfManufacture: String?,
     val serialNumber: String?,
     val note: String?
