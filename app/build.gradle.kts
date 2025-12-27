@@ -39,6 +39,11 @@ android {
 }
 
 dependencies {
+    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+    implementation("com.itextpdf:itext7-core:7.2.5")
+    implementation("com.itextpdf:html2pdf:4.0.5")
+    implementation("com.itextpdf:font-asian:7.2.5")
+    implementation("org.slf4j:slf4j-simple:2.0.7")
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.exifinterface:exifinterface:1.3.7")

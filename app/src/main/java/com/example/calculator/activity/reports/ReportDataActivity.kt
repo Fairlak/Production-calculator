@@ -72,6 +72,7 @@ class ReportDataActivity : AppCompatActivity() {
     private lateinit var fullPhotoLayout: View
     private lateinit var fullPhotoView: PhotoView
 
+    private var latestTmpUri: Uri? = null
     private var currentOpenedPhotoPath: String? = null
 
     private lateinit var miniComment: TextView
@@ -88,20 +89,29 @@ class ReportDataActivity : AppCompatActivity() {
 
 
 
-    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+        if (isSuccess) {
+            currentPhotoFile?.let { file -> // 'file' здесь уже гарантированно не null
+                try {
+                    var bitmap = BitmapFactory.decodeFile(file.absolutePath)
 
-        if (result.resultCode == RESULT_OK) {
-            currentPhotoFile?.let { file ->
-                if (file.exists()) {
+                    bitmap = rotateImageIfRequired(file.absolutePath, bitmap)
+
+                    file.outputStream().use { outputStream ->
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                    }
+
                     db.addPhoto(idDb, file.absolutePath)
-
                     refreshData()
+
+                    photosLayout.visibility = View.GONE
+                    overlayViewImage.visibility = View.GONE
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Не удалось обработать фото", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-        if (::photosLayout.isInitialized && ::overlayViewImage.isInitialized) {
-            photosLayout.visibility = View.GONE
-            overlayViewImage.visibility = View.GONE
         }
     }
 
@@ -158,7 +168,6 @@ class ReportDataActivity : AppCompatActivity() {
         photosRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         mainPhotoLayout = findViewById(R.id.main_photo)
-
         createReportDate = findViewById(R.id.create_report_date)
         clientSelectedNameStatic = findViewById(R.id.selected_client_name)
         clientNameStatic = findViewById(R.id.client_report_name_static)
@@ -282,14 +291,9 @@ class ReportDataActivity : AppCompatActivity() {
                 fullPhotoLayout.startAnimation(slideIn)
                 fullPhotoLayout.visibility = View.VISIBLE
 
-
-
-                fullPhotoLayout.visibility = View.VISIBLE
-
                 val imgFile = File(path)
                 if (imgFile.exists()) {
                     var myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    myBitmap = rotateImageIfRequired(imgFile.absolutePath, myBitmap)
                     fullPhotoView.setImageBitmap(myBitmap)
                 }
 
@@ -427,8 +431,6 @@ class ReportDataActivity : AppCompatActivity() {
             val reportPdfData = createReportPdfStorage(idDb, photoPaths, this)
             val htmlContent = getReportHtml(reportPdfData)
             createPdfFromHtml(this, htmlContent)
-
-
         }
 
     }
@@ -627,28 +629,25 @@ class ReportDataActivity : AppCompatActivity() {
 
 
     private fun openCamera() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val photoFile: File? = try {
             createImageFile()
         } catch (ex: IOException) {
             null
         }
-
         photoFile?.also { file ->
             currentPhotoFile = file
-            val photoURI: Uri = FileProvider.getUriForFile(
+            val uri = FileProvider.getUriForFile(
                 this,
                 "${applicationContext.packageName}.provider",
                 file
             )
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            latestTmpUri = uri
 
-            try {
-                takePictureLauncher.launch(takePictureIntent)
-            } catch (e: Exception) {
-                Toast.makeText(this, "Ошибка камеры", Toast.LENGTH_SHORT).show()
+            uri.let {
+                takePictureLauncher.launch(it)
             }
         }
+
     }
 
     @Throws(IOException::class)
@@ -663,26 +662,4 @@ class ReportDataActivity : AppCompatActivity() {
             storageDir
         )
     }
-
-    private fun sharePdfFile(file: java.io.File) {
-        val context = this // или applicationContext
-
-        // ВАЖНО: эта строка должна совпадать с тем, что в AndroidManifest (authorities)
-        val authority = "${context.packageName}.provider"
-
-        val contentUri = androidx.core.content.FileProvider.getUriForFile(
-            context,
-            authority,
-            file
-        )
-
-        val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-            type = "application/pdf"
-            putExtra(android.content.Intent.EXTRA_STREAM, contentUri)
-            addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-
-        startActivity(android.content.Intent.createChooser(shareIntent, "Поделиться отчетом"))
-    }
-
 }

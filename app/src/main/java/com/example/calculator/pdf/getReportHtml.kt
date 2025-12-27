@@ -112,21 +112,39 @@ fun getReportHtml(data: ReportPdfData): String {
     }
 
     val imagesHtml = if (data.images.isNotEmpty()) {
-        val imgs = data.images.joinToString("") { imgPath ->
-            val src = if (imgPath.startsWith("file://")) imgPath else "file://$imgPath"
-            """<div class="image-container"><img src="$src" alt="Image" /></div>"""
+        // Группируем картинки по две для создания рядов таблицы
+        val tableRows = data.images.chunked(2).joinToString("") { rowImages ->
+            val cell1 = if (rowImages.isNotEmpty()) {
+                val src = if (rowImages[0].startsWith("file://")) rowImages[0] else "file://${rowImages[0]}"
+                """<td class="image-cell"><img src="$src" alt="Image" /></td>"""
+            } else {
+                "<td></td>" // Пустая ячейка, если картинка нечетная
+            }
+
+            val cell2 = if (rowImages.size > 1) {
+                val src = if (rowImages[1].startsWith("file://")) rowImages[1] else "file://${rowImages[1]}"
+                """<td class="image-cell"><img src="$src" alt="Image" /></td>"""
+            } else {
+                "<td></td>" // Пустая ячейка для второго места в ряду
+            }
+
+            "<tr>$cell1$cell2</tr>"
         }
+
         """
-        <div class="unbreakable-images"> 
-            <div class="section-title">ИЗОБРАЖЕНИЯ</div>
-            <div class="images-grid">
-                $imgs
-            </div>
-        </div>
-        """.trimIndent()
+    <div class="unbreakable-images">
+        <div class="section-title">ИЗОБРАЖЕНИЯ</div>
+        <table class="images-table">
+            <tbody>
+                $tableRows
+            </tbody>
+        </table>
+    </div>
+    """.trimIndent()
     } else {
         ""
     }
+
 
     val formulas = mapOf(
         "FläktWoods" to "q = (1/k) * √ΔP",
@@ -230,36 +248,39 @@ fun getReportHtml(data: ReportPdfData): String {
             }
             .tools-table th {
                 background-color: #f2f2f2;
-                font-weight: bold;
+                font-weight: bold;ДАТЫ И ПОДПИСЬ
                 color: #333;
             }
-            
-            /* --- ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ --- */
-            .images-grid { 
-                display: flex; 
-                flex-wrap: wrap; 
-                justify-content: space-between; 
-                margin-top: 10px; 
+          
+            /* --- СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ (МЕТОД ТАБЛИЦЫ) --- */
+            .images-table {
+                width: 100%;
+                border-collapse: separate; /* Важно для работы border-spacing */
+                border-spacing: 15px 15px; /* Горизонтальный и вертикальный зазор */
+                margin-top: 10px;
+                page-break-inside: auto; /* Позволяем таблице разрываться между строками */
             }
-            .image-container { 
-                width: 48%; /* Немного меньше 50% для зазора */
-                margin-bottom: 15px; 
-                box-sizing: border-box; /* Учитывает padding и border в ширине */
-                page-break-inside: avoid; /* Избегаем разрыва внутри контейнера с картинкой */
+            .images-table tr {
+                page-break-inside: avoid; /* Но не разрываем саму строку */
             }
-            .images-grid img { 
-                width: 100%; 
-                height: auto; 
-                border: 1px solid #ddd; 
-                display: block; /* Убирает лишние отступы под изображением */
+            .images-table td {
+                width: 50%; /* Каждая ячейка занимает половину ширины */
+                vertical-align: top;
+                padding: 0;
+            }
+            .images-table img {
+                width: 100%;
+                height: auto;
+                border: 1px solid #ddd;
+                display: block;
             }
             
             /* Комментарий и подвал */
-            .comment-box { background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; margin-top: 5px; }
+            .comment-box { background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; margin-top: 5px; white-space: pre-wrap;}
             .footer-wrapper { padding-top: 40px; /* Надежный отступ сверху для всего подвала */ }
             .dates-section { border-top: 1px solid #000; padding-top: 10px; display: flex; justify-content: space-between; font-size: 9pt; }
             .signature { margin-top: 50px; text-align: right; }
-            .signature-line { display: inline-block; width: 200px; border-top: 1px solid #000; text-align: center; padding-top: 5px; font-style: italic; }
+            .signature-line { display: inline-block;width: 250px; /* Немного увеличим для ФИО */border-top: 1px solid #000;padding-top: 5px;font-style: italic;text-align: center; /* Центрируем текст "Подпись..." */}
         </style>
     """
 
@@ -303,26 +324,27 @@ fun getReportHtml(data: ReportPdfData): String {
             ${if (!data.comment.isNullOrBlank()) """
                 <div class="unbreakable">
                     <div class="section-title">КОММЕНТАРИЙ</div>
-                    <div class="comment-box">${data.comment}</div>
+                    <div class="comment-box">${data.comment.replace("\n", "<br>")}</div>
                 </div>
             """ else ""}
 
             <!-- 7. ДАТЫ И ПОДПИСЬ -->
-            <div class="footer-wrapper">
+            <div class="footer-wrapper"><!-- Блок только для дат -->
                 <div class="dates-section">
                     <div>
-                        <div><strong>Дата расчета:</strong> ${data.calculationDate}</div>
-                        <div><strong>Дата отчета:</strong> ${data.reportDate}</div>
-                    </div>
-                    
-                    <div class="signature">
-                        <div class="signature-line">
-                            Подпись ответственного<br>
-                            ${data.yourCompanyData.initials ?: ""}
-                        </div>
+                        <strong>Дата расчета:</strong> ${data.calculationDate}<br>
+                        <strong>Дата отчета:</strong> ${data.reportDate}
                     </div>
                 </div>
-            </div>
+                <!-- Блок подписи вынесен наружу и будет сам по себе -->
+                <div class="signature">
+                    <div class="signature-line">
+                        Подпись ответственного<br>
+                        ${data.yourCompanyData.initials ?: ""}
+                    </div>
+               </div>
+           </div>
+    
         </body>
         </html>
     """.trimIndent()
