@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+    implementation("com.github.DImuthuUpe:AndroidPdfViewer:3.1.0-beta.1")
     implementation("com.itextpdf:itext7-core:7.2.5")
     implementation("com.itextpdf:html2pdf:4.0.5")
     implementation("com.itextpdf:font-asian:7.2.5")

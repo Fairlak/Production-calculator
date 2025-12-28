@@ -74,7 +74,7 @@
     <TextView
         android:id="@+id/client_report_name_static"
         android:layout_width="148dp"
-        android:layout_height="28dp"
+        android:layout_height="25dp"
         android:layout_marginStart="20dp"
         android:text="Имя клиента"
         android:textColor="@color/black"

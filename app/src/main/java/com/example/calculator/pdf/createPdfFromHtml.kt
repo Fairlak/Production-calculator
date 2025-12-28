@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.FileProvider
+import com.example.calculator.OpenPdfActivity
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
 import com.itextpdf.layout.font.FontProvider
@@ -18,7 +20,6 @@ fun createPdfFromHtml(context: Context, htmlContent: String) {
 
         val converterProperties = ConverterProperties()
         val fontProvider = FontProvider()
-
         fontProvider.addSystemFonts()
         fontProvider.addFont("assets/fonts/roboto.ttf")
         converterProperties.fontProvider = fontProvider
@@ -35,24 +36,15 @@ fun createPdfFromHtml(context: Context, htmlContent: String) {
             outputFile
         )
 
-
-        val viewIntent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(fileUri, "application/pdf")
+        val intent = Intent(context, OpenPdfActivity::class.java).apply {
+            putExtra(OpenPdfActivity.EXTRA_PDF_URI, fileUri.toString())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "application/pdf"
-            putExtra(Intent.EXTRA_STREAM, fileUri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-
-        val chooserIntent = Intent.createChooser(viewIntent, "Открыть или поделиться PDF")
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(shareIntent))
-
-        context.startActivity(chooserIntent)
+        context.startActivity(intent)
 
     } catch (e: Exception) {
         Log.e("createPdfFromHtml", "Ошибка при создании PDF: ${e.message}", e)
+        Toast.makeText(context, "Не удалось создать PDF-отчет", Toast.LENGTH_LONG).show()
     }
 }
